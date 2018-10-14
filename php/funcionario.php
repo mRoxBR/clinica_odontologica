@@ -7,7 +7,7 @@ class Funcionario{
 	private $id;
 	private $nome;
 	private $sobrenome;
-	private $dataNascimento;
+	private $nascimento;
 	private $cpf;
 	private $salario;
 
@@ -15,6 +15,30 @@ class Funcionario{
 		$database = new Database();
 		$dbSet = $database->dbSet;
 		$this->conn = $dbSet;
+	}
+
+	public function getId(){
+		return $this->id;
+	}
+
+	public function getNome(){
+		return $this->nome;
+	}
+
+	public function getSobrenome(){
+		return $this->sobrenome;
+	}
+
+	public function getNascimento(){
+		return $this->nascimento;
+	}
+
+	public function getCpf(){
+		return $this->cpf;
+	}
+
+	public function getSalario(){
+		return $this->salario;
 	}
 
 	public function setId($id){
@@ -37,8 +61,8 @@ class Funcionario{
         return 0;
     }
 
-    public function setDataNascimento($dataNascimento){
-    	$this->dataNascimento = $dataNascimento;
+    public function setNascimento($nascimento){
+    	$this->nascimento = $nascimento;
     }
 
     public function setCpf($cpf){
@@ -58,21 +82,21 @@ class Funcionario{
     }
 
     function validaCPF($cpf = null) {
-		// Verifica se um número foi informado
+		// Verifica se o CPF foi informado
 		if(empty($cpf)) {
 			return false;
 		}
 
-		// Elimina possivel mascara
+		// Elimina possível máscara
 		$cpf = preg_replace("/[^0-9]/", "", $cpf);
 		$cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
 		
-		// Verifica se o numero de digitos informados é igual a 11 
+		// Verifica se o número de dígitos informados é igual a 11 
 		if (strlen($cpf) != 11) {
 			return false;
 		}
-		// Verifica se nenhuma das sequências invalidas abaixo 
-		// foi digitada. Caso afirmativo, retorna falso
+
+		// Verifica se nenhuma das sequências inválidas abaixo foi digitada. Caso afirmativo, retorna falso
 		else if ($cpf == '00000000000' || 
 			$cpf == '11111111111' || 
 			$cpf == '22222222222' || 
@@ -84,8 +108,8 @@ class Funcionario{
 			$cpf == '88888888888' || 
 			$cpf == '99999999999') {
 			return false;
-		 // Calcula os digitos verificadores para verificar se o
-		 // CPF é válido
+
+		 // Verifica se o CPF é válido por meio dos dígitos verificadores
 		 } else {   
 			
 			for ($t = 9; $t < 11; $t++) {
