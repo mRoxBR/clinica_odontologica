@@ -1,11 +1,23 @@
 <?php
 
+require_once 'database.php';
+
 class Despesa{
 
+	private $id;
 	private $nome;
 	private $data;
 	private $quantia;
-	private $situacao;
+
+	public function __construct(){
+		$database = new Database();
+		$dbSet = $database->dbSet;
+		$this->conn = $dbSet;
+	}
+
+	public function getId(){
+		return $this->id;
+	}
 
 	public function getNome(){
 		return $this->nome;
@@ -19,12 +31,16 @@ class Despesa{
 		return $this->quantia;
 	}
 
-	public function getSituacao(){
-		return $this->situacao;
+	public function setId($id){
+		$this->id = $id;
 	}
 
 	public function setNome($nome){
-		$this->nome = $nome;
+		if(strlen($nome) <= 45){
+			$this->nome = $nome;
+			return 1;
+		}
+		return 0;
 	}
 
 	public function setData($data){
@@ -39,9 +55,33 @@ class Despesa{
 		return 0;
 	}
 
-	public function setSituacao($situacao){
-		$this->situacao = $situacao;
+	public function pagarDespesa(){
+		try{	
+			$stmt = $this->conn->prepare("INSERT INTO despesa(nome,data,quantia) VALUES(:nome, :data, :quantia)");
+			$stmt->bindParam(":nome", $this->nome);
+			$stmt->bindParam(":data", $this->data);
+			$stmt->bindParam(":quantia", $this->quantia);
+			$stmt->execute();
+			return 1;
+		}catch(PDOException $e){
+			echo $e->getMessage();
+			return 0;	
+		}
 	}
+
+	public function pagarFuncionario(){
+		try{	
+			$stmt = $this->conn->prepare("INSERT INTO despesa(nome,data,quantia) VALUES(:nome, :data, :quantia)");
+			$stmt->bindParam(":nome", "Salário de funcionário");
+			$stmt->bindParam(":data", $this->data);
+			$stmt->bindParam(":quantia", $this->quantia);
+			$stmt->execute();
+			return 1;
+		}catch(PDOException $e){
+			echo $e->getMessage();
+			return 0;	
+		}
+	}	
 }
 
 ?>
