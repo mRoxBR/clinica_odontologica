@@ -6,7 +6,7 @@ class Especialidade{
 
 	public function __construct(){
 		$database = new Database();
-		$dbSet = $database->dbSet;
+		$dbSet = $database->dbSet();
 		$this->conn = $dbSet;
 	}
 

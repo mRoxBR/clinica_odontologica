@@ -13,7 +13,7 @@ class Funcionario{
 
 	public function __construct(){
 		$database = new Database();
-		$dbSet = $database->dbSet;
+		$dbSet = $database->dbSet();
 		$this->conn = $dbSet;
 	}
 
@@ -125,6 +125,12 @@ class Funcionario{
 
 			return true;
 		}
+	}
+
+	function viewAll(){
+		$stmt = $this->conn->prepare("SELECT * FROM funcionario");
+		$stmt->execute();
+		return $stmt;
 	}
 }
 ?>
