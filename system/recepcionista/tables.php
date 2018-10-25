@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Tables</title>
+    <title>Tables</title>
 
     <!-- Bootstrap core CSS-->
     <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
