@@ -82,7 +82,7 @@
           <div class="card mb-3">
 
             <div>
-              <button class="btn btn-primary btn-block" onclick="window.location.href='register.php'" name="cadastrar-funcionario">Cadastrar Funcionário</a>
+              <button class="btn btn-primary btn-block" onclick="window.location.href='register.php'" name="cadastrar-funcionario">Cadastrar Funcionário</button>
             </div>
 
             <div class="card-header">
@@ -111,7 +111,6 @@
                     </tr>
                   </tfoot>
                   <tbody>
-                    <tr>
                       <?php 
                       include_once '../../php/funcionario.php';
 
@@ -120,14 +119,14 @@
                       $stmt = $f->viewAll();
 
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
-                      <td> <?= $row->nome; ?> </td>
-                      <td> <?= $row->sobrenome; ?> </td>
-                      <td> <?= $row->nascimento; ?> </td>
-                      <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
-                      <td> <?= $row->salario; ?> </td>
+                      <tr>
+                        <td> <?= $row->nome; ?> </td>
+                        <td> <?= $row->sobrenome; ?> </td>
+                        <td> <?= $row->nascimento; ?> </td>
+                        <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
+                        <td> <?= $row->salario; ?> </td>
+                      </tr>
                       <?php } ?>
-
-                    </tr>
                   </tbody>
                 </table>
               </div>

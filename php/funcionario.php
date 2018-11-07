@@ -127,6 +127,51 @@ class Funcionario{
 		}
 	}
 
+	public function insert(){
+		try{
+			$stmt = $this->conn->prepare("INSERT INTO funcionario(nome, sobrenome, nascimento, cpf, salario) VALUES(:nome, :sobrenome, :nascimento, :cpf, :salario)");
+			$stmt->bindParam(":nome", $this->nome);
+			$stmt->bindParam(":sobrenome", $this->sobrenome);
+			$stmt->bindParam(":nascimento", $this->nascimento);
+			$stmt->bindParam(":cpf", $this->cpf);
+			$stmt->bindParam(":salario", $this->salario);
+			$stmt->execute();
+			return $this->conn->lastInsertId();
+		}catch(PDOException $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
+	public function edit(){
+		try{
+			$stmt = $this->conn->prepare("UPDATE funcionario SET nome = :nome, sobrenome = :sobrenome, nascimento = :nascimento, cpf = :cpf, salario = :salario WHERE id = :id");
+			$stmt->bindParam(":nome", $this->nome);
+			$stmt->bindParam(":sobrenome", $this->sobrenome);
+			$stmt->bindParam(":nascimento", $this->nascimento);
+			$stmt->bindParam(":cpf", $this->cpf);
+			$stmt->bindParam(":salario", $this->salario);
+			$stmt->bindParam(":id", $this->id);
+			$stmt->execute();
+			return 1;
+		}catch(PDOException $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
+	public function delete(){
+		try{
+			$stmt = $this->conn->prepare("DELETE FROM funcionario WHERE id = :id");
+			$stmt->bindParam(":id", $this->id);
+			$stmt->execute();
+			return 1;
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
 	function viewAll(){
 		$stmt = $this->conn->prepare("SELECT * FROM funcionario");
 		$stmt->execute();

@@ -30,18 +30,12 @@
         <div class="card-body">
           <form action="login.php" method="post">
             <div class="form-group">
-              <div class="form-label-group">
-                <input type="email" id="inputEmail" class="form-control" placeholder="Nome de usuário" required="required" autofocus="autofocus" name="nome_usuario">
-                <label for="inputEmail">Nome de usuário</label>
-              </div>
+                <input type="text" class="form-control" placeholder="Nome de usuário" required="required" autofocus="autofocus" name="nome_usuario">
             </div>
             <div class="form-group">
-              <div class="form-label-group">
-                <input type="password" id="inputPassword" class="form-control" placeholder="Senha" required="required" name="senha">
-                <label for="inputPassword">Senha</label>
-              </div>
+                <input type="password" class="form-control" placeholder="Senha" required="required" name="senha">
             </div>
-            <button class="btn btn-primary btn-block" type="submit" name="login">Login</a>
+            <button class="btn btn-primary btn-block" type="submit" name="login">Login</button>
           </form>
         </div>
       </div>
