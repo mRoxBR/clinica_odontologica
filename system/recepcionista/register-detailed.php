@@ -50,18 +50,22 @@
               }elseif($tipo == "recepcionista"){
 
                 $nome_usuario = $_POST["nome_usuario"];
+                $senha = $_POST["senha"];
                 include_once "../../php/recepcionista.php";
                 $recepcionista = new Recepcionista();
                 $recepcionista->setFuncionarioId($lastid);
                 $recepcionista->setNomeUsuario($nome_usuario);
+                $recepcionista->setSenha($senha);
                 $estado = $recepcionista->insert();
 
               }elseif($tipo == "administrador"){
 
                 $nome_usuario = $_POST["nome_usuario"];
+                $senha = $_POST["senha"];
                 include_once "../../php/administrador.php";
                 $administrador = new Administrador();
                 $administrador->setFuncionarioId($lastid);
+                $recepcionista->setSenha($senha);
                 $administrador->setNomeUsuario($nome_usuario);
                 $estado = $administrador->insert();
 
@@ -84,6 +88,7 @@
   	<?php  if ($tipo == "recepcionista" || $tipo == "administrador") { ?>
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Nome de usuário" required="required" autofocus="autofocus" name="nome_usuario">
+                <input type="password" class="form-control" placeholder="Senha" required="required" autofocus="autofocus" name="senha">
             </div>
     <?php } elseif ($tipo == "dentista") { ?>
             <div class="form-group">

@@ -9,7 +9,7 @@ class Paciente{
 	private $sobrenome;
 	private $nascimento;
 	private $cpf;
-	private $planoDentario;
+	private $plano_dentario;
 
 	public function __construct(){
 		$database = new Database();
@@ -38,7 +38,7 @@ class Paciente{
 	}
 
 	public function getPlanoDentario(){
-		return $this->planoDentario;
+		return $this->plano_dentario;
 	}
 
 	public function setId($id){
@@ -73,8 +73,8 @@ class Paciente{
     	return 0;
     }
 
-    public function setPlanoDentario($planoDentario){
-    	$this->planoDentario = $planoDentario;
+    public function setPlanoDentario($plano_dentario){
+    	$this->plano_dentario = $plano_dentario;
     }
 
     function validaCPF($cpf = null) {
@@ -122,6 +122,52 @@ class Paciente{
 			return true;
 		}
 	}
+
+	public function insert(){
+		try{
+			$stmt = $this->conn->prepare("INSERT INTO paciente(nome, sobrenome, nascimento, cpf, plano_dentario) VALUES(:nome, :sobrenome, :nascimento, :cpf, :plano_dentario)");
+			$stmt->bindParam(":nome", $this->nome);
+			$stmt->bindParam(":sobrenome", $this->sobrenome);
+			$stmt->bindParam(":nascimento", $this->nascimento);
+			$stmt->bindParam(":cpf", $this->cpf);
+			$stmt->bindParam(":plano_dentario", $this->plano_dentario);
+			$stmt->execute();
+			return $this->conn->lastInsertId();
+		}catch(PDOException $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
+	public function edit(){
+		try{
+			$stmt = $this->conn->prepare("UPDATE paciente SET nome = :nome, sobrenome = :sobrenome, nascimento = :nascimento, cpf = :cpf, plano_dentario = :plano_dentario WHERE id = :id");
+			$stmt->bindParam(":nome", $this->nome);
+			$stmt->bindParam(":sobrenome", $this->sobrenome);
+			$stmt->bindParam(":nascimento", $this->nascimento);
+			$stmt->bindParam(":cpf", $this->cpf);
+			$stmt->bindParam(":plano_dentario", $this->plano_dentario);
+			$stmt->bindParam(":id", $this->id);
+			$stmt->execute();
+			return 1;
+		}catch(PDOException $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
+	public function delete(){
+		try{
+			$stmt = $this->conn->prepare("DELETE FROM paciente WHERE id = :id");
+			$stmt->bindParam(":id", $this->id);
+			$stmt->execute();
+			return 1;
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
 
 }
 

@@ -37,6 +37,45 @@ class Recebimento{
         $this->data = $data;
     }
 
+	public function insert(){
+		try{	
+			$stmt = $this->conn->prepare("INSERT INTO recebimento(data,quantia) VALUES(:data, :quantia)");
+			$stmt->bindParam(":data", $this->data);
+			$stmt->bindParam(":quantia", $this->quantia);
+			$stmt->execute();
+			return 1;
+		}catch(PDOException $e){
+			echo $e->getMessage();
+			return 0;	
+		}
+	}	
+
+	public function edit(){
+		try{
+			$stmt = $this->conn->prepare("UPDATE recebimento SET data = :data, quantia = :quantia WHERE id = :id");
+			$stmt->bindParam(":id", $this->id);
+			$stmt->bindParam(":data", $this->data);
+			$stmt->bindParam(":quantia", $this->quantia);
+			$stmt->execute();
+			return 1;
+		}catch(PDOException $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
+	public function delete(){
+		try{
+			$stmt = $this->conn->prepare("DELETE FROM recebimento WHERE id = :id");
+			$stmt->bindParam(":id", $this->id);
+			$stmt->execute();
+			return 1;
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
 }
 
 ?>

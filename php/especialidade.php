@@ -22,5 +22,29 @@ class Especialidade{
 		return 0;
 	}
 
+	public function insert(){
+		try{	
+			$stmt = $this->conn->prepare("INSERT INTO especialidade(nome) VALUES(:nome)");
+			$stmt->bindParam(":nome", $this->nome);
+			$stmt->execute();
+			return 1;
+		}catch(PDOException $e){
+			echo $e->getMessage();
+			return 0;	
+		}
+	}	
+
+	public function delete(){
+		try{
+			$stmt = $this->conn->prepare("DELETE FROM especialidade WHERE nome = :nome");
+			$stmt->bindParam(":nome", $this->nome);
+			$stmt->execute();
+			return 1;
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
 }
 ?>

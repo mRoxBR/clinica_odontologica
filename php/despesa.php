@@ -55,7 +55,7 @@ class Despesa{
 		return 0;
 	}
 
-	public function pagarDespesa(){
+	public function insert(){
 		try{	
 			$stmt = $this->conn->prepare("INSERT INTO despesa(nome,data,quantia) VALUES(:nome, :data, :quantia)");
 			$stmt->bindParam(":nome", $this->nome);
@@ -67,21 +67,35 @@ class Despesa{
 			echo $e->getMessage();
 			return 0;	
 		}
-	}
+	}	
 
-	public function pagarFuncionario(){
-		try{	
-			$stmt = $this->conn->prepare("INSERT INTO despesa(nome,data,quantia) VALUES(:nome, :data, :quantia)");
-			$stmt->bindParam(":nome", "Salário de funcionário");
+	public function edit(){
+		try{
+			$stmt = $this->conn->prepare("UPDATE despesa SET nome = :nome, data = :data, quantia = :quantia WHERE id = :id");
+			$stmt->bindParam(":id", $this->id);
+			$stmt->bindParam(":nome", $this->nome);
 			$stmt->bindParam(":data", $this->data);
 			$stmt->bindParam(":quantia", $this->quantia);
 			$stmt->execute();
 			return 1;
 		}catch(PDOException $e){
 			echo $e->getMessage();
-			return 0;	
+			return 0;
 		}
-	}	
+	}
+
+	public function delete(){
+		try{
+			$stmt = $this->conn->prepare("DELETE FROM despesa WHERE id = :id");
+			$stmt->bindParam(":id", $this->id);
+			$stmt->execute();
+			return 1;
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
 }
 
 ?>
