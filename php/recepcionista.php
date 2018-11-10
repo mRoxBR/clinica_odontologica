@@ -74,6 +74,22 @@ class Recepcionista extends Funcionario{
 			return 0;
 		}
 	}
+
+	public function existe(){
+		try{
+			$stmt = $this->conn->prepare("SELECT * FROM recepcionista WHERE nome_usuario = :nome_usuario AND senha = :senha");
+			$stmt->bindParam(":nome_usuario", $this->nome_usuario);
+			$stmt->bindParam(":senha", $this->senha);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(!empty($result)){
+				return $result->funcionario_id;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return null;
+		}
+	}
 }
 
 ?> 

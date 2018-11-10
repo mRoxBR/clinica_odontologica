@@ -76,14 +76,8 @@
                 $dentista->setFuncionarioId($lastid);
                 $dentista->setCro($cro);
                 $estado = $dentistas->insert();
-              } 
-              if($estado != 0) { ?>
-                <div class="text-success">Funcionário cadastrado com sucesso!</div>
-              <?php } else { ?>
-                <div class="text-danger">Erro ao cadastrar funcionário!</div>
-              <?php } ?>
+              }  ?>
               <button class="btn btn-primary btn-block" onclick="window.location.href='register.php'">Voltar</button>
-            <?php }else{ ?>
           <form action="register-detailed.php" method="post">
   	<?php  if ($tipo == "recepcionista" || $tipo == "administrador") { ?>
             <div class="form-group">
@@ -111,5 +105,4 @@
     <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
 
   </body>
-<?php } ?>
 </html>

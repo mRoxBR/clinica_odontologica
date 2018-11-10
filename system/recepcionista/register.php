@@ -64,7 +64,7 @@
                 <input type="date" class="form-control" placeholder="Data de nascimento" required="required" name="nascimento">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="CPF" name="cpf">
+                <input type="text" class="form-control" placeholder="CPF" maxlength="11" name="cpf">
             </div>
             <div class="form-group">
                 <input type="number" class="form-control" placeholder="Salário" required="required" name="salario">

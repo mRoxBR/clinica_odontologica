@@ -1,4 +1,47 @@
+<?php 
+$flag = 0;
+session_start();
 
+if (isset($_SESSION)) {
+  session_unset();
+  session_destroy();
+}
+
+if(isset($_POST['login'])){
+
+  $nome_usuario = $_POST["nome_usuario"];
+  $senha = $_POST["senha"];
+  $tipo  = $_POST["tipo"];
+
+  if($tipo = "recepcionista"){
+    require_once "php/recepcionista.php";
+    $recepcionista = new Recepcionista();
+    $recepcionista->setNomeUsuario($nome_usuario);
+    $recepcionista->setSenha($senha);
+    $funcionario_id = $recepcionista->existe();
+    if(!is_null($funcionario_id)){
+      session_start();
+      $_SESSION["funcionario_id"] = $funcionario_id;
+      header("Location: system/recepcionista/index.php");
+    }else{
+      $flag = 1;
+    }
+  }elseif ($tipo = "administrador") {
+    require_once "php/administrador.php";
+    $administrador = new Administrador();
+    $administrador->setSenha($senha);
+    $administrador->setNomeUsuario($nome_usuario);
+    $funcionario_id = $administrador->existe();
+    if(!is_null($funcionario_id)){
+      session_start();
+      $_SESSION["funcionario_id"] = $funcionario_id;
+      header("Location: system/recepcionista/index.php");
+    }else{
+      $flag = 1;
+    }
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,12 +72,26 @@
       <div class="card card-login mx-auto mt-5">
         <div class="card-header">Login - Clínica Odontológica</div>
         <div class="card-body">
-          <form action="login.php" method="post">
+        <?php 
+          if($flag == 1){ ?>
+            <div class="alert alert-danger form-group" role="alert">
+              <b>Nome de usuário e senha não correspondentes</b>
+            </div>
+        <?php
+          }
+        ?>
+          <form action="index.php" method="post">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Nome de usuário" required="required" autofocus="autofocus" name="nome_usuario">
             </div>
             <div class="form-group">
                 <input type="password" class="form-control" placeholder="Senha" required="required" name="senha">
+            </div>
+            <div class="form-group">
+              <select id="select-login" name="tipo">
+                <option value="recepcionista">Recepcionista</option>
+                <option value="administrador">Administrador</option>
+              </select>
             </div>
             <button class="btn btn-primary btn-block" type="submit" name="login">Login</button>
           </form>

@@ -75,5 +75,22 @@ class Administrador extends Funcionario{
 			return 0;
 		}
 	}
+
+	public function existe(){
+		try{
+			$stmt = $this->conn->prepare("SELECT * FROM administrador WHERE nome_usuario = :nome_usuario AND senha = :senha");
+			$stmt->bindParam(":nome_usuario", $nome_usuario);
+			$stmt->bindParam(":senha ", $senha);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(!empty($result)){
+				return $result->funcionario_id;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return null;
+		}
+	}
+
 }
 ?>
