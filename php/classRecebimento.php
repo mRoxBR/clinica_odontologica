@@ -1,7 +1,7 @@
 <?php
 
 require_once 'database.php';
-require_once 'recepcionista.php';
+require_once 'classRecepcionista.php';
 
 class Recebimento{
 	

@@ -42,7 +42,7 @@
 
               if($tipo == "auxiliar"){
                 
-                include_once "../../php/auxiliar.php";
+                include_once "../../php/classAuxiliar.php";
                 $auxiliar = new Auxiliar();
                 $auxiliar->setFuncionarioId($lastid);
                 $estado = $auxiliar->insert();
@@ -51,7 +51,7 @@
 
                 $nome_usuario = $_POST["nome_usuario"];
                 $senha = $_POST["senha"];
-                include_once "../../php/recepcionista.php";
+                include_once "../../php/classRecepcionista.php";
                 $recepcionista = new Recepcionista();
                 $recepcionista->setFuncionarioId($lastid);
                 $recepcionista->setNomeUsuario($nome_usuario);
@@ -77,8 +77,8 @@
                 $dentista->setCro($cro);
                 $estado = $dentistas->insert();
               }  ?>
-              <button class="btn btn-primary btn-block" onclick="window.location.href='register.php'">Voltar</button>
-          <form action="register-detailed.php" method="post">
+              <button class="btn btn-primary btn-block" onclick="window.location.href='funcionario-registro.php'">Voltar</button>
+          <form action="funcionario-registro-detalhado.php" method="post">
   	<?php  if ($tipo == "recepcionista" || $tipo == "administrador") { ?>
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Nome de usuário" required="required" autofocus="autofocus" name="nome_usuario">

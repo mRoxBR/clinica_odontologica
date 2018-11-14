@@ -7,12 +7,12 @@
           <div class="card mb-3">
 
             <div>
-              <button class="btn btn-primary btn-block" onclick="window.location.href='funcionario-registro.php'" name="cadastrar-funcionario">Cadastrar Funcionário</button>
+              <button class="btn btn-primary btn-block" onclick="window.location.href='paciente-registro.php'" name="cadastrar-paciente">Cadastrar Paciente</button>
             </div>
 
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Funcionários</div>
+              Pacientes</div>
 
             <div class="card-body">
               <div class="table-responsive">
@@ -23,7 +23,7 @@
                       <th>Sobrenome</th>
                       <th>Data de nascimento</th>
                       <th>CPF</th>
-                      <th>Salário</th>
+                      <th>Plano Dentário</th>
                     </tr>
                   </thead>
                   <tfoot>
@@ -32,16 +32,16 @@
                       <th>Sobrenome</th>
                       <th>Data de nascimento</th>
                       <th>CPF</th>
-                      <th>Salário</th>
+                      <th>Plano Dentário</th>
                     </tr>
                   </tfoot>
                   <tbody>
                       <?php 
-                      include_once '../../php/classFuncionario.php';
+                      include_once '../../php/classPaciente.php';
 
-                      $f = new Funcionario();
+                      $p = new Paciente();
 
-                      $stmt = $f->viewAll();
+                      $stmt = $p->viewAll();
 
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
                       <tr>
@@ -49,7 +49,7 @@
                         <td> <?= $row->sobrenome; ?> </td>
                         <td> <?= $row->nascimento; ?> </td>
                         <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
-                        <td> <?= $row->salario; ?> </td>
+                        <td> <?= empty($row->plano_dentario)? "" : $row->plano_dentario; ?> </td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -73,4 +73,5 @@
 
       </div>
       <!-- /.content-wrapper -->
+
 <?php include_once'footer.php' ?>

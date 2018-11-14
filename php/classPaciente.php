@@ -1,6 +1,6 @@
 <?php
 
-require_once 'recepcionista.php';
+require_once 'classRecepcionista.php';
 
 class Paciente{
 
@@ -9,7 +9,7 @@ class Paciente{
 	private $sobrenome;
 	private $nascimento;
 	private $cpf;
-	private $plano_dentario;
+	private $plano_dentario_id;
 
 	public function __construct(){
 		$database = new Database();
@@ -17,8 +17,8 @@ class Paciente{
 		$this->conn = $dbSet;
 	}
 
-	public function getId(){
-		return $this->id;
+	public function getPlanoDentarioId(){
+		return $this->plano_dentario_id;
 	}
 
 	public function getNome(){
@@ -41,8 +41,8 @@ class Paciente{
 		return $this->plano_dentario;
 	}
 
-	public function setId($id){
-        $this->id = $id;
+	public function setPlanoDentarioId($plano_dentario_id){
+        $this->plano_dentario_id = $plano_dentario_id;
     }
 
     public function setNome($nome){
@@ -141,13 +141,13 @@ class Paciente{
 
 	public function edit(){
 		try{
-			$stmt = $this->conn->prepare("UPDATE paciente SET nome = :nome, sobrenome = :sobrenome, nascimento = :nascimento, cpf = :cpf, plano_dentario = :plano_dentario WHERE id = :id");
+			$stmt = $this->conn->prepare("UPDATE paciente SET nome = :nome, sobrenome = :sobrenome, nascimento = :nascimento, cpf = :cpf, plano_dentario = :plano_dentario WHERE plano_dentario_id = :plano_dentario_id");
 			$stmt->bindParam(":nome", $this->nome);
 			$stmt->bindParam(":sobrenome", $this->sobrenome);
 			$stmt->bindParam(":nascimento", $this->nascimento);
 			$stmt->bindParam(":cpf", $this->cpf);
 			$stmt->bindParam(":plano_dentario", $this->plano_dentario);
-			$stmt->bindParam(":id", $this->id);
+			$stmt->bindParam(":plano_dentario_id", $this->plano_dentario_id);
 			$stmt->execute();
 			return 1;
 		}catch(PDOException $e){
@@ -158,8 +158,8 @@ class Paciente{
 
 	public function delete(){
 		try{
-			$stmt = $this->conn->prepare("DELETE FROM paciente WHERE id = :id");
-			$stmt->bindParam(":id", $this->id);
+			$stmt = $this->conn->prepare("DELETE FROM paciente WHERE plano_dentario_id = :plano_dentario_id");
+			$stmt->bindParam(":plano_dentario_id", $this->plano_dentario_id);
 			$stmt->execute();
 			return 1;
 		}catch(PDOExcecption $e){
@@ -168,6 +168,11 @@ class Paciente{
 		}
 	}
 
+	function viewAll(){
+		$stmt = $this->conn->prepare("SELECT * FROM paciente");
+		$stmt->execute();
+		return $stmt;
+	}
 
 }
 

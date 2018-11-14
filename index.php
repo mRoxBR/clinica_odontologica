@@ -29,13 +29,13 @@ if(isset($_POST['login'])){
   }elseif ($tipo = "administrador") {
     require_once "php/administrador.php";
     $administrador = new Administrador();
-    $administrador->setSenha($senha);
     $administrador->setNomeUsuario($nome_usuario);
+    $administrador->setSenha($senha);
     $funcionario_id = $administrador->existe();
     if(!is_null($funcionario_id)){
       session_start();
       $_SESSION["funcionario_id"] = $funcionario_id;
-      header("Location: system/recepcionista/index.php");
+      header("Location: system/administrador/index.php");
     }else{
       $flag = 1;
     }

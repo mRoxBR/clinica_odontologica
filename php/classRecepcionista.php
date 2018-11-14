@@ -1,9 +1,8 @@
 <?php
-	
-require_once 'funcionario.php';
-require_once 'despesa.php';
 
-class Administrador extends Funcionario{
+require_once 'classFuncionario.php';
+
+class Recepcionista extends Funcionario{
 	private $funcionario_id;
 	private $nome_usuario;
 	private $senha;
@@ -38,7 +37,7 @@ class Administrador extends Funcionario{
 
 	public function insert(){
 		try{
-			$stmt = $this->conn->prepare("INSERT INTO administrador(funcionario_id, nome_usuario, senha) VALUES(:funcionario_id, :nome_usuario, :senha)");
+			$stmt = $this->conn->prepare("INSERT INTO recepcionista(funcionario_id, nome_usuario, senha) VALUES(:funcionario_id, :nome_usuario, :senha)");
 			$stmt->bindParam(":funcionario_id", $this->funcionario_id);
 			$stmt->bindParam(":nome_usuario", $this->nome_usuario);
 			$stmt->bindParam(":senha", $this->senha);
@@ -52,7 +51,7 @@ class Administrador extends Funcionario{
 
 	public function edit(){
 		try{
-			$stmt = $this->conn->prepare("UPDATE administrador SET nome_usuario = :nome_usuario, senha = :senha WHERE funcionario_id = :funcionario_id");
+			$stmt = $this->conn->prepare("UPDATE recepcionista SET nome_usuario = :nome_usuario, senha = :senha WHERE funcionario_id = :funcionario_id");
 			$stmt->bindParam(":funcionario_id", $this->funcionario_id);
 			$stmt->bindParam(":nome_usuario", $this->nome_usuario);
 			$stmt->bindParam(":senha", $this->senha);
@@ -66,7 +65,7 @@ class Administrador extends Funcionario{
 
 	public function delete(){
 		try{
-			$stmt = $this->conn->prepare("DELETE FROM administrador WHERE funcionario_id = :funcionario_id");
+			$stmt = $this->conn->prepare("DELETE FROM recepcionista WHERE funcionario_id = :funcionario_id");
 			$stmt->bindParam(":funcionario_id", $this->funcionario_id);
 			$stmt->execute();
 			return 1;
@@ -78,9 +77,9 @@ class Administrador extends Funcionario{
 
 	public function existe(){
 		try{
-			$stmt = $this->conn->prepare("SELECT * FROM administrador WHERE nome_usuario = :nome_usuario AND senha = :senha");
-			$stmt->bindParam(":nome_usuario", $nome_usuario);
-			$stmt->bindParam(":senha ", $senha);
+			$stmt = $this->conn->prepare("SELECT * FROM recepcionista WHERE nome_usuario = :nome_usuario AND senha = :senha");
+			$stmt->bindParam(":nome_usuario", $this->nome_usuario);
+			$stmt->bindParam(":senha", $this->senha);
 			$stmt->execute();
 			$result = $stmt->fetch(PDO::FETCH_OBJ);
 			if(!empty($result)){
@@ -91,6 +90,6 @@ class Administrador extends Funcionario{
 			return null;
 		}
 	}
-
 }
-?>
+
+?> 

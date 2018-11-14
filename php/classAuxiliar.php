@@ -1,6 +1,6 @@
 <?php
 
-require_once 'funcionario.php';
+require_once 'classFuncionario.php';
 
 class Auxiliar extends Funcionario{
 	private $funcionario_id;

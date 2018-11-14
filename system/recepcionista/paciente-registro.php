@@ -23,8 +23,8 @@
     <link href="../../css/style.css" rel="stylesheet">
 
   </head>
-  <?php if(isset($_POST['botao'])){ 
-    include_once "../../php/funcionario.php";
+  <?php /* if(isset($_POST['botao'])){ 
+    include_once "../../php/classFuncionario.php";
     
     $nome = $_POST['nome'];
     $sobrenome = $_POST['sobrenome'];
@@ -42,15 +42,15 @@
     $funcionario->setSalario($salario);
     $lastid = $funcionario->insert();
 
-    header("Location:register-detailed.php?lastid=$lastid&tipo=$tipo");
+    header("Location:funcionario-register-detailed.php?lastid=$lastid&tipo=$tipo");
 
-  }else{ ?>
+  }else{ */ ?>
   <body class="bg-dark">
 
     <div class="container">
       <div class="card card-register mx-auto mt-5">
         <div class="card-header">
-          Cadastro de Funcionário
+          Cadastro de Paciente
         </div>
         <div class="card-body">
           <form action="register.php" method="post">
@@ -67,14 +67,10 @@
                 <input type="text" class="form-control" placeholder="CPF" maxlength="11" name="cpf">
             </div>
             <div class="form-group">
-                <input type="number" class="form-control" placeholder="Salário" required="required" name="salario">
-            </div>
-            <div class="form-group">
+              <label>Plano Dentário</label><br>
               <select id="select-funcionario" name="tipo">
-                <option value="administrador">Administrador</option>
-                <option value="auxiliar">Auxiliar</option>
-                <option value="dentista">Dentista</option>
-                <option value="recepcionista">Recepcionista</option>
+                <option value="0">Nenhum</option>
+                <?php ?>
               </select>
             </div>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Avançar</button>
@@ -91,7 +87,7 @@
     <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
 
   </body>
-<?php } ?>
+<?php /*}*/ ?>
 </html>
 
 
