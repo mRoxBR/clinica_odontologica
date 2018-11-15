@@ -37,9 +37,6 @@ class Paciente{
 		return $this->cpf;
 	}
 
-	public function getPlanoDentario(){
-		return $this->plano_dentario;
-	}
 
 	public function setPlanoDentarioId($plano_dentario_id){
         $this->plano_dentario_id = $plano_dentario_id;
@@ -71,10 +68,6 @@ class Paciente{
     		return 1;
     	}
     	return 0;
-    }
-
-    public function setPlanoDentario($plano_dentario){
-    	$this->plano_dentario = $plano_dentario;
     }
 
     function validaCPF($cpf = null) {
@@ -125,12 +118,12 @@ class Paciente{
 
 	public function insert(){
 		try{
-			$stmt = $this->conn->prepare("INSERT INTO paciente(nome, sobrenome, nascimento, cpf, plano_dentario) VALUES(:nome, :sobrenome, :nascimento, :cpf, :plano_dentario)");
+			$stmt = $this->conn->prepare("INSERT INTO paciente(nome, sobrenome, nascimento, cpf, plano_dentario_id) VALUES(:nome, :sobrenome, :nascimento, :cpf, :plano_dentario_id)");
 			$stmt->bindParam(":nome", $this->nome);
 			$stmt->bindParam(":sobrenome", $this->sobrenome);
 			$stmt->bindParam(":nascimento", $this->nascimento);
 			$stmt->bindParam(":cpf", $this->cpf);
-			$stmt->bindParam(":plano_dentario", $this->plano_dentario);
+			$stmt->bindParam(":plano_dentario_id", $this->plano_dentario_id);
 			$stmt->execute();
 			return $this->conn->lastInsertId();
 		}catch(PDOException $e){
@@ -146,7 +139,6 @@ class Paciente{
 			$stmt->bindParam(":sobrenome", $this->sobrenome);
 			$stmt->bindParam(":nascimento", $this->nascimento);
 			$stmt->bindParam(":cpf", $this->cpf);
-			$stmt->bindParam(":plano_dentario", $this->plano_dentario);
 			$stmt->bindParam(":plano_dentario_id", $this->plano_dentario_id);
 			$stmt->execute();
 			return 1;
@@ -168,12 +160,11 @@ class Paciente{
 		}
 	}
 
-	function viewAll(){
+	public function viewAll(){
 		$stmt = $this->conn->prepare("SELECT * FROM paciente");
 		$stmt->execute();
 		return $stmt;
 	}
-
 }
 
 ?>

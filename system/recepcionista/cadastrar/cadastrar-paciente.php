@@ -12,48 +12,46 @@
     <title>Cadastro</title>
 
     <!-- Bootstrap core CSS-->
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
-    <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template-->
-    <link href="../../css/sb-admin.css" rel="stylesheet">
+    <link href="../../../css/sb-admin.css" rel="stylesheet">
 
-    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../../css/style.css" rel="stylesheet">
 
   </head>
   <?php if(isset($_POST['botao'])){ 
-    include_once "../../php/classFuncionario.php";
+    include_once "../../../php/classPaciente.php";
     
     $nome = $_POST['nome'];
     $sobrenome = $_POST['sobrenome'];
     $nascimento = $_POST['nascimento'];
     $cpf = $_POST['cpf'];
-    $salario = $_POST['salario'];
-    $tipo = $_POST['tipo'];
+    $plano_dentario = $_POST['plano_dentario'];
 
-    $funcionario = new Funcionario();
+    $paciente = new Paciente();
     
-    $funcionario->setNome($nome);
-    $funcionario->setSobrenome($sobrenome);
-    $funcionario->setNascimento($nascimento);
-    $funcionario->setCpf($cpf);
-    $funcionario->setSalario($salario);
-    $lastid = $funcionario->insert();
+    $paciente->setNome($nome);
+    $paciente->setSobrenome($sobrenome);
+    $paciente->setNascimento($nascimento);
+    $paciente->setCpf($cpf);
+    $paciente->setPlanoDentarioId($plano_dentario);
+    $paciente->insert();
 
-    header("Location:funcionario-registro-detalhado.php?lastid=$lastid&tipo=$tipo");
-
-  }else{ ?>
+    header("Location: ../pacientes.php");
+  }?>
   <body class="bg-dark">
 
     <div class="container">
       <div class="card card-register mx-auto mt-5">
         <div class="card-header">
-          Cadastro de Funcionário
+          Cadastro de Paciente
         </div>
         <div class="card-body">
-          <form action="funcionario-registro.php" method="post">
+          <form action="cadastrar-paciente.php" method="post">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Primeiro nome" required="required" autofocus="autofocus" name="nome">
             </div>
@@ -67,31 +65,32 @@
                 <input type="text" class="form-control" placeholder="CPF" maxlength="11" name="cpf">
             </div>
             <div class="form-group">
-                <input type="number" class="form-control" placeholder="Salário" required="required" name="salario">
-            </div>
-            <div class="form-group">
-              <select id="select-funcionario" name="tipo">
-                <option value="administrador">Administrador</option>
-                <option value="auxiliar">Auxiliar</option>
-                <option value="dentista">Dentista</option>
-                <option value="recepcionista">Recepcionista</option>
+              <label>Plano Dentário</label><br>
+              <select id="select-paciente" name="plano_dentario">
+                <?php 
+                include_once "../../../php/classPlanoDentario.php";
+                $planoDentario = new PlanoDentario();
+                $stmt = $planoDentario->viewAll();
+
+                while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+                <option value= <?= $row->id; ?>> <?= $row->nome; ?> </option>
+                <?php } ?>
               </select>
             </div>
-            <button class="btn btn-primary btn-block" type="submit" name="botao">Avançar</button>
+            <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
           </form>
         </div>
       </div>
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="../../vendor/jquery/jquery.min.js"></script>
-    <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../../../vendor/jquery-easing/jquery.easing.min.js"></script>
 
   </body>
-<?php } ?>
 </html>
 
 

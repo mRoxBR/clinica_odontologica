@@ -7,7 +7,7 @@
           <div class="card mb-3">
 
             <div>
-              <button class="btn btn-primary btn-block" onclick="window.location.href='paciente-registro.php'" name="cadastrar-paciente">Cadastrar Paciente</button>
+              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar/cadastrar-paciente.php'" name="cadastrar-paciente">Cadastrar Paciente</button>
             </div>
 
             <div class="card-header">
@@ -37,7 +37,7 @@
                   </tfoot>
                   <tbody>
                       <?php 
-                      include_once '../../php/classPaciente.php';
+                      include_once '/../../php/classPaciente.php';
 
                       $p = new Paciente();
 
@@ -49,29 +49,16 @@
                         <td> <?= $row->sobrenome; ?> </td>
                         <td> <?= $row->nascimento; ?> </td>
                         <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
-                        <td> <?= empty($row->plano_dentario)? "" : $row->plano_dentario; ?> </td>
+                        <td> <?= empty($row->plano_dentario_id)? "" : $row->plano_dentario_id; ?> </td>
                       </tr>
                       <?php } ?>
                   </tbody>
                 </table>
               </div>
             </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
           </div>
-
         </div>
         <!-- /.container-fluid -->
-
-        <!-- Sticky Footer -->
-        <footer class="sticky-footer">
-          <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-              <span>Copyright © Your Website 2018</span>
-            </div>
-          </div>
-        </footer>
-
       </div>
       <!-- /.content-wrapper -->
-
 <?php include_once'footer.php' ?>

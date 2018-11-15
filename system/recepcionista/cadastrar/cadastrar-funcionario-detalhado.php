@@ -11,15 +11,15 @@
     <title>Cadastro</title>
 
     <!-- Bootstrap core CSS-->
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
-    <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template-->
-    <link href="../../css/sb-admin.css" rel="stylesheet">
+    <link href="../../../css/sb-admin.css" rel="stylesheet">
 
-    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../../css/style.css" rel="stylesheet">
   </head>
 
 
@@ -42,7 +42,7 @@
 
               if($tipo == "auxiliar"){
                 
-                include_once "../../php/classAuxiliar.php";
+                include_once "../../../php/classAuxiliar.php";
                 $auxiliar = new Auxiliar();
                 $auxiliar->setFuncionarioId($lastid);
                 $estado = $auxiliar->insert();
@@ -51,7 +51,7 @@
 
                 $nome_usuario = $_POST["nome_usuario"];
                 $senha = $_POST["senha"];
-                include_once "../../php/classRecepcionista.php";
+                include_once "../../../php/classRecepcionista.php";
                 $recepcionista = new Recepcionista();
                 $recepcionista->setFuncionarioId($lastid);
                 $recepcionista->setNomeUsuario($nome_usuario);
@@ -62,7 +62,7 @@
 
                 $nome_usuario = $_POST["nome_usuario"];
                 $senha = $_POST["senha"];
-                include_once "../../php/administrador.php";
+                include_once "../../../php/administrador.php";
                 $administrador = new Administrador();
                 $administrador->setFuncionarioId($lastid);
                 $recepcionista->setSenha($senha);
@@ -71,17 +71,21 @@
 
               }elseif($tipo == "dentista"){
                 $cro = $_POST["cro"];
-                include_once "../../php/dentista.php";
+                include_once "../../../php/dentista.php";
                 $dentista = new Dentista();
                 $dentista->setFuncionarioId($lastid);
                 $dentista->setCro($cro);
                 $estado = $dentistas->insert();
-              }  ?>
-              <button class="btn btn-primary btn-block" onclick="window.location.href='funcionario-registro.php'">Voltar</button>
-          <form action="funcionario-registro-detalhado.php" method="post">
+              }  
+            header("Location: ../index.php");
+            }
+            ?>
+          <form action="cadastrar-funcionario-detalhado.php" method="post">
   	<?php  if ($tipo == "recepcionista" || $tipo == "administrador") { ?>
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Nome de usuário" required="required" autofocus="autofocus" name="nome_usuario">
+            </div>
+            <div class="form-group">
                 <input type="password" class="form-control" placeholder="Senha" required="required" autofocus="autofocus" name="senha">
             </div>
     <?php } elseif ($tipo == "dentista") { ?>
@@ -98,11 +102,11 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="../../vendor/jquery/jquery.min.js"></script>
-    <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../../../vendor/jquery-easing/jquery.easing.min.js"></script>
 
   </body>
 </html>

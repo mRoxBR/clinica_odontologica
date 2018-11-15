@@ -81,7 +81,7 @@ class Funcionario{
     	return 0;
     }
 
-    function validaCPF($cpf = null) {
+    public function validaCPF($cpf = null) {
 		// Verifica se o CPF foi informado
 		if(empty($cpf)) {
 			return false;
@@ -172,7 +172,7 @@ class Funcionario{
 		}
 	}
 
-	function viewAll(){
+	public function viewAll(){
 		$stmt = $this->conn->prepare("SELECT * FROM funcionario");
 		$stmt->execute();
 		return $stmt;

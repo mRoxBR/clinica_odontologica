@@ -7,12 +7,12 @@
           <div class="card mb-3">
 
             <div>
-              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar/cadastrar-funcionario.php'" name="cadastrar-funcionario">Cadastrar Funcionário</button>
+              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar/cadastrar-plano-dentario.php'" name="plano-dentario">Cadastrar Plano Dentário</button>
             </div>
 
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Funcionários</div>
+              Planos Dentários</div>
 
             <div class="card-body">
               <div class="table-responsive">
@@ -20,36 +20,27 @@
                   <thead>
                     <tr>
                       <th>Nome</th>
-                      <th>Sobrenome</th>
-                      <th>Data de nascimento</th>
-                      <th>CPF</th>
-                      <th>Salário</th>
+                      <th>Desconto</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>Nome</th>
-                      <th>Sobrenome</th>
-                      <th>Data de nascimento</th>
-                      <th>CPF</th>
-                      <th>Salário</th>
+                      <th>Desconto</th>
                     </tr>
                   </tfoot>
                   <tbody>
                       <?php 
-                      include_once '../../php/classFuncionario.php';
+                      include_once '../../php/classPlanoDentario.php';
 
-                      $f = new Funcionario();
+                      $p = new PlanoDentario();
 
-                      $stmt = $f->viewAll();
+                      $stmt = $p->viewAll();
 
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
                       <tr>
                         <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->sobrenome; ?> </td>
-                        <td> <?= $row->nascimento; ?> </td>
-                        <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
-                        <td> <?= $row->salario; ?> </td>
+                        <td> <?= $row->desconto; ?> </td>
                       </tr>
                       <?php } ?>
                   </tbody>

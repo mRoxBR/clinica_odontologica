@@ -14,7 +14,7 @@ if(isset($_POST['login'])){
   $tipo  = $_POST["tipo"];
 
   if($tipo = "recepcionista"){
-    require_once "php/recepcionista.php";
+    require_once "php/classRecepcionista.php";
     $recepcionista = new Recepcionista();
     $recepcionista->setNomeUsuario($nome_usuario);
     $recepcionista->setSenha($senha);
@@ -26,8 +26,8 @@ if(isset($_POST['login'])){
     }else{
       $flag = 1;
     }
-  }elseif ($tipo = "administrador") {
-    require_once "php/administrador.php";
+  }/*elseif ($tipo = "administrador") {
+    require_once "php/classAdministrador.php";
     $administrador = new Administrador();
     $administrador->setNomeUsuario($nome_usuario);
     $administrador->setSenha($senha);
@@ -39,7 +39,7 @@ if(isset($_POST['login'])){
     }else{
       $flag = 1;
     }
-  }
+  }*/
 }
 ?>
 <!DOCTYPE html>
