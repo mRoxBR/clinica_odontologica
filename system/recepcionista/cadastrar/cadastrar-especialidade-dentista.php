@@ -27,6 +27,9 @@
 
     $flag = 0;
 
+    if(!isset($_POST['nome_dentista']))$nome_dentista = "";
+    if(!isset($_POST['cpf_dentista']))$cpf_dentista = "";
+
     if(isset($_POST['botao'])){ 
         include_once "../../../php/classDentista.php";
         include_once "../../../php/classEspecialidade.php";
@@ -66,13 +69,12 @@
           <form action="cadastrar-especialidade-dentista.php" method="post">
             <div class="form-group">
                 <label>Nome do Dentista</label>
-                <input type="text" class="form-control" required="required" name="nome_dentista">
+                <input type="text" class="form-control" required="required" name="nome_dentista" value="<?= $nome_dentista ?>">
             </div>
             <div class="form-group">
                 <label>CPF do Dentista</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf_dentista">
+                <input type="text" class="form-control" maxlength="11" name="cpf_dentista" value="<?= $cpf_dentista ?>">
             </div>
-
             <div class="form-group">
                 <label>Especialidade</label><br>
                 <select name="especialidade">

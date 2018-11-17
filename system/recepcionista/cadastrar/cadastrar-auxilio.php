@@ -27,6 +27,11 @@
 
     $flag = 0;
 
+    if(!isset($_POST['nome_dentista']))$nome_dentista = "";
+    if(!isset($_POST['cpf_dentista']))$cpf_dentista = "";
+    if(!isset($_POST['nome_auxiliar']))$nome_auxiliar = "";
+    if(!isset($_POST['cpf_auxiliar']))$cpf_auxiliar = "";
+
     if(isset($_POST['botao'])){ 
         include_once "../../../php/classDentista.php";
         include_once "../../../php/classAuxiliar.php";
@@ -46,7 +51,7 @@
             $aad->setAuxiliarId($id_auxiliar);
             $aad->insert();
 
-            header("Location: ../auxilio.php");
+            header("Location: ../auxilios.php");
         }else{
             $flag = 1;
         }
@@ -67,19 +72,19 @@
           <form action="cadastrar-auxilio.php" method="post">
             <div class="form-group">
                 <label>Nome do Dentista</label>
-                <input type="text" class="form-control" required="required" name="nome_dentista">
+                <input type="text" class="form-control" required="required" name="nome_dentista" value="<?= $nome_dentista?>">
             </div>
             <div class="form-group">
                 <label>CPF do Dentista</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf_dentista">
+                <input type="text" class="form-control" maxlength="11" name="cpf_dentista" value="<?= $cpf_dentista?>">
             </div>
             <div class="form-group">
                 <label>Nome do Auxiliar</label>
-                <input type="text" class="form-control" required="required" name="nome_auxiliar">
+                <input type="text" class="form-control" required="required" name="nome_auxiliar" value="<?= $nome_auxiliar?>">
             </div>
             <div class="form-group">
                 <label>CPF do Auxiliar</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf_auxiliar">
+                <input type="text" class="form-control" maxlength="11" name="cpf_auxiliar" value="<?= $cpf_dentista?>">
             </div>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
           </form>

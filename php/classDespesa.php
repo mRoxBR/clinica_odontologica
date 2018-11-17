@@ -7,7 +7,7 @@ class Despesa{
 	private $id;
 	private $nome;
 	private $data;
-	private $quantia;
+	private $valor;
 
 	public function __construct(){
 		$database = new Database();
@@ -27,8 +27,8 @@ class Despesa{
 		return $this->data;
 	}
 
-	public function getQuantia(){
-		return $this->quantia;
+	public function getValor(){
+		return $this->valor;
 	}
 
 	public function getTipo(){
@@ -55,9 +55,9 @@ class Despesa{
 		$this->data = $data;
 	}
 
-	public function setQuantia($quantia){
-		if($quantia > 0){
-			$this->quantia = $quantia;
+	public function setValor($valor){
+		if($valor > 0){
+			$this->valor = $valor;
 			return 1;
 		}
 		return 0;
@@ -78,10 +78,10 @@ class Despesa{
 
 	public function insert(){
 		try{	
-			$stmt = $this->conn->prepare("INSERT INTO despesa(nome,data,quantia,tipo,situacao) VALUES(:nome, :data, :quantia, :tipo, :situacao)");
+			$stmt = $this->conn->prepare("INSERT INTO despesa(nome,data,valor,tipo,situacao) VALUES(:nome, :data, :valor, :tipo, :situacao)");
 			$stmt->bindParam(":nome", $this->nome);
 			$stmt->bindParam(":data", $this->data);
-			$stmt->bindParam(":quantia", $this->quantia);
+			$stmt->bindParam(":valor", $this->valor);
 			$stmt->bindParam(":tipo", $this->tipo);
 			$stmt->bindParam(":situacao", $this->situacao);
 			$stmt->execute();
@@ -94,11 +94,11 @@ class Despesa{
 
 	public function edit(){
 		try{
-			$stmt = $this->conn->prepare("UPDATE despesa SET nome = :nome, data = :data, quantia = :quantia, tipo = :tipo, situacao = :situacao WHERE id = :id");
+			$stmt = $this->conn->prepare("UPDATE despesa SET nome = :nome, data = :data, valor = :valor, tipo = :tipo, situacao = :situacao WHERE id = :id");
 			$stmt->bindParam(":id", $this->id);
 			$stmt->bindParam(":nome", $this->nome);
 			$stmt->bindParam(":data", $this->data);
-			$stmt->bindParam(":quantia", $this->quantia);
+			$stmt->bindParam(":valor", $this->valor);
 			$stmt->bindParam(":tipo", $this->tipo);
 			$stmt->bindParam(":situacao", $this->situacao);
 			$stmt->execute();
@@ -119,6 +119,12 @@ class Despesa{
 			echo $e->getMessage();
 			return 0;
 		}
+	}
+
+	public function viewAll(){
+		$stmt = $this->conn->prepare("SELECT * FROM despesa");
+		$stmt->execute();
+		return $stmt;
 	}
 
 }

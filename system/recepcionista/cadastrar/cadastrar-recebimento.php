@@ -27,6 +27,13 @@
 
     $flag = 0;
 
+    if(!isset($_POST['quantia']))$quantia = "";
+    if(!isset($_POST['data']))$data = "";
+    if(!isset($_POST['nome_recepcionista']))$nome_recepcionista = "";
+    if(!isset($_POST['cpf_recepcionista']))$cpf_recepcionista = "";
+    if(!isset($_POST['nome_paciente']))$nome_paciente = "";
+    if(!isset($_POST['cpf_paciente']))$cpf_paciente = "";
+
     if(isset($_POST['botao'])){ 
         include_once "../../../php/classPaciente.php";
         include_once "../../../php/classRecepcionista.php";
@@ -75,30 +82,29 @@
         <?php } ?>
           <form action="cadastrar-recebimento.php" method="post">
             <div class="form-group">
-                <label>Quantia</label>
-                <input type="number" class="form-control" required="required" autofocus="autofocus" name="quantia">
-            </div>
-            <div class="form-group">
-                <label>Data</label>
-                <input type="date" class="form-control" required="required" name="data">
-            </div>
-            <div class="form-group">
                 <label>Nome do Recepcionista</label>
-                <input type="text" class="form-control" required="required" name="nome_recepcionista">
+                <input type="text" class="form-control" required="required" name="nome_recepcionista" value="<?= $nome_recepcionista ?>">
             </div>
             <div class="form-group">
                 <label>CPF do Recepcionista</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf_recepcionista">
+                <input type="text" class="form-control" maxlength="11" name="cpf_recepcionista" value="<?= $cpf_recepcionista ?>">
             </div>
             <div class="form-group">
                 <label>Nome do Paciente</label>
-                <input type="text" class="form-control" required="required" name="nome_paciente">
+                <input type="text" class="form-control" name="nome_paciente" value="<?= $nome_paciente ?>">
             </div>
             <div class="form-group">
                 <label>CPF do Paciente</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf_paciente">
+                <input type="text" class="form-control" maxlength="11" name="cpf_paciente" value="<?= $cpf_paciente ?>">
             </div>
-            
+            <div class="form-group">
+                <label>Quantia</label>
+                <input type="number" class="form-control" required="required" autofocus="autofocus" name="quantia" value="<?= $quantia ?>">
+            </div>
+            <div class="form-group">
+                <label>Data</label>
+                <input type="date" class="form-control" required="required" name="data" value="<?= $data ?>">
+            </div>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
           </form>
         </div>

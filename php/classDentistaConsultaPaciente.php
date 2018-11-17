@@ -10,6 +10,7 @@ class Dentista_consulta_Paciente{
 	private $horario;
 	private $valor;
 	private $situacao;
+	private $operacao;
 
 	public function __construct(){
 		$database = new Database();
@@ -41,6 +42,9 @@ class Dentista_consulta_Paciente{
 		return $this->situacao;
 	}
 
+	public function getOperacao(){
+		return $this->operacao;
+	}
 
 	public function setDentistaId($dentista_id){
         $this->dentista_id = $dentista_id;
@@ -69,15 +73,25 @@ class Dentista_consulta_Paciente{
 	public function setSituacao($situacao){
         $this->situacao = $situacao;
     }
+
+	public function setOperacao($operacao){
+        if(strlen($operacao) <= 45){
+        	$this->operacao = $operacao;
+        	return 1;
+        }
+        return 0;
+    }
+
 	public function insert(){
 		try{
-			$stmt = $this->conn->prepare("INSERT INTO dentista_consulta_paciente(paciente_id, dentista_id, data, horario, valor, situacao) VALUES(:paciente_id, :dentista_id, :data, :horario, :valor, :situacao)");
+			$stmt = $this->conn->prepare("INSERT INTO dentista_consulta_paciente(paciente_id, dentista_id, data, horario, valor, situacao, operacao) VALUES(:paciente_id, :dentista_id, :data, :horario, :valor, :situacao, :operacao)");
 			$stmt->bindParam(":paciente_id", $this->paciente_id);
 			$stmt->bindParam(":dentista_id", $this->dentista_id);
 			$stmt->bindParam(":data", $this->data);
 			$stmt->bindParam(":horario", $this->horario);
 			$stmt->bindParam(":valor", $this->valor);
 			$stmt->bindParam(":situacao", $this->situacao);
+			$stmt->bindParam(":operacao", $this->operacao);
 			$stmt->execute();
 			return 1;
 		}catch(PDOException $e){
@@ -88,13 +102,14 @@ class Dentista_consulta_Paciente{
 
 	public function edit(){
 		try{
-			$stmt = $this->conn->prepare("UPDATE dentista_consulta_paciente SET paciente_id = :paciente_id, dentista_id = :dentista_id, data = :data, horario = :horario, valor = :valor, situacao = :situacao WHERE dentista_id = :dentista_id AND paciente_id = :paciente_id");
+			$stmt = $this->conn->prepare("UPDATE dentista_consulta_paciente SET paciente_id = :paciente_id, dentista_id = :dentista_id, data = :data, horario = :horario, valor = :valor, situacao = :situacao, operacao = :operacao WHERE dentista_id = :dentista_id AND paciente_id = :paciente_id");
 			$stmt->bindParam(":paciente_id", $this->paciente_id);
 			$stmt->bindParam(":dentista_id", $this->dentista_id);
 			$stmt->bindParam(":data", $this->data);
 			$stmt->bindParam(":horario", $this->horario);
 			$stmt->bindParam(":valor", $this->valor);
 			$stmt->bindParam(":situacao", $this->situacao);
+			$stmt->bindParam(":operacao", $this->operacao);
 			$stmt->bindParam(":dentista_id", $this->dentista_id);
 			$stmt->bindParam(":paciente_id", $this->paciente_id);
 			$stmt->execute();
@@ -117,6 +132,13 @@ class Dentista_consulta_Paciente{
 			return 0;
 		}
 	}
+
+	public function viewAll(){
+		$stmt = $this->conn->prepare("SELECT * FROM dentista_consulta_paciente");
+		$stmt->execute();
+		return $stmt;
+	}
+
 }
 
 ?>
