@@ -48,5 +48,11 @@ class Especialidade{
 		}
 	}
 
+	public function viewAll(){
+		$stmt = $this->conn->prepare("SELECT * FROM especialidade");
+		$stmt->execute();
+		return $stmt; 
+	}
+
 }
 ?>

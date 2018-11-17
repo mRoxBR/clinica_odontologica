@@ -10,6 +10,7 @@ class Funcionario{
 	private $nascimento;
 	private $cpf;
 	private $salario;
+	private $cargo;
 
 	public function __construct(){
 		$database = new Database();
@@ -31,6 +32,10 @@ class Funcionario{
 
 	public function getNascimento(){
 		return $this->nascimento;
+	}
+
+	public function getCargo(){
+		return $this->cargo;
 	}
 
 	public function getCpf(){
@@ -66,11 +71,9 @@ class Funcionario{
     }
 
     public function setCpf($cpf){
-    	if($this->validaCPF($cpf)){
+    	if(!empty($cpf)){
     		$this->cpf = $cpf;
-    		return 1;
     	}
-    	return 0;
     }
 
     public function setSalario($salario){
@@ -81,10 +84,18 @@ class Funcionario{
     	return 0;
     }
 
-    public function validaCPF($cpf = null) {
+    public function setCargo($cargo){
+    	if(strlen($cargo) <= 45){
+    		$this->cargo = $cargo;
+    		return 1;
+    	}
+    	return 0;
+    }
+
+    public function validaCPF($cpf) {
 		// Verifica se o CPF foi informado
 		if(empty($cpf)) {
-			return false;
+			return true;
 		}
 
 		// Elimina possível máscara
@@ -108,10 +119,9 @@ class Funcionario{
 			$cpf == '88888888888' || 
 			$cpf == '99999999999') {
 			return false;
-
+		}
 		 // Verifica se o CPF é válido por meio dos dígitos verificadores
-		 } else {   
-			
+	  	else {   
 			for ($t = 9; $t < 11; $t++) {
 				
 				for ($d = 0, $c = 0; $c < $t; $c++) {
@@ -129,12 +139,13 @@ class Funcionario{
 
 	public function insert(){
 		try{
-			$stmt = $this->conn->prepare("INSERT INTO funcionario(nome, sobrenome, nascimento, cpf, salario) VALUES(:nome, :sobrenome, :nascimento, :cpf, :salario)");
+			$stmt = $this->conn->prepare("INSERT INTO funcionario(nome, sobrenome, nascimento, cpf, salario, cargo) VALUES(:nome, :sobrenome, :nascimento, :cpf, :salario, :cargo)");
 			$stmt->bindParam(":nome", $this->nome);
 			$stmt->bindParam(":sobrenome", $this->sobrenome);
 			$stmt->bindParam(":nascimento", $this->nascimento);
 			$stmt->bindParam(":cpf", $this->cpf);
 			$stmt->bindParam(":salario", $this->salario);
+			$stmt->bindParam(":cargo", $this->cargo);
 			$stmt->execute();
 			return $this->conn->lastInsertId();
 		}catch(PDOException $e){
@@ -145,12 +156,13 @@ class Funcionario{
 
 	public function edit(){
 		try{
-			$stmt = $this->conn->prepare("UPDATE funcionario SET nome = :nome, sobrenome = :sobrenome, nascimento = :nascimento, cpf = :cpf, salario = :salario WHERE id = :id");
+			$stmt = $this->conn->prepare("UPDATE funcionario SET nome = :nome, sobrenome = :sobrenome, nascimento = :nascimento, cpf = :cpf, salario = :salario, cargo = :cargo WHERE id = :id");
 			$stmt->bindParam(":nome", $this->nome);
 			$stmt->bindParam(":sobrenome", $this->sobrenome);
 			$stmt->bindParam(":nascimento", $this->nascimento);
 			$stmt->bindParam(":cpf", $this->cpf);
 			$stmt->bindParam(":salario", $this->salario);
+			$stmt->bindParam(":cargo", $this->cargo);
 			$stmt->bindParam(":id", $this->id);
 			$stmt->execute();
 			return 1;
@@ -176,6 +188,14 @@ class Funcionario{
 		$stmt = $this->conn->prepare("SELECT * FROM funcionario");
 		$stmt->execute();
 		return $stmt;
+	}
+
+	public function viewFuncionario(){
+		$stmt = $this->conn->prepare("SELECT * FROM funcionario WHERE id = :id");
+		$stmt->bindParam(":id", $this->id);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+		return $resultado;
 	}
 }
 ?>

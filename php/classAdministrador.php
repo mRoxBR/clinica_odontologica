@@ -8,6 +8,12 @@ class Administrador extends Funcionario{
 	private $nome_usuario;
 	private $senha;
 
+	public function __construct(){
+		$database = new Database();
+		$dbSet = $database->dbSet();
+		$this->conn = $dbSet;
+	}
+
 	public function getFuncionarioId(){
 		return $this->funcionario_id;
 	}
@@ -90,6 +96,20 @@ class Administrador extends Funcionario{
 			echo $e->getMessage();
 			return null;
 		}
+	}
+
+	public function viewAll(){
+		$stmt = $this->conn->prepare("SELECT * FROM administrador JOIN funcionario ON administrador.funcionario_id = funcionario.id ");
+		$stmt->execute();
+		return $stmt;
+	}
+
+	public function viewAdministrador(){
+		$stmt = $this->conn->prepare("SELECT * FROM administrador WHERE funcionario_id = :funcionario_id");
+		$stmt->bindParam(":funcionario_id", $this->funcionario_id);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+		return $resultado;
 	}
 
 }

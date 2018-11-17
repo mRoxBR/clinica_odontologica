@@ -7,6 +7,12 @@ class Recepcionista extends Funcionario{
 	private $nome_usuario;
 	private $senha;
 
+	public function __construct(){
+		$database = new Database();
+		$dbSet = $database->dbSet();
+		$this->conn = $dbSet;
+	}
+
 	public function getFuncionarioId(){
 		return $this->funcionario_id;
 	}
@@ -90,6 +96,37 @@ class Recepcionista extends Funcionario{
 			return null;
 		}
 	}
+
+	public function existeNomeCpf($nome, $cpf){
+		try{
+			$stmt = $this->conn->prepare("SELECT * FROM recepcionista, funcionario WHERE nome = :nome AND cpf = :cpf AND funcionario.id = recepcionista.funcionario_id");
+			$stmt->bindParam(":nome", $nome);
+			$stmt->bindParam(":cpf", $cpf);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(!empty($result)){
+				return $result->funcionario_id;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return null;
+		}
+	}
+
+	public function viewAll(){
+		$stmt = $this->conn->prepare("SELECT * FROM recepcionista JOIN funcionario ON recepcionista.funcionario_id = funcionario.id ");
+		$stmt->execute();
+		return $stmt;
+	}
+
+	public function viewRecepcionista(){
+		$stmt = $this->conn->prepare("SELECT * FROM recepcionista WHERE funcionario_id = :funcionario_id");
+		$stmt->bindParam(":funcionario_id", $this->funcionario_id);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+		return $resultado;
+	}
+
 }
 
 ?> 

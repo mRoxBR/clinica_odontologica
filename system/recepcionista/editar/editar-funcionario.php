@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Cadastro</title>
+    <title>Atualização</title>
 
     <!-- Bootstrap core CSS-->
     <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -24,31 +24,40 @@
 
   </head>
   <?php 
-  
-  $flag = 0;
+    include_once "../../../php/classFuncionario.php";
+
+
+    $id = $_GET['id'];
+    $funcionario = new Funcionario();
+    $funcionario->setId($id);
+    $resultado = $funcionario->viewFuncionario();
+    $cargo = $resultado->cargo;
+
+    $flag = 0;
 
   if(isset($_POST['botao'])){ 
-    include_once "../../../php/classFuncionario.php";
-    
-    $nome = $_POST['nome'];
-    $sobrenome = $_POST['sobrenome'];
-    $nascimento = $_POST['nascimento'];
-    $cpf = $_POST['cpf'];
-    $salario = $_POST['salario'];
-    $cargo = $_POST['cargo'];
 
-    $funcionario = new Funcionario();
-    
+    $id = $_POST["id"];
+    $cargo = $_POST["cargo"];
+
+    $nome = $_POST["nome"];
+    $sobrenome = $_POST["sobrenome"];
+    $nascimento = $_POST["nascimento"];
+    $salario = $_POST["salario"];
+    $cpf = $_POST["cpf"];
+
+    $funcionario->setId($id);
     $funcionario->setNome($nome);
     $funcionario->setSobrenome($sobrenome);
     $funcionario->setNascimento($nascimento);
     $funcionario->setSalario($salario);
     $funcionario->setCargo($cargo);
-    $funcionario->setCpf($cpf);
-    if(!$funcionario->validaCPF($cpf)) $flag = 1;
+
+    if(!$funcionario->setCpf($cpf)) $flag = 1;
+
     if($flag == 0){ 
-        $lastid = $funcionario->insert();
-        header("Location:cadastrar-funcionario-detalhado.php?lastid=$lastid&cargo=$cargo");
+        $funcionario->edit();
+        header("Location:editar-funcionario-detalhado.php?id=$id&cargo=$cargo");
     }
     
   }?>
@@ -57,7 +66,7 @@
     <div class="container">
       <div class="card card-register mx-auto mt-5">
         <div class="card-header">
-          Cadastro de Funcionário
+          Atualização de Funcionário
         </div>
         <div class="card-body">
         <?php if($flag == 1) { ?>
@@ -65,35 +74,29 @@
             <b>O CPF informado não é válido</b>
           </div>
         <?php } ?>
-          <form action="cadastrar-funcionario.php" method="post">
+          <form action="editar-funcionario.php" method="post">
             <div class="form-group">
                 <label>Primeiro nome</label>
-                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome">
+                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?= $resultado->nome ?>">
             </div>
             <div class="form-group">
                 <label>Sobrenome</label>
-                <input type="text" class="form-control" required="required" name="sobrenome">
+                <input type="text" class="form-control" required="required" name="sobrenome" value="<?= $resultado->sobrenome ?>">
             </div>
             <div class="form-group">
                 <label>Data de nascimento</label>
-                <input type="date" class="form-control" required="required" name="nascimento">
+                <input type="date" class="form-control" required="required" name="nascimento" value="<?= $resultado->nascimento ?>">
             </div>
             <div class="form-group">
                 <label>CPF</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf">
+                <input type="text" class="form-control" maxlength="11" name="cpf" value="<?= $resultado->cpf ?>">
             </div>
             <div class="form-group">
                 <label>Salário</label>
-                <input type="number" class="form-control" required="required" name="salario">
+                <input type="number" class="form-control" required="required" name="salario" value="<?= $resultado->salario ?>">
             </div>
-            <div class="form-group">
-              <select id="select-funcionario" name="cargo">
-                <option value="Administrador">Administrador</option>
-                <option value="Auxiliar">Auxiliar</option>
-                <option value="Dentista">Dentista</option>
-                <option value="Recepcionista">Recepcionista</option>
-              </select>
-            </div>
+            <input type="hidden" name="id" value=<?=$id?>>
+            <input type="hidden" name="cargo" value=<?=$cargo?>>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Avançar</button>
           </form>
         </div>

@@ -165,6 +165,23 @@ class Paciente{
 		$stmt->execute();
 		return $stmt;
 	}
+
+	public function existeNomeCpf(){
+		try{
+			$stmt = $this->conn->prepare("SELECT * FROM paciente WHERE nome = :nome AND cpf = :cpf");
+			$stmt->bindParam(":nome", $this->nome);
+			$stmt->bindParam(":cpf", $this->cpf);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(!empty($result)){
+				return $result->id;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return null;
+		}
+	}
+
 }
 
 ?>

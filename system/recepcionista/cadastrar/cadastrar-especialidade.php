@@ -24,18 +24,15 @@
 
   </head>
   <?php if(isset($_POST['botao'])){ 
-    include_once "../../../php/classPlanoDentario.php";
+    include_once "../../../php/classEspecialidade.php";
     
     $nome = $_POST['nome'];
-    $desconto = $_POST['desconto'];
-
-    $p = new PlanoDentario();
+    $e = new Especialidade();
     
-    $p->setNome($nome);
-    $p->setDesconto($desconto);
-    $p->insert();
+    $e->setNome($nome);
+    $e->insert();
 
-    header("Location: ../planos-dentarios.php");
+    header("Location: ../especialidades.php");
 
   }else{ ?>
   <body class="bg-dark">
@@ -43,17 +40,13 @@
     <div class="container">
       <div class="card card-register mx-auto mt-5">
         <div class="card-header">
-          Cadastro de Plano Dentário
+          Cadastro de Especialidade
         </div>
         <div class="card-body">
-          <form action="cadastrar-plano-dentario.php" method="post">
+          <form action="cadastrar-especialidade.php" method="post">
             <div class="form-group">
                 <label>Nome</label>
                 <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome">
-            </div>
-            <div class="form-group">
-                <label>Desconto em %</label>
-                <input type="number" class="form-control" required="required" name="desconto">
             </div>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
           </form>

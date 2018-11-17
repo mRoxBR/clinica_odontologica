@@ -7,44 +7,44 @@
           <div class="card mb-3">
 
             <div>
-              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar/cadastrar-plano-dentario.php'" name="plano-dentario">Cadastrar Plano Dentário</button>
+              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar/cadastrar-especialidade-dentista.php'" name="cadastrar-especialidade-dentista">Cadastrar Especialidade para Dentista</button>
             </div>
 
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Planos Dentários</div>
+              Especialidades por Dentista</div>
 
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr align="center">
-                      <th>Nome</th>
-                      <th>Desconto</th>
+                      <th>Dentista</th>
+                      <th>Especialidade</th>
                       <th></th>
                       <th></th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr align="center">
-                      <th>Nome</th>
-                      <th>Desconto</th>
+                      <th>Dentista</th>
+                      <th>Especialidade</th>
                       <th></th>
                       <th></th>
                     </tr>
                   </tfoot>
                   <tbody>
                       <?php 
-                      include_once '../../php/classPlanoDentario.php';
+                      include_once '/../../php/classDentistaHasEspecialidade.php';
 
-                      $p = new PlanoDentario();
+                      $dhe = new Dentista_has_Especialidade();
 
-                      $stmt = $p->viewAll();
+                      $stmt = $dhe->viewAll();
 
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
                       <tr align="center">
-                        <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->desconto; ?> </td>
+                        <td> <?= $row->dentista_id; ?> </td>
+                        <td> <?= $row->especialidade_nome; ?> </td>
                         <td><a href="#" class="btn btn-primary">Alterar</a></td>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>
                       </tr>

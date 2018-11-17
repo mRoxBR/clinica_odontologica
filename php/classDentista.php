@@ -7,6 +7,12 @@ class Dentista extends Funcionario{
 	private $funcionario_id;
 	private $cro;
 
+	public function __construct(){
+		$database = new Database();
+		$dbSet = $database->dbSet();
+		$this->conn = $dbSet;
+	}
+
 	public function getFuncionarioId(){
 		return $this->funcionario_id;
 	}
@@ -62,6 +68,36 @@ class Dentista extends Funcionario{
 		}catch(PDOExcecption $e){
 			echo $e->getMessage();
 			return 0;
+		}
+	}
+
+	public function viewAll(){
+		$stmt = $this->conn->prepare("SELECT * FROM dentista JOIN funcionario ON dentista.funcionario_id = funcionario.id ");
+		$stmt->execute();
+		return $stmt;
+	}
+
+	public function viewDentista(){
+		$stmt = $this->conn->prepare("SELECT * FROM dentista WHERE funcionario_id = :funcionario_id");
+		$stmt->bindParam(":funcionario_id", $this->funcionario_id);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+		return $resultado;
+	}
+
+	public function existeNomeCpf($nome, $cpf){
+		try{
+			$stmt = $this->conn->prepare("SELECT * FROM dentista, funcionario WHERE nome = :nome AND cpf = :cpf AND funcionario.id = dentista.funcionario_id");
+			$stmt->bindParam(":nome", $nome);
+			$stmt->bindParam(":cpf", $cpf);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(!empty($result)){
+				return $result->funcionario_id;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return null;
 		}
 	}
 

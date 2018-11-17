@@ -18,21 +18,25 @@
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
-                    <tr>
+                    <tr align="center">
                       <th>Nome</th>
                       <th>Sobrenome</th>
                       <th>Data de nascimento</th>
                       <th>CPF</th>
                       <th>Plano Dentário</th>
+                      <th></th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tfoot>
-                    <tr>
+                    <tr align="center">
                       <th>Nome</th>
                       <th>Sobrenome</th>
                       <th>Data de nascimento</th>
                       <th>CPF</th>
                       <th>Plano Dentário</th>
+                      <th></th>
+                      <th></th>
                     </tr>
                   </tfoot>
                   <tbody>
@@ -44,12 +48,14 @@
                       $stmt = $p->viewAll();
 
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
-                      <tr>
+                      <tr align="center">
                         <td> <?= $row->nome; ?> </td>
                         <td> <?= $row->sobrenome; ?> </td>
                         <td> <?= $row->nascimento; ?> </td>
                         <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
                         <td> <?= empty($row->plano_dentario_id)? "" : $row->plano_dentario_id; ?> </td>
+                        <td><a href="#" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -61,4 +67,21 @@
         <!-- /.container-fluid -->
       </div>
       <!-- /.content-wrapper -->
+      <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Você tem certeza que deseja remover?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">Essa ação não poderá ser desfeita</div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+              <a class="btn btn-primary" href="#">Remover</a>
+            </div>
+          </div>
+        </div>
+      </div>
 <?php include_once'footer.php' ?>

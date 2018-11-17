@@ -55,5 +55,11 @@ class Auxiliar_auxilia_Dentista{
 		}
 	}
 
+	public function viewAll(){
+		$stmt = $this->conn->prepare("SELECT * FROM auxiliar_auxilia_dentista");
+		$stmt->execute();
+		return $stmt;
+	}
+
 }
 ?>

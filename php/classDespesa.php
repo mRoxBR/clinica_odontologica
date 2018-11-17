@@ -31,6 +31,14 @@ class Despesa{
 		return $this->quantia;
 	}
 
+	public function getTipo(){
+			return $this->tipo;
+	}
+
+	public function getSituacao(){
+		return $this->situacao;
+	}
+
 	public function setId($id){
 		$this->id = $id;
 	}
@@ -55,12 +63,27 @@ class Despesa{
 		return 0;
 	}
 
+	public function setTipo($tipo){
+		if(strlen($tipo) <= 45){
+			$this->tipo = $tipo;
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+
+	public function setSituacao($situacao){
+		$this->situacao = $situacao;
+	}
+
 	public function insert(){
 		try{	
-			$stmt = $this->conn->prepare("INSERT INTO despesa(nome,data,quantia) VALUES(:nome, :data, :quantia)");
+			$stmt = $this->conn->prepare("INSERT INTO despesa(nome,data,quantia,tipo,situacao) VALUES(:nome, :data, :quantia, :tipo, :situacao)");
 			$stmt->bindParam(":nome", $this->nome);
 			$stmt->bindParam(":data", $this->data);
 			$stmt->bindParam(":quantia", $this->quantia);
+			$stmt->bindParam(":tipo", $this->tipo);
+			$stmt->bindParam(":situacao", $this->situacao);
 			$stmt->execute();
 			return 1;
 		}catch(PDOException $e){
@@ -71,11 +94,13 @@ class Despesa{
 
 	public function edit(){
 		try{
-			$stmt = $this->conn->prepare("UPDATE despesa SET nome = :nome, data = :data, quantia = :quantia WHERE id = :id");
+			$stmt = $this->conn->prepare("UPDATE despesa SET nome = :nome, data = :data, quantia = :quantia, tipo = :tipo, situacao = :situacao WHERE id = :id");
 			$stmt->bindParam(":id", $this->id);
 			$stmt->bindParam(":nome", $this->nome);
 			$stmt->bindParam(":data", $this->data);
 			$stmt->bindParam(":quantia", $this->quantia);
+			$stmt->bindParam(":tipo", $this->tipo);
+			$stmt->bindParam(":situacao", $this->situacao);
 			$stmt->execute();
 			return 1;
 		}catch(PDOException $e){

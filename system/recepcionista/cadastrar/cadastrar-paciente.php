@@ -53,16 +53,20 @@
         <div class="card-body">
           <form action="cadastrar-paciente.php" method="post">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Primeiro nome" required="required" autofocus="autofocus" name="nome">
+                <label>Primeiro nome</label>
+                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Sobrenome" required="required" name="sobrenome">
+                <label>Sobrenome</label>
+                <input type="text" class="form-control" required="required" name="sobrenome">
             </div>
             <div class="form-group">
-                <input type="date" class="form-control" placeholder="Data de nascimento" required="required" name="nascimento">
+                <label>Data de nascimento</label>
+                <input type="date" class="form-control" required="required" name="nascimento">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="CPF" maxlength="11" name="cpf">
+                <label>CPF</label>
+                <input type="text" class="form-control" maxlength="11" name="cpf">
             </div>
             <div class="form-group">
               <label>Plano Dentário</label><br>

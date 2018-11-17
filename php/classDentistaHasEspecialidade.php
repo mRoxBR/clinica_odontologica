@@ -55,6 +55,12 @@ class Dentista_has_Especialidade{
 		}
 	}
 
+	public function viewAll(){
+		$stmt = $this->conn->prepare("SELECT * FROM dentista_has_especialidade");
+		$stmt->execute();
+		return $stmt;
+	}
+
 }
 
 ?>

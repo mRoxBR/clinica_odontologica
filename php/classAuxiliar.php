@@ -5,6 +5,12 @@ require_once 'classFuncionario.php';
 class Auxiliar extends Funcionario{
 	private $funcionario_id;
 
+	public function __construct(){
+		$database = new Database();
+		$dbSet = $database->dbSet();
+		$this->conn = $dbSet;
+	}
+
 	public function getFuncionarioId(){
 		return $this->funcionario_id;
 	}
@@ -35,7 +41,38 @@ class Auxiliar extends Funcionario{
 			echo $e->getMessage();
 			return 0;
 		}
-	}	
+	}
+
+	public function viewAll(){
+		$stmt = $this->conn->prepare("SELECT * FROM auxiliar JOIN funcionario ON auxiliar.funcionario_id = funcionario.id");
+		$stmt->execute();
+		return $stmt;
+	}
+
+	public function viewAuxiliar(){
+		$stmt = $this->conn->prepare("SELECT * FROM auxiliar WHERE funcionario_id = :funcionario_id");
+		$stmt->bindParam(":funcionario_id", $this->funcionario_id);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+		return $resultado;
+	}
+
+	public function existeNomeCpf($nome, $cpf){
+		try{
+			$stmt = $this->conn->prepare("SELECT * FROM auxiliar, funcionario WHERE nome = :nome AND cpf = :cpf AND funcionario.id = auxiliar.funcionario_id");
+			$stmt->bindParam(":nome", $nome);
+			$stmt->bindParam(":cpf", $cpf);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(!empty($result)){
+				return $result->funcionario_id;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return null;
+		}
+	}
+
 }
 
 ?>
