@@ -1,45 +1,46 @@
 <?php 
 $flag = 0;
-session_start();
+  
+  session_start();
 
-if (isset($_SESSION)) {
+if(isset($_SESSION)){
   session_unset();
   session_destroy();
 }
 
 if(isset($_POST['login'])){
 
+  session_start();
+
   $nome_usuario = $_POST["nome_usuario"];
   $senha = $_POST["senha"];
-  $tipo  = $_POST["tipo"];
+  $tipo  = $_POST["tipo"]; 
 
-  if($tipo = "recepcionista"){
+  if($tipo == "recepcionista"){
     require_once "php/classRecepcionista.php";
     $recepcionista = new Recepcionista();
     $recepcionista->setNomeUsuario($nome_usuario);
     $recepcionista->setSenha($senha);
     $funcionario_id = $recepcionista->existe();
     if(!is_null($funcionario_id)){
-      session_start();
-      $_SESSION["funcionario_id"] = $funcionario_id;
+      $_SESSION["funcionario"] = $funcionario_id;
       header("Location: system/recepcionista/index.php");
     }else{
       $flag = 1;
     }
-  }/*elseif ($tipo = "administrador") {
+  }elseif($tipo == "administrador") {
     require_once "php/classAdministrador.php";
     $administrador = new Administrador();
     $administrador->setNomeUsuario($nome_usuario);
     $administrador->setSenha($senha);
     $funcionario_id = $administrador->existe();
     if(!is_null($funcionario_id)){
-      session_start();
-      $_SESSION["funcionario_id"] = $funcionario_id;
+      $_SESSION["funcionario"] = $funcionario_id;
       header("Location: system/administrador/index.php");
     }else{
       $flag = 1;
     }
-  }*/
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -88,8 +89,8 @@ if(isset($_POST['login'])){
                 <input type="password" class="form-control" placeholder="Senha" required="required" name="senha">
             </div>
             <div class="form-group">
-              <select id="select-login" name="tipo">
-                <option value="recepcionista">Recepcionista</option>
+              <select name="tipo">
+                <option value="recepcionista" checked="checked">Recepcionista</option>
                 <option value="administrador">Administrador</option>
               </select>
             </div>

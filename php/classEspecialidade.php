@@ -36,6 +36,19 @@ class Especialidade{
 		}
 	}	
 
+	public function edit($nome){
+		try{
+			$stmt = $this->conn->prepare("UPDATE especialidade SET nome = :nome WHERE nome = :nome_atual");
+			$stmt->bindParam(":nome", $nome);
+			$stmt->bindParam(":nome_atual", $this->nome);
+			$stmt->execute();
+			return 1;
+		}catch(PDOException $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
 	public function delete(){
 		try{
 			$stmt = $this->conn->prepare("DELETE FROM especialidade WHERE nome = :nome");
@@ -52,6 +65,14 @@ class Especialidade{
 		$stmt = $this->conn->prepare("SELECT * FROM especialidade");
 		$stmt->execute();
 		return $stmt; 
+	}
+
+	public function viewEspecialidade(){
+		$stmt = $this->conn->prepare("SELECT * FROM especialidade WHERE nome = :nome");
+		$stmt->bindParam(":nome", $this->nome);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+		return $resultado;
 	}
 
 }

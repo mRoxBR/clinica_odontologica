@@ -86,6 +86,14 @@ class PlanoDentario{
 		return $stmt;
 	}
 
+	public function viewPlanoDentario(){
+		$stmt = $this->conn->prepare("SELECT * FROM plano_dentario WHERE id = :id");
+		$stmt->bindParam(":id", $this->id);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+		return $resultado;
+	}
+
 }
 
 ?> 

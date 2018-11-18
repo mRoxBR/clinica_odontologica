@@ -61,6 +61,14 @@ class Dentista_has_Especialidade{
 		return $stmt;
 	}
 
+	public function viewDentistaHasEspecialidade(){
+		$stmt = $this->conn->prepare("SELECT * FROM dentista_has_especialidade WHERE dentista_id = :dentista_id AND especialidade_nome = :especialidade_nome");
+		$stmt->bindParam(":dentista_id", $this->dentista_id);
+		$stmt->bindParam(":especialidade_nome", $this->especialidade_nome);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+		return $resultado;
+	}
 }
 
 ?>

@@ -172,6 +172,19 @@ class Funcionario{
 		}
 	}
 
+	public function editNome(){
+		try{
+			$stmt = $this->conn->prepare("UPDATE funcionario SET nome = :nome WHERE id = :id");
+			$stmt->bindParam(":nome", $this->nome);
+			$stmt->bindParam(":id", $this->id);
+			$stmt->execute();
+			return 1;
+		}catch(PDOException $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
 	public function delete(){
 		try{
 			$stmt = $this->conn->prepare("DELETE FROM funcionario WHERE id = :id");

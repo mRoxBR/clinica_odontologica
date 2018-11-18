@@ -1,48 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php include_once"header.php" ?>
+<?php 
 
-  <head>
+$flag = 0;
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+if(isset($_POST['botao'])){ 
+  include_once "../../../php/classPaciente.php";
 
-    <title>Cadastro</title>
+  $nome = $_POST['nome'];
+  $sobrenome = $_POST['sobrenome'];
+  $nascimento = $_POST['nascimento'];
+  $cpf = $_POST['cpf'];
+  $plano_dentario = $_POST['plano_dentario'];
 
-    <!-- Bootstrap core CSS-->
-    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  $paciente = new Paciente();
 
-    <!-- Custom fonts for this template-->
-    <link href="../../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  $paciente->setNome($nome);
+  $paciente->setSobrenome($sobrenome);
+  $paciente->setNascimento($nascimento);
+  $paciente->setCpf($cpf);
+  $paciente->setPlanoDentarioId($plano_dentario);
+  if(!$paciente->validaCPF($cpf)) $flag = 1;
 
-    <!-- Custom styles for this template-->
-    <link href="../../../css/sb-admin.css" rel="stylesheet">
-
-    <link href="../../../css/style.css" rel="stylesheet">
-
-  </head>
-  <?php if(isset($_POST['botao'])){ 
-    include_once "../../../php/classPaciente.php";
-    
-    $nome = $_POST['nome'];
-    $sobrenome = $_POST['sobrenome'];
-    $nascimento = $_POST['nascimento'];
-    $cpf = $_POST['cpf'];
-    $plano_dentario = $_POST['plano_dentario'];
-
-    $paciente = new Paciente();
-    
-    $paciente->setNome($nome);
-    $paciente->setSobrenome($sobrenome);
-    $paciente->setNascimento($nascimento);
-    $paciente->setCpf($cpf);
-    $paciente->setPlanoDentarioId($plano_dentario);
+  if ($flag == 0) {
     $paciente->insert();
+    header("Location: ../index.php");
+  }
 
-    header("Location: ../pacientes.php");
-  }?>
+}?>
   <body class="bg-dark">
 
     <div class="container">
@@ -51,6 +35,43 @@
           Cadastro de Paciente
         </div>
         <div class="card-body">
+        <?php if($flag == 1){ ?>
+          <div class="alert alert-danger form-group" role="alert">
+            <b>O CPF informado não é válido</b>
+          </div>
+          <form action="cadastrar-paciente.php" method="post">
+            <div class="form-group">
+                <label>Primeiro nome</label>
+                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?=$nome?>">
+            </div>
+            <div class="form-group">
+                <label>Sobrenome</label>
+                <input type="text" class="form-control" required="required" name="sobrenome" value="<?=$sobrenome?>">
+            </div>
+            <div class="form-group">
+                <label>Data de nascimento</label>
+                <input type="date" class="form-control" required="required" name="nascimento" value="<?=$nascimento?>">
+            </div>
+            <div class="form-group">
+                <label>CPF</label>
+                <input type="text" class="form-control" maxlength="11" name="cpf" value="<?=$cpf?>">
+            </div>
+            <div class="form-group">
+              <label>Plano Dentário</label><br>
+              <select id="select-paciente" name="plano_dentario">
+                <?php 
+                include_once "../../../php/classPlanoDentario.php";
+                $planoDentario = new PlanoDentario();
+                $stmt = $planoDentario->viewAll();
+
+                while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+                <option value= <?= $row->id; ?>> <?= $row->nome; ?> </option>
+                <?php } ?>
+              </select>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
+          </form>
+        <?php }else{ ?>
           <form action="cadastrar-paciente.php" method="post">
             <div class="form-group">
                 <label>Primeiro nome</label>
@@ -77,12 +98,14 @@
                 $stmt = $planoDentario->viewAll();
 
                 while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
-                <option value= <?= $row->id; ?>> <?= $row->nome; ?> </option>
+                <?php $selected = ($row->nome=="Não")? "selected='selected'" : ""; ?>
+                <option value= <?= $row->id; ?> <?= $selected ?>> <?= $row->nome; ?> </option>
                 <?php } ?>
               </select>
             </div>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
           </form>
+        <?php } ?>
         </div>
       </div>
     </div>

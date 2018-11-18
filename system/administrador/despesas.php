@@ -7,12 +7,12 @@
           <div class="card mb-3">
 
             <div>
-              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar/cadastrar-especialidade.php'" name="especialidade">Cadastrar Especialidade</button>
+              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar/cadastrar-despesa.php'" name="cadastrar-despesa">Cadastrar Despesa</button>
             </div>
 
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Especialidades</div>
+              Despesas</div>
 
             <div class="card-body">
               <div class="table-responsive">
@@ -20,6 +20,10 @@
                   <thead>
                     <tr align="center">
                       <th>Nome</th>
+                      <th>Data</th>
+                      <th>Valor</th>
+                      <th>Tipo</th>
+                      <th>Situação</th>
                       <th></th>
                       <th></th>
                     </tr>
@@ -27,20 +31,29 @@
                   <tfoot>
                     <tr align="center">
                       <th>Nome</th>
+                      <th>Data</th>
+                      <th>Valor</th>
+                      <th>Tipo</th>
+                      <th>Situação</th>
                       <th></th>
                       <th></th>
                     </tr>
                   </tfoot>
                   <tbody>
                       <?php 
-                      include_once '../../php/classEspecialidade.php';
+                      include_once '/../../php/classDespesa.php';
 
-                      $e = new Especialidade();
-                      $stmt = $e->viewAll();
+                      $d = new Despesa();
+
+                      $stmt = $d->viewAll();
 
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
+                        <td> <?= $row->data; ?> </td>
+                        <td> <?= $row->valor; ?> </td>
+                        <td> <?= $row->tipo; ?> </td>
+                        <td> <?= $row->situacao; ?> </td>
                         <td><a href="#" class="btn btn-primary">Alterar</a></td>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>
                       </tr>

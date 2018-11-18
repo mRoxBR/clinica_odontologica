@@ -26,7 +26,7 @@ class Dentista extends Funcionario{
     }
 
 	public function setCro($cro){
-		if(strlen($cro) <= 7){
+		if(strlen($cro) <= 5){
 			$this->cro = $cro;
 			return 1;
 		}
@@ -85,11 +85,11 @@ class Dentista extends Funcionario{
 		return $resultado;
 	}
 
-	public function existeNomeCpf($nome, $cpf){
+	public function existeNomeCro($nome, $cro){
 		try{
-			$stmt = $this->conn->prepare("SELECT * FROM dentista, funcionario WHERE nome = :nome AND cpf = :cpf AND funcionario.id = dentista.funcionario_id");
+			$stmt = $this->conn->prepare("SELECT * FROM dentista, funcionario WHERE nome = :nome AND cro = :cro AND funcionario.id = dentista.funcionario_id");
 			$stmt->bindParam(":nome", $nome);
-			$stmt->bindParam(":cpf", $cpf);
+			$stmt->bindParam(":cro", $cro);
 			$stmt->execute();
 			$result = $stmt->fetch(PDO::FETCH_OBJ);
 			if(!empty($result)){

@@ -3,25 +3,20 @@
 
 $flag = 0;
 
-if(!isset($_POST['nome_dentista']))$nome_dentista = "";
-if(!isset($_POST['cro_dentista']))$cro_dentista = "";
-if(!isset($_POST['nome_paciente']))$nome_paciente = "";
-if(!isset($_POST['cpf_paciente']))$cpf_paciente = "";
-if(!isset($_POST['valor']))$valor = "";
-if(!isset($_POST['data']))$data = "";
-if(!isset($_POST['horario']))$horario = "";
-if(!isset($_POST['situacao']))$situacao = "";
-if(!isset($_POST['operacao']))$operacao = "";
+include_once "../../../php/classDentistaConsultaPaciente.php";
+include_once "../../../php/classPaciente.php";
+include_once "../../../php/classDentista.php";
+
+$p = new Paciente();
+$d = new Dentista();
+$f = new Funcionario();
+$dcp = new Dentista_consulta_Paciente();
 
 if(isset($_POST['botao'])){ 
-    include_once "../../../php/classPaciente.php";
-    include_once "../../../php/classDentista.php";
-    include_once "../../../php/classDentistaConsultaPaciente.php";
 
-    $p = new Paciente();
-    $d = new Dentista();
-    $dcp = new Dentista_consulta_Paciente();
-
+    $id = $_POST['id'];
+    $paciente_id = $_POST['paciente_id'];
+    $dentista_id = $_POST['dentista_id'];
     $nome_dentista = $_POST['nome_dentista'];
     $cro_dentista = $_POST['cro_dentista'];
     $nome_paciente = $_POST['nome_paciente'];
@@ -32,51 +27,75 @@ if(isset($_POST['botao'])){
     $situacao = $_POST['situacao'];
     $operacao = $_POST['operacao'];
 
+    if(!$p->validaCPF($cpf_paciente)) $flag = 1;
 
-    $p->setNome($nome_paciente);
-    $p->setCpf($cpf_paciente);
-    
-    
-    if(!($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista))){
-        $flag = 1;
-    } 
-    if(!($id_paciente = $p->existeNomeCpf())){
-        $flag += 2;
-    }
     if($flag == 0){
-        $dcp->setDentistaId($id_dentista);
-        $dcp->setPacienteId($id_paciente);
+        $p->setNome($nome_paciente);
+        $p->setCpf($cpf_paciente);
+        $p->setId($paciente_id);
+        $p->editNomeCpf();
+        
+        $d->setCro($cro_dentista);
+        $d->setFuncionarioId($dentista_id);
+        $d->edit();
+
+        $f->setNome($nome_dentista);
+        $f->setId($dentista_id);
+        $f->editNome();
+
+        $dcp->setId($id);
+        $dcp->setDentistaId($dentista_id);
+        $dcp->setPacienteId($paciente_id);
         $dcp->setValor($valor);
         $dcp->setData($data);
         $dcp->setHorario($horario);
         $dcp->setSituacao($situacao);
         $dcp->setOperacao($operacao);
-        $dcp->insert();
+        $dcp->edit();
         header("Location: ../consultas.php");
     }
-} ?>
+}else{
+    $id = $_GET['id'];
+
+    $dcp->setId($id);
+    $consulta = $dcp->viewConsulta();
+    $valor = $consulta->valor;
+    $data = $consulta->data;
+    $horario = $consulta->horario;
+    $situacao = $consulta->situacao;
+    $operacao = $consulta->operacao;
+
+    $dentista_id = $consulta->dentista_id;
+    $d->setFuncionarioId($dentista_id);
+    $dentista = $d->viewDentista();
+    $cro_dentista = $dentista->cro;
+
+    $paciente_id = $consulta->paciente_id;
+    $p->setId($paciente_id);
+    $paciente = $p->viewPaciente();
+    $nome_paciente = $paciente->nome;
+    $cpf_paciente = $paciente->cpf;
+
+
+    $f->setId($dentista_id);
+    $funcionario = $f->viewFuncionario();
+    $nome_dentista = $funcionario->nome;
+}
+?>
   <body class="bg-dark">
 
     <div class="container">
       <div class="card card-register mx-auto mt-5">
         <div class="card-header">
-          Cadastro de Consulta
+          Atualização de Consulta
         </div>
         <div class="card-body">
         <?php if($flag == 1){ ?>
           <div class="alert alert-danger form-group" role="alert">
-            <b>O nome e o CRO do dentista não estão cadastrados ou não coincidem</b>
-          </div>
-        <?php } elseif($flag == 2){ ?>
-          <div class="alert alert-danger form-group" role="alert">
-            <b>O nome e o CPF do paciente não estão cadastrados ou não coincidem</b>
-          </div>
-        <?php } elseif($flag == 3){ ?>
-          <div class="alert alert-danger form-group" role="alert">
-            <b>Os dados informados não estão cadastrados ou não coincidem</b>
+            <b>O CPF informado não é válido</b>
           </div>
         <?php } ?>
-          <form action="cadastrar-consulta.php" method="post">
+          <form action="editar-consulta.php" method="post">
             <div class="form-group">
                 <label>Operação</label>
                 <input type="text" class="form-control" required="required" autofocus="autofocus" name="operacao" value="<?= $operacao ?>">
@@ -95,7 +114,7 @@ if(isset($_POST['botao'])){
             </div>
             <div class="form-group">
                 <label>CRO do Dentista</label>
-                <input type="text" class="form-control" maxlength="5" name="cro_dentista" value="<?= $cro_dentista ?>">
+                <input type="text" class="form-control" maxlength="5" name="cro_dentista" value="<?= $cro_dentista  ?>">
             </div>
             <div class="form-group">
                 <label>Data</label>
@@ -112,11 +131,18 @@ if(isset($_POST['botao'])){
             <div class="form-group">
                 <label>Situação</label><br>
                 <select name="situacao">
-                    <option value="Pago">Pago</option>
-                    <option value="Não Pago">Não Pago</option>
+                    <?php 
+                        $pago = ($situacao == "Pago")? "selected='selected'" : "";
+                        $nao_pago = ($situacao == "Não Pago")? "selected='selected'" : "";
+                    ?>
+                    <option value="Pago" <?=$pago?>>Pago</option>
+                    <option value="Não Pago" <?=$nao_pago?>>Não Pago</option>
                 </select>
             </div>
-            <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
+            <input type="hidden" name="dentista_id" value="<?=$dentista_id?>">
+            <input type="hidden" name="paciente_id" value="<?=$paciente_id?>">
+            <input type="hidden" name="id" value="<?=$id?>">
+            <button class="btn btn-primary btn-block" type="submit" name="botao">Atualizar</button>
           </form>
         </div>
       </div>

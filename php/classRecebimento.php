@@ -6,7 +6,7 @@ require_once 'classRecepcionista.php';
 class Recebimento{
 	
 	private $id;
-	private $quantia;
+	private $valor;
 	private $data;
 	private $recepcionista_id;
 	private $paciente_id;
@@ -22,8 +22,8 @@ class Recebimento{
 		return $this->id;
 	}
 
-	public function getQuantia(){
-		return $this->quantia;
+	public function getValor(){
+		return $this->valor;
 	}
 
 	public function getData(){
@@ -46,9 +46,9 @@ class Recebimento{
         $this->id = $id;
     }
 
-	public function setQuantia($quantia){
-     	if($quantia > 0){   
-        	$this->quantia = $quantia;
+	public function setValor($valor){
+     	if($valor > 0){   
+        	$this->valor = $valor;
     		return 1;
     	}
     	return 0;
@@ -76,8 +76,8 @@ class Recebimento{
 
 	public function insert(){
 		try{	
-			$stmt = $this->conn->prepare("INSERT INTO recebimento(quantia, data, modo_pagamento, recepcionista_id, paciente_id) VALUES(:quantia, :data, :modo_pagamento, :recepcionista_id, :paciente_id)");
-			$stmt->bindParam(":quantia", $this->quantia);
+			$stmt = $this->conn->prepare("INSERT INTO recebimento(valor, data, modo_pagamento, recepcionista_id, paciente_id) VALUES(:valor, :data, :modo_pagamento, :recepcionista_id, :paciente_id)");
+			$stmt->bindParam(":valor", $this->valor);
 			$stmt->bindParam(":data", $this->data);
 			$stmt->bindParam(":modo_pagamento", $this->modo_pagamento);
 			$stmt->bindParam(":recepcionista_id", $this->recepcionista_id);
@@ -92,9 +92,9 @@ class Recebimento{
 
 	public function edit(){
 		try{
-			$stmt = $this->conn->prepare("UPDATE recebimento SET quantia = :quantia, data = :data, modo_pagamento = :modo_pagamento, recepcionista_id = :recepcionista_id, paciente_id = :paciente_id WHERE id = :id");
+			$stmt = $this->conn->prepare("UPDATE recebimento SET valor = :valor, data = :data, modo_pagamento = :modo_pagamento, recepcionista_id = :recepcionista_id, paciente_id = :paciente_id WHERE id = :id");
 			$stmt->bindParam(":id", $this->id);
-			$stmt->bindParam(":quantia", $this->quantia);
+			$stmt->bindParam(":valor", $this->valor);
 			$stmt->bindParam(":data", $this->data);
 			$stmt->bindParam(":modo_pagamento", $this->modo_pagamento);
 			$stmt->bindParam(":recepcionista_id", $this->recepcionista_id);
@@ -125,6 +125,21 @@ class Recebimento{
 		return $stmt;
 	}
 
+	public function viewPlanoDentario(){
+		$stmt = $this->conn->prepare("SELECT * FROM plano_dentario WHERE id = :id");
+		$stmt->bindParam(":id", $this->id);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+		return $resultado;
+	}
+
+	public function viewRecebimento(){
+		$stmt = $this->conn->prepare("SELECT * FROM recebimento WHERE id = :id");
+		$stmt->bindParam(":id", $this->id);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+		return $resultado;
+	}
 }
 
 ?>

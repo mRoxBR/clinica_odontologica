@@ -1,4 +1,18 @@
 <?php include_once'header.php' ?>
+<?php
+include_once '../../php/classEspecialidade.php';
+
+if(isset($_POST["botao-remover"])){
+
+  $nome = $_POST["nome"];
+
+  include_once "../../php/classEspecialidade.php";
+  $e = new Especialidade();
+  $e->setNome($nome);
+  $e->delete();
+}
+
+?>
       <div id="content-wrapper">
 
         <div class="container-fluid">
@@ -7,12 +21,12 @@
           <div class="card mb-3">
 
             <div>
-              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar/cadastrar-paciente.php'" name="cadastrar-paciente">Cadastrar Paciente</button>
+              <button class="btn btn-primary btn-block" onclick="window.location.href='cadastrar/cadastrar-especialidade.php'" name="especialidade">Cadastrar Especialidade</button>
             </div>
 
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Pacientes</div>
+              Especialidades</div>
 
             <div class="card-body">
               <div class="table-responsive">
@@ -20,10 +34,6 @@
                   <thead>
                     <tr align="center">
                       <th>Nome</th>
-                      <th>Sobrenome</th>
-                      <th>Data de nascimento</th>
-                      <th>CPF</th>
-                      <th>Plano Dentário</th>
                       <th></th>
                       <th></th>
                     </tr>
@@ -31,30 +41,20 @@
                   <tfoot>
                     <tr align="center">
                       <th>Nome</th>
-                      <th>Sobrenome</th>
-                      <th>Data de nascimento</th>
-                      <th>CPF</th>
-                      <th>Plano Dentário</th>
                       <th></th>
                       <th></th>
                     </tr>
                   </tfoot>
                   <tbody>
                       <?php 
-                      include_once '/../../php/classPaciente.php';
-
-                      $p = new Paciente();
-
-                      $stmt = $p->viewAll();
+                      $e = new Especialidade();
+                      $stmt = $e->viewAll();
 
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->sobrenome; ?> </td>
-                        <td> <?= $row->nascimento; ?> </td>
-                        <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
-                        <td> <?= empty($row->plano_dentario_id)? "" : $row->plano_dentario_id; ?> </td>
-                        <td><a href="#" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="editar/editar-especialidade?nome=<?=$row->nome?>" class="btn btn-primary">Alterar</a></td>
+                        <?php $nome = $row->nome ?>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>
                       </tr>
                       <?php } ?>
@@ -79,7 +79,10 @@
             <div class="modal-body">Essa ação não poderá ser desfeita</div>
             <div class="modal-footer">
               <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-              <a class="btn btn-primary" href="#">Remover</a>
+            <form action="especialidades.php" method="post">
+              <input type="hidden" name="nome" value="<?=$nome?>">
+              <button class="btn btn-primary" name="botao-remover">Remover</button>
+            </form>
             </div>
           </div>
         </div>

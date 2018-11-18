@@ -4,6 +4,7 @@ require_once 'database.php';
 
 class Dentista_consulta_Paciente{
 
+	private $id;
 	private $dentista_id;
 	private $paciente_id;
 	private $data;
@@ -16,6 +17,10 @@ class Dentista_consulta_Paciente{
 		$database = new Database();
 		$dbSet = $database->dbSet();
 		$this->conn = $dbSet;
+	}
+
+	public function getId(){
+		return $this->id;
 	}
 
 	public function getDentistaId(){
@@ -45,6 +50,10 @@ class Dentista_consulta_Paciente{
 	public function getOperacao(){
 		return $this->operacao;
 	}
+
+	public function setId($id){
+        $this->id = $id;
+    }
 
 	public function setDentistaId($dentista_id){
         $this->dentista_id = $dentista_id;
@@ -102,16 +111,13 @@ class Dentista_consulta_Paciente{
 
 	public function edit(){
 		try{
-			$stmt = $this->conn->prepare("UPDATE dentista_consulta_paciente SET paciente_id = :paciente_id, dentista_id = :dentista_id, data = :data, horario = :horario, valor = :valor, situacao = :situacao, operacao = :operacao WHERE dentista_id = :dentista_id AND paciente_id = :paciente_id");
-			$stmt->bindParam(":paciente_id", $this->paciente_id);
-			$stmt->bindParam(":dentista_id", $this->dentista_id);
+			$stmt = $this->conn->prepare("UPDATE dentista_consulta_paciente SET data = :data, horario = :horario, valor = :valor, situacao = :situacao, operacao = :operacao WHERE id = :id");
 			$stmt->bindParam(":data", $this->data);
 			$stmt->bindParam(":horario", $this->horario);
 			$stmt->bindParam(":valor", $this->valor);
 			$stmt->bindParam(":situacao", $this->situacao);
 			$stmt->bindParam(":operacao", $this->operacao);
-			$stmt->bindParam(":dentista_id", $this->dentista_id);
-			$stmt->bindParam(":paciente_id", $this->paciente_id);
+			$stmt->bindParam(":id", $this->id);
 			$stmt->execute();
 			return 1;
 		}catch(PDOException $e){
@@ -122,9 +128,8 @@ class Dentista_consulta_Paciente{
 
 	public function delete(){
 		try{
-			$stmt = $this->conn->prepare("DELETE FROM dentista_consulta_paciente WHERE dentista_id = :dentista_id AND paciente_id = :paciente_id");
-			$stmt->bindParam(":dentista_id", $this->dentista_id);
-			$stmt->bindParam(":paciente_id", $this->paciente_id);
+			$stmt = $this->conn->prepare("DELETE FROM dentista_consulta_paciente WHERE id = :id");
+			$stmt->bindParam(":id", $this->id);
 			$stmt->execute();
 			return 1;
 		}catch(PDOExcecption $e){
@@ -137,6 +142,14 @@ class Dentista_consulta_Paciente{
 		$stmt = $this->conn->prepare("SELECT * FROM dentista_consulta_paciente");
 		$stmt->execute();
 		return $stmt;
+	}
+
+	public function viewConsulta(){
+		$stmt = $this->conn->prepare("SELECT * FROM dentista_consulta_paciente WHERE id = :id");
+		$stmt->bindParam(":id", $this->id);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+		return $resultado;
 	}
 
 }

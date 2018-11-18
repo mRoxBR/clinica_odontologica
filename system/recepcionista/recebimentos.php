@@ -19,7 +19,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr align="center">
-                      <th>Quantia</th>
+                      <th>Valor</th>
                       <th>Data</th>
                       <th>Modo de Pagamento</th>
                       <th>Recepcionista</th>
@@ -30,7 +30,7 @@
                   </thead>
                   <tfoot>
                     <tr align="center">
-                      <th>Quantia</th>
+                      <th>Valor</th>
                       <th>Data</th>
                       <th>Modo de Pagamento</th>
                       <th>Recepcionista</th>
@@ -49,10 +49,10 @@
 
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
                       <tr align="center">
-                        <td> <?= $row->quantia; ?> </td>
+                        <td> <?= $row->valor; ?> </td>
                         <td> <?= $row->data; ?> </td>
                         <td> <?= $row->modo_pagamento ?> </td>
-                        <td> <?= $row->recepcionista_id; ?> </td>
+                        <td> <?= empty($row->recepcionista_id)? "" : $row->recepcionista_id; ?> </td>
                         <td> <?= empty($row->paciente_id)? "" : $row->paciente_id; ?> </td>
                         <td><a href="#" class="btn btn-primary">Alterar</a></td>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>

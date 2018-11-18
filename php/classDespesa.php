@@ -127,6 +127,14 @@ class Despesa{
 		return $stmt;
 	}
 
+	public function viewDespesa(){
+		$stmt = $this->conn->prepare("SELECT * FROM despesa WHERE id = :id");
+		$stmt->bindParam(":id", $this->id);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+		return $resultado;
+	}
+
 }
 
 ?>

@@ -61,5 +61,13 @@ class Auxiliar_auxilia_Dentista{
 		return $stmt;
 	}
 
+	public function viewAuxiliarAuxiliaDentista(){
+		$stmt = $this->conn->prepare("SELECT * FROM auxiliar_auxilia_dentista WHERE id = :id");
+		$stmt->bindParam(":id", $this->id);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+		return $resultado;
+	}
+
 }
 ?>

@@ -1,48 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php include_once "header.php" ?>
+<?php if(isset($_POST['botao'])){ 
+include_once "../../../php/classDespesa.php";
 
-  <head>
+$nome = $_POST['nome'];
+$data = $_POST['data'];
+$valor = $_POST['valor'];
+$tipo = $_POST['tipo'];
+$situacao = $_POST['situacao'];
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+$d = new Despesa();
 
-    <title>Cadastro</title>
+$d->setNome($nome);
+$d->setData($data);
+$d->setValor($valor);
+$d->setTipo($tipo);
+$d->setSituacao($situacao);
+$d->insert();
 
-    <!-- Bootstrap core CSS-->
-    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom fonts for this template-->
-    <link href="../../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
-    <!-- Custom styles for this template-->
-    <link href="../../../css/sb-admin.css" rel="stylesheet">
-
-    <link href="../../../css/style.css" rel="stylesheet">
-
-  </head>
-  <?php if(isset($_POST['botao'])){ 
-    include_once "../../../php/classDespesa.php";
-    
-    $nome = $_POST['nome'];
-    $data = $_POST['data'];
-    $valor = $_POST['valor'];
-    $tipo = $_POST['tipo'];
-    $situacao = $_POST['situacao'];
-
-    $d = new Despesa();
-    
-    $d->setNome($nome);
-    $d->setData($data);
-    $d->seValor($valor);
-    $d->setTipo($tipo);
-    $d->setSituacao($situacao);
-    $d->insert();
-
-    header("Location: ../index.php");
-  }?>
+header("Location: ../despesas.php");
+}?>
   <body class="bg-dark">
 
     <div class="container">

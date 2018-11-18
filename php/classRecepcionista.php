@@ -99,11 +99,16 @@ class Recepcionista extends Funcionario{
 
 	public function existeNomeCpf($nome, $cpf){
 		try{
-			$stmt = $this->conn->prepare("SELECT * FROM recepcionista, funcionario WHERE nome = :nome AND cpf = :cpf AND funcionario.id = recepcionista.funcionario_id");
-			$stmt->bindParam(":nome", $nome);
-			$stmt->bindParam(":cpf", $cpf);
-			$stmt->execute();
-			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(empty($cpf)){
+				$stmt = $this->conn->prepare("SELECT * FROM recepcionista, funcionario WHERE nome = :nome AND funcionario.id = recepcionista.funcionario_id");
+			}else{
+				$stmt = $this->conn->prepare("SELECT * FROM recepcionista, funcionario WHERE nome = :nome AND cpf = :cpf AND funcionario.id = recepcionista.funcionario_id");
+				$stmt->bindParam(":cpf", $cpf);
+			}
+				$stmt->bindParam(":nome", $nome);
+				$stmt->execute();
+				$result = $stmt->fetch(PDO::FETCH_OBJ);
+
 			if(!empty($result)){
 				return $result->funcionario_id;
 			}
