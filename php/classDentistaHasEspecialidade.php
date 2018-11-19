@@ -42,6 +42,21 @@ class Dentista_has_Especialidade{
 		}
 	}
 
+	public function edit($dentista_id, $especialidade_nome){
+		try{
+			$stmt = $this->conn->prepare("UPDATE especialidade SET especialidade_nome = :especialidade_nome, dentista_id = :dentista_id WHERE especialidade_nome = :especialidade_atual AND dentista_id = :dentista_id_atual");
+			$stmt->bindParam(":especialidade_nome", $especialidade_nome);
+			$stmt->bindParam(":especialidade_atual", $this->especialidade_nome);
+			$stmt->bindParam(":dentista_id", $dentista_id);
+			$stmt->bindParam(":dentista_id_atual", $this->dentista_id);
+			$stmt->execute();
+			return 1;
+		}catch(PDOException $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
 	public function delete(){
 		try{
 			$stmt = $this->conn->prepare("DELETE FROM dentista_has_especialidade WHERE dentista_id = :dentista_id AND especialidade_nome = :especialidade_nome");

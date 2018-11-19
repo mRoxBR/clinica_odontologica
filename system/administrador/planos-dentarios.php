@@ -1,4 +1,18 @@
 <?php include_once'header.php' ?>
+<?php
+include_once '../../php/classPlanoDentario.php';
+$p = new PlanoDentario();
+
+if(isset($_POST['botao-remover'])){
+
+$id = $_POST['id'];
+
+$p->setId($id);
+$p->delete();
+
+}
+
+?>
       <div id="content-wrapper">
 
         <div class="container-fluid">
@@ -35,9 +49,6 @@
                   </tfoot>
                   <tbody>
                       <?php 
-                      include_once '../../php/classPlanoDentario.php';
-
-                      $p = new PlanoDentario();
 
                       $stmt = $p->viewAll();
 
@@ -46,6 +57,7 @@
                         <td> <?= $row->nome; ?> </td>
                         <td> <?= $row->desconto; ?> </td>
                         <td><a href="editar/editar-plano-dentario.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
+                        <?php $id = $row->id ?>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>
                       </tr>
                       <?php } ?>
@@ -70,7 +82,10 @@
             <div class="modal-body">Essa ação não poderá ser desfeita</div>
             <div class="modal-footer">
               <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-              <a class="btn btn-primary" href="#">Remover</a>
+              <form action="planos-dentarios.php" method="post">
+                <input type="hidden" name="id" value="<?=$id?>">
+                <button class="btn btn-primary" href="#" name="botao-remover">Remover</button>
+              </form>
             </div>
           </div>
         </div>

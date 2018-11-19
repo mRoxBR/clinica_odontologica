@@ -70,8 +70,8 @@ class PlanoDentario{
 
 	public function delete(){
 		try{
-			$stmt = $this->conn->prepare("DELETE FROM plano_dentario WHERE funcionario_id = :funcionario_id");
-			$stmt->bindParam(":funcionario_id", $this->funcionario_id);
+			$stmt = $this->conn->prepare("DELETE FROM plano_dentario WHERE id = :id");
+			$stmt->bindParam(":id", $this->id);
 			$stmt->execute();
 			return 1;
 		}catch(PDOExcecption $e){

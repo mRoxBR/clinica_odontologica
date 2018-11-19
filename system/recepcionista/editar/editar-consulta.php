@@ -76,7 +76,6 @@ if(isset($_POST['botao'])){
     $nome_paciente = $paciente->nome;
     $cpf_paciente = $paciente->cpf;
 
-
     $f->setId($dentista_id);
     $funcionario = $f->viewFuncionario();
     $nome_dentista = $funcionario->nome;

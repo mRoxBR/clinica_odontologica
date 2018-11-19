@@ -1,5 +1,6 @@
 <?php include_once "header.php" ?>
-<?php if(isset($_POST['botao'])){ 
+<?php 
+if(isset($_POST['botao'])){ 
 include_once "../../../php/classDespesa.php";
 
 $nome = $_POST['nome'];
@@ -18,7 +19,8 @@ $d->setSituacao($situacao);
 $d->insert();
 
 header("Location: ../despesas.php");
-}?>
+}
+?>
   <body class="bg-dark">
 
     <div class="container">

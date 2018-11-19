@@ -1,4 +1,17 @@
 <?php include_once'header.php' ?>
+<?php
+include_once '/../../php/classDespesa.php';
+$d = new Despesa();
+
+if(isset($_POST['botao-remover'])){
+
+$id = $_POST['id'];
+
+$d->setId($id);
+$d->delete();
+
+}
+?>
       <div id="content-wrapper">
 
         <div class="container-fluid">
@@ -41,9 +54,6 @@
                   </tfoot>
                   <tbody>
                       <?php 
-                      include_once '/../../php/classDespesa.php';
-
-                      $d = new Despesa();
 
                       $stmt = $d->viewAll();
 
@@ -54,7 +64,8 @@
                         <td> <?= $row->valor; ?> </td>
                         <td> <?= $row->tipo; ?> </td>
                         <td> <?= $row->situacao; ?> </td>
-                        <td><a href="#" class="btn btn-primary">Alterar</a></td>
+                        <td><a href="editar/editar-despesa.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
+                        <?php $id = $row->id; ?>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>
                       </tr>
                       <?php } ?>
@@ -79,7 +90,10 @@
             <div class="modal-body">Essa ação não poderá ser desfeita</div>
             <div class="modal-footer">
               <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-              <a class="btn btn-primary" href="#">Remover</a>
+              <form action="despesas.php" method="post">
+                <input type="hidden" name="id" value="<?=$id?>">
+                <button class="btn btn-primary" href="#" name="botao-remover">Remover</button>
+              </form>
             </div>
           </div>
         </div>

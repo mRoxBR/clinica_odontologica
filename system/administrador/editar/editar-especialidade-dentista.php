@@ -1,36 +1,55 @@
 <?php include_once"header.php" ?>
 <?php
 
+include_once "../../../php/classDentista.php";
+include_once "../../../php/classEspecialidade.php";
+include_once "../../../php/classDentistaHasEspecialidade.php";
+
+$f = new funcionario();
+$d = new Dentista();
+$e = new Especialidade();
+$dhe = new Dentista_has_Especialidade();
+
 $flag = 0;
 
-if(!isset($_POST['nome_dentista']))$nome_dentista = "";
-if(!isset($_POST['cro_dentista']))$cro_dentista = "";
-
 if(isset($_POST['botao'])){ 
-    include_once "../../../php/classDentista.php";
-    include_once "../../../php/classEspecialidade.php";
-    include_once "../../../php/classDentistaHasEspecialidade.php";
 
-    $d = new Dentista();
-    $e = new Especialidade();
-    $dhe = new Dentista_has_Especialidade();
-
+    $dentista_id = $_POST['dentista_id'];
+    $especialidade_atual = $_POST['especialidade_atual'];
     $nome_dentista = $_POST['nome_dentista'];
     $cro_dentista = $_POST['cro_dentista'];
     $especialidade = $_POST['especialidade'];
 
-    if($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista)){
-        $dhe->setDentistaId($id_dentista);
-        $dhe->setEspecialidadeNome($especialidade);
-        $dhe->insert();
+    $d->setFuncionarioId($dentista_id);
+    $d->setCro($cro_dentista);
+    var_dump($d->edit());
 
-        header("Location: ../especialidades-dentistas.php");
-    }else{
-        $flag = 1;
-    }
+    $f->setNome($nome_dentista);
+    $f->setId($dentista_id);
+    var_dump($f->editNome());
+
+    $dhe->setDentistaId($dentista_id);
+    $dhe->setEspecialidadeNome($especialidade_atual);
+    var_dump($dhe->edit($dentista_id, $especialidade));
+
+    //header("Location: ../especialidades-dentistas.php");
+
 }else{
     $dentista_id = $_GET['dentista_id'];
     $especialidade_nome = $_GET['especialidade_nome'];
+
+    $dhe->setDentistaId($dentista_id);
+    $dhe->setEspecialidadeNome($especialidade_nome);
+    $esp_den = $dhe->viewDentistaHasEspecialidade();
+
+    $dentista_id = $esp_den->dentista_id;
+    $d->setFuncionarioId($dentista_id);
+    $dentista = $d->viewDentista();
+    $cro_dentista = $dentista->cro;
+
+    $f->setId($dentista_id);
+    $funcionario = $f->viewFuncionario();
+    $nome_dentista = $funcionario->nome;
 }
 ?>
   <body class="bg-dark">
@@ -38,15 +57,10 @@ if(isset($_POST['botao'])){
     <div class="container">
       <div class="card card-register mx-auto mt-5">
         <div class="card-header">
-          Cadastro de Especialidade para Dentista
+          Atualização de Especialidade para Dentista
         </div>
         <div class="card-body">
-        <?php if($flag == 1){ ?>
-          <div class="alert alert-danger form-group" role="alert">
-            <b>O nome e o CRO informados não estão cadastrados ou não coincidem</b>
-          </div>
-        <?php } ?>
-          <form action="cadastrar-especialidade-dentista.php" method="post">
+          <form action="editar-especialidade-dentista.php" method="post">
             <div class="form-group">
                 <label>Nome do Dentista</label>
                 <input type="text" class="form-control" required="required" name="nome_dentista" value="<?= $nome_dentista ?>">
@@ -64,11 +78,14 @@ if(isset($_POST['botao'])){
                 $stmt = $e->viewAll();
 
                 while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
-                <option value= <?= $row->nome; ?>> <?= $row->nome; ?> </option>
+                <?php $selected  = ($row->nome == $especialidade_nome)? "selected='selected'" : "" ?>
+                <option value= "<?= $row->nome; ?>"<?=$selected?>> <?= $row->nome; ?> </option>
                 <?php } ?>
                 </select>
             </div>
-            <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
+            <input type="hidden" name="dentista_id" value="<?=$dentista_id?>">
+            <input type="hidden" name="especialidade_atual" value="<?=$especialidade_nome?>">
+            <button class="btn btn-primary btn-block" type="submit" name="botao">Atualizar</button>
           </form>
         </div>
       </div>
