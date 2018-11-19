@@ -54,8 +54,7 @@ if(isset($_POST["botao-remover"])){
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
                         <td><a href="editar/editar-especialidade?nome=<?=$row->nome?>" class="btn btn-primary">Alterar</a></td>
-                        <?php $nome = $row->nome ?>
-                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>
+                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->nome?>">Remover</a></td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -67,11 +66,16 @@ if(isset($_POST["botao-remover"])){
         <!-- /.container-fluid -->
       </div>
       <!-- /.content-wrapper -->
-      <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <?php
+
+      $stmt = $e->viewAll();
+
+      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+      <div class="modal fade" id="removeModal<?=$row->nome?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Você tem certeza que deseja remover?</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Você tem certeza que deseja remover a especialidade <?= $row->nome ?>?</h5>
               <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
               </button>
@@ -80,11 +84,11 @@ if(isset($_POST["botao-remover"])){
             <div class="modal-footer">
               <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
             <form action="especialidades.php" method="post">
-              <input type="hidden" name="nome" value="<?=$nome?>">
+              <input type="hidden" name="nome" value="<?= $row->nome ?>">
               <button class="btn btn-primary" name="botao-remover">Remover</button>
             </form>
             </div>
           </div>
         </div>
       </div>
-<?php include_once'footer.php' ?>
+<?php } include_once'footer.php' ?>

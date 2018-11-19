@@ -14,25 +14,27 @@ $flag = 0;
 
 if(isset($_POST['botao'])){ 
 
-    $dentista_id = $_POST['dentista_id'];
+    $dentista_id_atual = $_POST['dentista_id_atual'];
     $especialidade_atual = $_POST['especialidade_atual'];
     $nome_dentista = $_POST['nome_dentista'];
     $cro_dentista = $_POST['cro_dentista'];
-    $especialidade = $_POST['especialidade'];
+    $nova_especialidade = $_POST['nova_especialidade'];
 
-    $d->setFuncionarioId($dentista_id);
+    if(!$dhe->existeDentista()) $flag = 1;
+    if(!$dhe->existeEspecialidade()) $flag +=2;
+
+    if($flag == 0){
+
+    $d->setNome($nome_dentista);
     $d->setCro($cro_dentista);
-    var_dump($d->edit());
-
-    $f->setNome($nome_dentista);
-    $f->setId($dentista_id);
-    var_dump($f->editNome());
+    $dentista_id_novo = $d->existeNomeCro();
 
     $dhe->setDentistaId($dentista_id);
     $dhe->setEspecialidadeNome($especialidade_atual);
-    var_dump($dhe->edit($dentista_id, $especialidade));
+    var_dump($dhe->edit($dentista_id_novo, $nova_especialidade));
 
     //header("Location: ../especialidades-dentistas.php");
+    }
 
 }else{
     $dentista_id = $_GET['dentista_id'];
@@ -60,6 +62,19 @@ if(isset($_POST['botao'])){
           Atualização de Especialidade para Dentista
         </div>
         <div class="card-body">
+        <?php if($flag == 1){ ?>
+          <div class="alert alert-danger form-group" role="alert">
+            <b>Não há esse dentista cadastrado</b>
+          </div>
+        <?php } elseif($flag == 2){ ?>
+          <div class="alert alert-danger form-group" role="alert">
+            <b>Não há essa especialidade cadastrada</b>
+          </div>
+        <?php } elseif($flag == 3){ ?>
+          <div class="alert alert-danger form-group" role="alert">
+            <b>Não há essa especialidade, nem esse dentista cadastrados</b>
+          </div>
+        <?php } ?>
           <form action="editar-especialidade-dentista.php" method="post">
             <div class="form-group">
                 <label>Nome do Dentista</label>
@@ -71,7 +86,7 @@ if(isset($_POST['botao'])){
             </div>
             <div class="form-group">
                 <label>Especialidade</label><br>
-                <select name="especialidade">
+                <select name="nova_especialidade">
                 <?php 
                 include_once "../../../php/classEspecialidade.php";
                 $e = new Especialidade();
@@ -83,7 +98,7 @@ if(isset($_POST['botao'])){
                 <?php } ?>
                 </select>
             </div>
-            <input type="hidden" name="dentista_id" value="<?=$dentista_id?>">
+            <input type="hidden" name="dentista_id_atual" value="<?=$dentista_id?>">
             <input type="hidden" name="especialidade_atual" value="<?=$especialidade_nome?>">
             <button class="btn btn-primary btn-block" type="submit" name="botao">Atualizar</button>
           </form>

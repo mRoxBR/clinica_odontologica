@@ -42,12 +42,12 @@ class Dentista_has_Especialidade{
 		}
 	}
 
-	public function edit($dentista_id, $especialidade_nome){
+	public function edit($dentista_id_novo, $nova_especialidade){
 		try{
-			$stmt = $this->conn->prepare("UPDATE especialidade SET especialidade_nome = :especialidade_nome, dentista_id = :dentista_id WHERE especialidade_nome = :especialidade_atual AND dentista_id = :dentista_id_atual");
-			$stmt->bindParam(":especialidade_nome", $especialidade_nome);
+			$stmt = $this->conn->prepare("UPDATE especialidade SET especialidade_nome = :nova_especialidade, dentista_id = :dentista_id_novo WHERE especialidade_nome = :especialidade_atual AND dentista_id = :dentista_id_atual");
+			$stmt->bindParam(":nova_especialidade", $nova_especialidade);
 			$stmt->bindParam(":especialidade_atual", $this->especialidade_nome);
-			$stmt->bindParam(":dentista_id", $dentista_id);
+			$stmt->bindParam(":dentista_id_novo", $dentista_id_novo);
 			$stmt->bindParam(":dentista_id_atual", $this->dentista_id);
 			$stmt->execute();
 			return 1;
@@ -84,6 +84,58 @@ class Dentista_has_Especialidade{
 		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
 		return $resultado;
 	}
+
+	public function nomeDentista(){
+		try{
+			$stmt = $this->conn->prepare("SELECT funcionario.nome FROM dentista_has_especialidade, funcionario WHERE dentista_has_especialidade.dentista_id = funcionario.id AND dentista_has_especialidade.dentista_id = :dentista_id");
+			$stmt->bindParam(":dentista_id", $this->dentista_id);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(empty($result)){
+				return "";
+			}else{
+				return $result->nome;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
+	public function existeDentista(){
+		try{
+			$stmt = $this->conn->prepare("SELECT * FROM dentista_has_especialidade WHERE dentista_id = :dentista_id");
+			$stmt->bindParam(":dentista_id", $this->dentista_id);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(empty($result)){
+				return 0;
+			}else{
+				return $result->nome;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
+	public function existeEspecialidade(){
+		try{
+			$stmt = $this->conn->prepare("SELECT * FROM dentista_has_especialidade WHERE especialidade_nome = :especialidade_nome");
+			$stmt->bindParam(":especialidade_nome", $this->especialidade_nome);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(empty($result)){
+				return 0;
+			}else{
+				return $result->nome;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
 }
 
 ?>

@@ -92,7 +92,7 @@ if(isset($_POST["botao-remover"])){
                             <td> <?= $row->nome_usuario; ?></td>
                             <td><a href="editar/editar-funcionario.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
                             <?php $id = $row->funcionario_id; ?>
-                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>
+                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
                           </tr>
                           <?php } ?>
                       </tbody>
@@ -146,7 +146,7 @@ if(isset($_POST["botao-remover"])){
                             <td> <?= $row->nome_usuario; ?></td>
                             <td><a href="editar/editar-funcionario.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
                             <?php $id = $row->funcionario_id; ?>
-                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>
+                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
                           </tr>
                           <?php } ?>
                       </tbody>
@@ -200,7 +200,7 @@ if(isset($_POST["botao-remover"])){
                             <td> <?= $row->cro; ?></td>
                             <td><a href="editar/editar-funcionario.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
                             <?php $id = $row->funcionario_id; ?>
-                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>
+                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
                           </tr>
                           <?php } ?>
                       </tbody>
@@ -251,7 +251,7 @@ if(isset($_POST["botao-remover"])){
                             <td> <?= $row->cargo; ?> </td>
                             <td><a href="editar/editar-funcionario.php?id=<?=$row->funcionario_id?>" class="btn btn-primary">Alterar</a></td>
                             <?php $id = $row->funcionario_id; ?>
-                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>
+                            <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
                           </tr>
                           <?php } ?>
                       </tbody>
@@ -303,7 +303,7 @@ if(isset($_POST["botao-remover"])){
                         <td> <?= $row->cargo; ?> </td>
                         <td><a href="editar/editar-funcionario.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
                         <?php $id = $row->id; ?>
-                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>
+                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -316,7 +316,11 @@ if(isset($_POST["botao-remover"])){
         <!-- /.container-fluid -->
       </div>
       <!-- /.content-wrapper -->
-      <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <?php
+      $stmt = $f->viewAll();
+
+      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+      <div class="modal fade" id="removeModal<?=$row->id?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -329,11 +333,11 @@ if(isset($_POST["botao-remover"])){
             <div class="modal-footer">
               <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
               <form action="index.php" method="post">
-              <input type="hidden" name="id" value=<?=$id?>>
+              <input type="hidden" name="id" value="<?=$row->id?>">
               <button class="btn btn-primary" name="botao-remover">Remover</button>
               </form>
             </div>
           </div>
         </div>
       </div>
-<?php include_once'footer.php' ?>
+<?php } include_once'footer.php' ?>

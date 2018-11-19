@@ -140,6 +140,41 @@ class Recebimento{
 		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
 		return $resultado;
 	}
+
+	public function nomeRecepcionista(){
+		try{
+			$stmt = $this->conn->prepare("SELECT funcionario.nome FROM recebimento, funcionario WHERE recebimento.paciente_id = funcionario.id AND recebimento.id = :id");
+			$stmt->bindParam(":id", $this->id);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(empty($result)){
+				return "";
+			}else{
+				return $result->nome;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
+	public function nomePaciente(){
+		try{
+			$stmt = $this->conn->prepare("SELECT paciente.nome FROM recebimento, paciente WHERE recebimento.paciente_id = paciente.id AND recebimento.id = :id");
+			$stmt->bindParam(":id", $this->id);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(empty($result)){
+				return "";
+			}else{
+				return $result->nome;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
 }
 
 ?>

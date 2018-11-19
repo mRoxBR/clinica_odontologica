@@ -154,10 +154,11 @@ class Dentista_consulta_Paciente{
 
 	public function horarioValido(){
 		try{
-			$stmt = $this->conn->prepare("SELECT * FROM dentista_consulta_paciente WHERE dentista_id = :dentista_id AND data = :data AND horario = :horario");
+			$stmt = $this->conn->prepare("SELECT * FROM dentista_consulta_paciente WHERE dentista_id = :dentista_id AND data = :data AND horario = :horario AND id != :id");
 			$stmt->bindParam(":dentista_id", $this->dentista_id);
 			$stmt->bindParam(":data", $this->data);
 			$stmt->bindParam(":horario", $this->horario);
+			$stmt->bindParam(":id", $this->id);
 			$stmt->execute();
 			$resultado = $stmt->fetch(PDO::FETCH_OBJ);
 			if(empty($resultado)){

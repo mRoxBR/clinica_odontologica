@@ -29,6 +29,7 @@ if(isset($_POST['botao'])){
 
     if(!$p->validaCPF($cpf_paciente)) $flag = 1;
 
+    $dcp->setId($id);
     $dcp->setDentistaId($dentista_id);
     $dcp->setData($data);
     $dcp->setHorario($horario);
@@ -49,7 +50,6 @@ if(isset($_POST['botao'])){
     }
 
     if($flag == 0){
-        $dcp->setId($id);
         $dcp->setPacienteId($paciente_id);
         $dcp->setValor($valor);
         $dcp->setSituacao($situacao);

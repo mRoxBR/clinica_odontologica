@@ -43,7 +43,11 @@
 
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
                       <tr align="center">
-                        <td> <?= $row->dentista_id; ?> </td>
+                        <?php
+                          $dhe->setDentistaId($row->dentista_id);
+                          $dentista_nome = $dhe->nomeDentista();
+                        ?>
+                        <td> <?= $dentista_nome; ?> </td>
                         <td> <?= $row->especialidade_nome; ?> </td>
                         <td><a href="editar/editar-especialidade-dentista.php?dentista_id=<?=$row->dentista_id?>&especialidade_nome=<?=$row->especialidade_nome?>" class="btn btn-primary">Alterar</a></td>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>

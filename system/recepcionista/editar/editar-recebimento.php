@@ -3,6 +3,13 @@
 
 $flag = 0;
 
+include_once "../../../php/classPaciente.php";
+include_once "../../../php/classRecepcionista.php";
+include_once "../../../php/classRecebimento.php";
+
+$paciente = new Paciente();
+$recebimento = new Recebimento();
+
 if(!isset($_POST['valor']))$valor = "";
 if(!isset($_POST['data']))$data = "";
 if(!isset($_POST['nome_paciente']))$nome_paciente = "";
@@ -10,14 +17,8 @@ if(!isset($_POST['cpf_paciente']))$cpf_paciente = "";
 if(!isset($_POST['modo_pagamento']))$modo_pagamento = "";
 
 if(isset($_POST['botao'])){ 
-    include_once "../../../php/classPaciente.php";
-    include_once "../../../php/classRecepcionista.php";
-    include_once "../../../php/classRecebimento.php";
 
-    $paciente = new Paciente();
-    $recepcionista = new Recepcionista();
-    $recebimento = new Recebimento();
-
+    $id = $_POST['id'];
     $valor = $_POST['valor'];
     $data = $_POST['data'];
     $nome_paciente = $_POST['nome_paciente'];
@@ -31,32 +32,49 @@ if(isset($_POST['botao'])){
     
     
     if($id_paciente = $paciente->existeNomeCpf()){
+        $recebimento->setId($id);
         $recebimento->setValor($valor);
         $recebimento->setData($data);
         $recebimento->setRecepcionistaId($id_recepcionista);
         $recebimento->setPacienteId($id_paciente);
         $recebimento->setModoPagamento($modo_pagamento);
-        $recebimento->insert();
+        var_dump($recebimento->edit());
 
         header("Location: ../recebimentos.php");
     }else{
         $flag = 1;
     }
-}?>
+}else{
+    $id = $_GET['id'];
+    $recebimento->setId($id);
+    $r = $recebimento->viewRecebimento();
+
+    $valor = $r->valor;
+    $data = $r->data;
+    $modo_pagamento = $r->modo_pagamento;
+
+    $paciente_id = $r->paciente_id;
+    $paciente->setId($paciente_id);
+    $p = $paciente->viewPaciente();
+    $nome_paciente = $p->nome;
+    $cpf_paciente = $p->cpf;
+}
+
+?>
   <body class="bg-dark">
 
     <div class="container">
       <div class="card card-register mx-auto mt-5">
         <div class="card-header">
-          Cadastro de Recebimento
+          Atualização de Recebimento
         </div>
         <div class="card-body">
         <?php if($flag == 1){ ?>
           <div class="alert alert-danger form-group" role="alert">
-            <b>O nome e o CPF informado não estão cadastrados ou não coincidem</b>
+            <b>Não há esse paciente cadastrado</b>
           </div>
         <?php } ?>
-          <form action="cadastrar-recebimento.php" method="post">
+          <form action="editar-recebimento.php" method="post">
             <div class="form-group">
                 <label>Nome do Paciente</label>
                 <input type="text" class="form-control" name="nome_paciente" value="<?= $nome_paciente ?>">
@@ -81,7 +99,8 @@ if(isset($_POST['botao'])){
                 <label>Data</label>
                 <input type="date" class="form-control" required="required" name="data" value="<?= $data ?>">
             </div>
-            <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
+            <input type="hidden" name="id" value="<?=$id?>">
+            <button class="btn btn-primary btn-block" type="submit" name="botao">Atualizar</button>
           </form>
         </div>
       </div>
