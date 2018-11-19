@@ -35,20 +35,27 @@ if(isset($_POST['botao'])){
 
     $p->setNome($nome_paciente);
     $p->setCpf($cpf_paciente);
-    
-    
+
     if(!($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista))){
         $flag = 1;
     } 
+
     if(!($id_paciente = $p->existeNomeCpf())){
         $flag += 2;
     }
+
+    $dcp->setDentistaId($id_dentista);
+    $dcp->setData($data);
+    $dcp->setHorario($horario);
+
+    if(!$dcp->horarioValido()){
+        $flag = 4;
+    }
+
     if($flag == 0){
-        $dcp->setDentistaId($id_dentista);
+
         $dcp->setPacienteId($id_paciente);
         $dcp->setValor($valor);
-        $dcp->setData($data);
-        $dcp->setHorario($horario);
         $dcp->setSituacao($situacao);
         $dcp->setOperacao($operacao);
         $dcp->insert();
@@ -75,7 +82,11 @@ if(isset($_POST['botao'])){
           <div class="alert alert-danger form-group" role="alert">
             <b>Os dados informados não estão cadastrados ou não coincidem</b>
           </div>
-        <?php } ?>
+        <?php } elseif($flag == 4){ ?>
+          <div class="alert alert-danger form-group" role="alert">
+            <b>Já há uma pessoa agendada</b>
+          </div>
+        <?php }  ?>
           <form action="cadastrar-consulta.php" method="post">
             <div class="form-group">
                 <label>Operação</label>

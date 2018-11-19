@@ -29,26 +29,29 @@ if(isset($_POST['botao'])){
 
     if(!$p->validaCPF($cpf_paciente)) $flag = 1;
 
+    $dcp->setDentistaId($dentista_id);
+    $dcp->setData($data);
+    $dcp->setHorario($horario);
+
+    if(!$dcp->horarioValido()){
+        $flag = 2;
+    }
+
+    if(!$d->existeNomeCro($nome_dentista, $cro_dentista)){
+        $flag = 3;
+    }
+
+    $p->setNome($nome_paciente);
+    $p->setCpf($cpf_paciente);
+
+    if(!$p->existeNomeCpf()){
+        $flag = 4;
+    }
+
     if($flag == 0){
-        $p->setNome($nome_paciente);
-        $p->setCpf($cpf_paciente);
-        $p->setId($paciente_id);
-        $p->editNomeCpf();
-        
-        $d->setCro($cro_dentista);
-        $d->setFuncionarioId($dentista_id);
-        $d->edit();
-
-        $f->setNome($nome_dentista);
-        $f->setId($dentista_id);
-        $f->editNome();
-
         $dcp->setId($id);
-        $dcp->setDentistaId($dentista_id);
         $dcp->setPacienteId($paciente_id);
         $dcp->setValor($valor);
-        $dcp->setData($data);
-        $dcp->setHorario($horario);
         $dcp->setSituacao($situacao);
         $dcp->setOperacao($operacao);
         $dcp->edit();
@@ -92,6 +95,18 @@ if(isset($_POST['botao'])){
         <?php if($flag == 1){ ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado não é válido</b>
+          </div>
+        <?php } elseif($flag == 2){ ?>
+          <div class="alert alert-danger form-group" role="alert">
+            <b>Já há uma pessoa agendada</b>
+          </div>
+        <?php } elseif($flag == 3){ ?>
+          <div class="alert alert-danger form-group" role="alert">
+            <b>Não há esse dentista cadastrado</b>
+          </div>
+        <?php } elseif($flag == 4){ ?>
+          <div class="alert alert-danger form-group" role="alert">
+            <b>Não há esse paciente cadastrado</b>
           </div>
         <?php } ?>
           <form action="editar-consulta.php" method="post">

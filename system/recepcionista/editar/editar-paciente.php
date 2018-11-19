@@ -18,6 +18,7 @@ if(isset($_POST['botao'])){
   $paciente = new Paciente();
 
   $paciente->setId($id);
+  $paciente->setCPF($cpf);
   $paciente->setNome($nome);
   $paciente->setSobrenome($sobrenome);
   $paciente->setNascimento($nascimento);
@@ -27,8 +28,12 @@ if(isset($_POST['botao'])){
     $resultado = $paciente->viewPaciente();
   }
 
-  if($flag == 0){
+  if($paciente->existeCpf()){
     $flag = 2;
+    $resultado = $paciente->viewPaciente();
+  }
+
+  if($flag == 0){
     $p = $paciente->edit();
     header("Location: ../index.php");
   }
@@ -53,6 +58,10 @@ if(isset($_POST['botao'])){
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado não é válido</b>
           </div>
+        <?php }elseif($flag == 2){ ?>
+          <div class="alert alert-danger form-group" role="alert">
+            <b>O CPF informado já foi cadastrado</b>
+          </div>
         <?php } ?>
           <form action="editar-paciente.php" method="post">
             <div class="form-group">
@@ -69,7 +78,7 @@ if(isset($_POST['botao'])){
             </div>
             <div class="form-group">
                 <label>CPF</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf">
+                <input type="text" class="form-control" maxlength="11" name="cpf" value="<?=$resultado->cpf?>">
             </div>
             <div class="form-group">
               <label>Plano Dentário</label><br>

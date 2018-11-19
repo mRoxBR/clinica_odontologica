@@ -65,7 +65,11 @@ $paciente->delete();
                         <td> <?= $row->sobrenome; ?> </td>
                         <td> <?= $row->nascimento; ?> </td>
                         <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
-                        <td> <?= empty($row->plano_dentario_id)? "" : $row->plano_dentario_id; ?> </td>
+                        <?php
+                          $p->setId($row->id);
+                          $plano_dentario = $p->nomePlanoDentario();
+                        ?>
+                        <td> <?= $plano_dentario; ?> </td>
                         <td><a href="editar/editar-paciente.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
                         <?php $id = $row->id; ?>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>

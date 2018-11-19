@@ -152,6 +152,59 @@ class Dentista_consulta_Paciente{
 		return $resultado;
 	}
 
+	public function horarioValido(){
+		try{
+			$stmt = $this->conn->prepare("SELECT * FROM dentista_consulta_paciente WHERE dentista_id = :dentista_id AND data = :data AND horario = :horario");
+			$stmt->bindParam(":dentista_id", $this->dentista_id);
+			$stmt->bindParam(":data", $this->data);
+			$stmt->bindParam(":horario", $this->horario);
+			$stmt->execute();
+			$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+			if(empty($resultado)){
+				return true;
+			}else{
+				return false;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
+	public function nomePaciente(){
+		try{
+			$stmt = $this->conn->prepare("SELECT paciente.nome FROM dentista_consulta_paciente, paciente WHERE dentista_consulta_paciente.paciente_id = paciente.id AND dentista_consulta_paciente.id = :id");
+			$stmt->bindParam(":id", $this->id);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(empty($result)){
+				return "";
+			}else{
+				return $result->nome;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
+	public function nomeDentista(){
+		try{
+			$stmt = $this->conn->prepare("SELECT funcionario.nome FROM dentista_consulta_paciente, funcionario WHERE dentista_consulta_paciente.dentista_id = funcionario.id AND dentista_consulta_paciente.id = :id");
+			$stmt->bindParam(":id", $this->id);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(empty($result)){
+				return "";
+			}else{
+				return $result->nome;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
 }
 
 ?>

@@ -65,8 +65,16 @@ $dcp->delete();
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
                       <tr align="center">
                         <td> <?= $row->operacao; ?> </td>
-                        <td> <?= $row->paciente_id; ?> </td>
-                        <td> <?= $row->dentista_id; ?> </td>
+                        <?php
+                          $dcp->setId($row->id);
+                          $nome_paciente = $dcp->nomePaciente();
+                        ?>
+                        <td> <?= $nome_paciente; ?> </td>
+                        <?php
+                          $dcp->setId($row->id);
+                          $nome_dentista = $dcp->nomeDentista();
+                        ?>
+                        <td> <?= $nome_dentista; ?> </td>
                         <td> <?= $row->data ?> </td>
                         <td> <?= $row->horario; ?> </td>
                         <td> <?= $row->valor; ?> </td>

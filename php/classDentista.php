@@ -78,11 +78,20 @@ class Dentista extends Funcionario{
 	}
 
 	public function viewDentista(){
-		$stmt = $this->conn->prepare("SELECT * FROM dentista WHERE funcionario_id = :funcionario_id");
-		$stmt->bindParam(":funcionario_id", $this->funcionario_id);
-		$stmt->execute();
-		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
-		return $resultado;
+		try{
+			$stmt = $this->conn->prepare("SELECT * FROM dentista WHERE funcionario_id = :funcionario_id");
+			$stmt->bindParam(":funcionario_id", $this->funcionario_id);
+			$stmt->execute();
+			$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+			if(!empty($resultado)){
+				return $resultado;
+			}else{
+				return null;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return null;
+		}
 	}
 
 	public function existeNomeCro($nome, $cro){

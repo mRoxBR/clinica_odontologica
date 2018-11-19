@@ -20,6 +20,7 @@ if(isset($_POST['botao'])){
   $paciente->setCpf($cpf);
   $paciente->setPlanoDentarioId($plano_dentario);
   if(!$paciente->validaCPF($cpf)) $flag = 1;
+  if($paciente->existeCpf())$flag = 2;
 
   if ($flag == 0) {
     $paciente->insert();
@@ -38,6 +39,42 @@ if(isset($_POST['botao'])){
         <?php if($flag == 1){ ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado não é válido</b>
+          </div>
+          <form action="cadastrar-paciente.php" method="post">
+            <div class="form-group">
+                <label>Primeiro nome</label>
+                <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?=$nome?>">
+            </div>
+            <div class="form-group">
+                <label>Sobrenome</label>
+                <input type="text" class="form-control" required="required" name="sobrenome" value="<?=$sobrenome?>">
+            </div>
+            <div class="form-group">
+                <label>Data de nascimento</label>
+                <input type="date" class="form-control" required="required" name="nascimento" value="<?=$nascimento?>">
+            </div>
+            <div class="form-group">
+                <label>CPF</label>
+                <input type="text" class="form-control" maxlength="11" name="cpf" value="<?=$cpf?>">
+            </div>
+            <div class="form-group">
+              <label>Plano Dentário</label><br>
+              <select id="select-paciente" name="plano_dentario">
+                <?php 
+                include_once "../../../php/classPlanoDentario.php";
+                $planoDentario = new PlanoDentario();
+                $stmt = $planoDentario->viewAll();
+
+                while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+                <option value= <?= $row->id; ?>> <?= $row->nome; ?> </option>
+                <?php } ?>
+              </select>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
+          </form>
+        <?php } elseif($flag == 2){ ?>
+          <div class="alert alert-danger form-group" role="alert">
+            <b>O CPF informado já foi cadastrado</b>
           </div>
           <form action="cadastrar-paciente.php" method="post">
             <div class="form-group">
