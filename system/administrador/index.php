@@ -317,6 +317,7 @@ if(isset($_POST["botao-remover"])){
       </div>
       <!-- /.content-wrapper -->
       <?php
+      $f = new Funcionario();
       $stmt = $f->viewAll();
 
       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>

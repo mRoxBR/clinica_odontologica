@@ -82,7 +82,12 @@ class Dentista_has_Especialidade{
 		$stmt->bindParam(":especialidade_nome", $this->especialidade_nome);
 		$stmt->execute();
 		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
-		return $resultado;
+		if(!empty($resultado)){
+			return $resultado;	
+		}else{
+			return null;
+		}
+		
 	}
 
 	public function nomeDentista(){

@@ -171,6 +171,23 @@ class Paciente{
 		}
 	}
 
+	public function cpfObrigatorio(){
+		try{
+				$stmt = $this->conn->prepare("SELECT * FROM paciente WHERE nome = :nome");
+				$stmt->bindParam(":nome", $this->nome);
+				$stmt->execute();
+				$result = $stmt->fetch(PDO::FETCH_OBJ);
+
+			if(!is_null($result->cpf)){
+				return true;
+			}
+
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return false;
+		}
+	}
+
 	public function delete(){
 		try{
 			$stmt = $this->conn->prepare("DELETE FROM paciente WHERE id = :id");
@@ -209,15 +226,24 @@ class Paciente{
 
 	public function existeNomeCpf(){
 		try{
-			if(empty($this->cpf)){
-				$stmt = $this->conn->prepare("SELECT * FROM paciente WHERE nome = :nome");
+			if(!$this->cpfObrigatorio()){
+				if(empty($this->cpf)){
+					$stmt = $this->conn->prepare("SELECT * FROM paciente WHERE nome = :nome");
+				}else{
+					$stmt = $this->conn->prepare("SELECT * FROM paciente WHERE nome = :nome AND cpf = :cpf");
+					$stmt->bindParam(":cpf", $this->cpf);
+				}
 			}else{
-				$stmt = $this->conn->prepare("SELECT * FROM paciente WHERE nome = :nome AND cpf = :cpf");
-				$stmt->bindParam(":cpf", $this->cpf);
+				if(empty($this->cpf)){
+					return null;
+				}else{
+					$stmt = $this->conn->prepare("SELECT * FROM paciente WHERE nome = :nome AND cpf = :cpf");
+					$stmt->bindParam(":cpf", $this->cpf);
+				}
 			}
-				$stmt->bindParam(":nome", $this->nome);
-				$stmt->execute();
-				$result = $stmt->fetch(PDO::FETCH_OBJ);
+			$stmt->bindParam(":nome", $this->nome);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
 
 			if(!empty($result)){
 				return $result->id;
@@ -226,6 +252,12 @@ class Paciente{
 			echo $e->getMessage();
 			return null;
 		}
+	}
+
+	public function semNomeCpf(){
+		if(empty($this->cpf) && empty($this->nome))
+			return true;
+
 	}
 
 	public function existeCpf(){

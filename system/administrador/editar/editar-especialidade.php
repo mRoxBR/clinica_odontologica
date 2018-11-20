@@ -1,6 +1,10 @@
 <?php include_once"header.php" ?>
 
-<?php if(isset($_POST['botao'])){ 
+<?php
+
+$flag = 0;
+
+if(isset($_POST['botao'])){ 
   include_once "../../../php/classEspecialidade.php";
   
   $nome = $_POST['nome'];
@@ -8,9 +12,14 @@
 
   $e = new Especialidade();
   $e->setNome($nome_atual);
-  $e->edit($nome);
-  header("Location: ../especialidades.php");
 
+  if(!$e->nomeValido($nome)){
+    $flag = 1;
+  }else{
+    $e->edit($nome);
+
+    header("Location: ../especialidades.php");
+  }
 }else{
   $nome = $_GET['nome'];
 } ?>
@@ -22,6 +31,11 @@
         Atualização de Especialidade
       </div>
       <div class="card-body">
+        <?php if($flag == 1){ ?>
+          <div class="alert alert-danger form-group" role="alert">
+            <b>Especialidade já cadastrada</b>
+          </div>
+        <?php } ?>
         <form action="editar-especialidade.php" method="post">
           <div class="form-group">
               <label>Nome</label>

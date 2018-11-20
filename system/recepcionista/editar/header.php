@@ -1,6 +1,7 @@
 <?php
 include_once'../../../php/funcoesAuxiliares.php';
 verificaFuncionarioLogadoCadastro();
+verificarRecepcionistaLogadoCadastro();
 ?>
 <!DOCTYPE html>
 <html lang="en">

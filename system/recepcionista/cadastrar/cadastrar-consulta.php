@@ -3,16 +3,6 @@
 
 $flag = 0;
 
-if(!isset($_POST['nome_dentista']))$nome_dentista = "";
-if(!isset($_POST['cro_dentista']))$cro_dentista = "";
-if(!isset($_POST['nome_paciente']))$nome_paciente = "";
-if(!isset($_POST['cpf_paciente']))$cpf_paciente = "";
-if(!isset($_POST['valor']))$valor = "";
-if(!isset($_POST['data']))$data = "";
-if(!isset($_POST['horario']))$horario = "";
-if(!isset($_POST['situacao']))$situacao = "";
-if(!isset($_POST['operacao']))$operacao = "";
-
 if(isset($_POST['botao'])){ 
     include_once "../../../php/classPaciente.php";
     include_once "../../../php/classDentista.php";
@@ -32,7 +22,6 @@ if(isset($_POST['botao'])){
     $situacao = $_POST['situacao'];
     $operacao = $_POST['operacao'];
 
-
     $p->setNome($nome_paciente);
     $p->setCpf($cpf_paciente);
 
@@ -48,7 +37,7 @@ if(isset($_POST['botao'])){
     $dcp->setData($data);
     $dcp->setHorario($horario);
 
-    if(!$dcp->horarioValido()){
+    if(!$dcp->horarioValidoCadastro()){
         $flag = 4;
     }
 
@@ -61,13 +50,29 @@ if(isset($_POST['botao'])){
         $dcp->insert();
         header("Location: ../consultas.php");
     }
-} ?>
+}else{
+$nome_dentista = "";
+$cro_dentista = "";
+$nome_paciente = "";
+$cpf_paciente = "";
+$valor = "";
+$data = "";
+$horario = "";
+$situacao = "";
+$operacao = "";
+
+}
+?>
   <body class="bg-dark">
 
     <div class="container">
       <div class="card card-register mx-auto mt-5">
         <div class="card-header">
           Cadastro de Consulta
+          <div class="float-right">
+            <a href="../complementos/paciente-consulta.php" target="_blank" class="btn">Buscar pacientes</a>
+            <a href="../complementos/dentista-consulta.php" target="_blank" class="btn">Buscar dentistas</a>
+          </div>
         </div>
         <div class="card-body">
         <?php if($flag == 1){ ?>

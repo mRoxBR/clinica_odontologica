@@ -31,17 +31,24 @@ if(isset($_POST['botao'])){
     $paciente->setCpf($cpf_paciente);
     
     
-    if($id_paciente = $paciente->existeNomeCpf()){
-        $recebimento->setId($id);
+    if($paciente->semNomeCpf()){
         $recebimento->setValor($valor);
         $recebimento->setData($data);
         $recebimento->setRecepcionistaId($id_recepcionista);
+        $recebimento->setModoPagamento($modo_pagamento);
+        $recebimento->edit();
+        header("Location: ../recebimentos.php");
+
+    }elseif($id_paciente = $paciente->existeNomeCpf()){
         $recebimento->setPacienteId($id_paciente);
+        $recebimento->setValor($valor);
+        $recebimento->setData($data);
+        $recebimento->setRecepcionistaId($id_recepcionista);
         $recebimento->setModoPagamento($modo_pagamento);
         var_dump($recebimento->edit());
-
         header("Location: ../recebimentos.php");
-    }else{
+    }
+    else{
         $flag = 1;
     }
 }else{
@@ -54,10 +61,14 @@ if(isset($_POST['botao'])){
     $modo_pagamento = $r->modo_pagamento;
 
     $paciente_id = $r->paciente_id;
-    $paciente->setId($paciente_id);
-    $p = $paciente->viewPaciente();
-    $nome_paciente = $p->nome;
-    $cpf_paciente = $p->cpf;
+
+    if(!empty($paciente_id)){
+        $paciente->setId($paciente_id);
+        $p = $paciente->viewPaciente();
+        $nome_paciente = $p->nome;
+        $cpf_paciente = $p->cpf;
+    }
+
 }
 
 ?>

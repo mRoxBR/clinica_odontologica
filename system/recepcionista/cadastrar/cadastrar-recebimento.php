@@ -30,16 +30,24 @@ if(isset($_POST['botao'])){
     $paciente->setCpf($cpf_paciente);
     
     
-    if($id_paciente = $paciente->existeNomeCpf()){
+    if($paciente->semNomeCpf()){
         $recebimento->setValor($valor);
         $recebimento->setData($data);
         $recebimento->setRecepcionistaId($id_recepcionista);
-        $recebimento->setPacienteId($id_paciente);
         $recebimento->setModoPagamento($modo_pagamento);
         $recebimento->insert();
-
         header("Location: ../recebimentos.php");
-    }else{
+
+    }elseif(($id_paciente = $paciente->existeNomeCpf())){
+        $recebimento->setPacienteId($id_paciente);
+        $recebimento->setValor($valor);
+        $recebimento->setData($data);
+        $recebimento->setRecepcionistaId($id_recepcionista);
+        $recebimento->setModoPagamento($modo_pagamento);
+        var_dump($recebimento->insert());
+        header("Location: ../recebimentos.php");
+    }
+    else{
         $flag = 1;
     }
 }?>
@@ -49,6 +57,9 @@ if(isset($_POST['botao'])){
       <div class="card card-register mx-auto mt-5">
         <div class="card-header">
           Cadastro de Recebimento
+            <div class="float-right">
+                <a href="../complementos/paciente-consulta.php" target="_blank" class="btn">Buscar pacientes</a>
+            </div>
         </div>
         <div class="card-body">
         <?php if($flag == 1){ ?>

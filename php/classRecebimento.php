@@ -143,7 +143,7 @@ class Recebimento{
 
 	public function nomeRecepcionista(){
 		try{
-			$stmt = $this->conn->prepare("SELECT funcionario.nome FROM recebimento, funcionario WHERE recebimento.paciente_id = funcionario.id AND recebimento.id = :id");
+			$stmt = $this->conn->prepare("SELECT funcionario.nome FROM recebimento, funcionario WHERE recebimento.recepcionista_id = funcionario.id AND recebimento.id = :id");
 			$stmt->bindParam(":id", $this->id);
 			$stmt->execute();
 			$result = $stmt->fetch(PDO::FETCH_OBJ);

@@ -90,6 +90,10 @@ if(isset($_POST['botao'])){
       <div class="card card-register mx-auto mt-5">
         <div class="card-header">
           Atualização de Consulta
+          <div class="float-right">
+            <a href="../complementos/paciente-consulta.php" target="_blank" class="btn">Buscar pacientes</a>
+            <a href="../complementos/dentista-consulta.php" target="_blank" class="btn">Buscar dentistas</a>
+          </div>
         </div>
         <div class="card-body">
         <?php if($flag == 1){ ?>

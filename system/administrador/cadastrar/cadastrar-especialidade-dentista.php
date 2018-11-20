@@ -19,15 +19,23 @@ if(isset($_POST['botao'])){
     $cro_dentista = $_POST['cro_dentista'];
     $especialidade = $_POST['especialidade'];
 
-    if($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista)){
-        $dhe->setDentistaId($id_dentista);
-        $dhe->setEspecialidadeNome($especialidade);
-        $dhe->insert();
-
-        header("Location: ../especialidades-dentistas.php");
-    }else{
+    if(!($id_dentista = $d->existeNomeCro($nome_dentista, $cro_dentista))){
         $flag = 1;
     }
+
+    if($flag == 0){
+        $dhe->setDentistaId($id_dentista);
+        $dhe->setEspecialidadeNome($especialidade);
+        if($dhe->viewDentistaHasEspecialidade()){
+            $flag = 2;
+        }
+    }
+
+    if($flag == 0){
+        $dhe->insert();
+        header("Location: ../especialidades-dentistas.php");
+    }
+
 }?>
   <body class="bg-dark">
 
@@ -40,6 +48,10 @@ if(isset($_POST['botao'])){
         <?php if($flag == 1){ ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>O nome e o CRO informados não estão cadastrados ou não coincidem</b>
+          </div>
+        <?php }elseif($flag == 2){ ?>
+          <div class="alert alert-danger form-group" role="alert">
+            <b>Combinação de dentista e especialidade já cadastrada</b>
           </div>
         <?php } ?>
           <form action="cadastrar-especialidade-dentista.php" method="post">

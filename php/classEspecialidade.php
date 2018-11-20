@@ -72,7 +72,26 @@ class Especialidade{
 		$stmt->bindParam(":nome", $this->nome);
 		$stmt->execute();
 		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
-		return $resultado;
+		if(!empty($resultado)){
+			return $resultado;
+		}
+		else{
+			return null;
+		}
+	}
+
+	public function nomeValido($nome){
+		$stmt = $this->conn->prepare("SELECT * FROM especialidade WHERE nome = :novo_nome AND nome != :nome_atual");
+		$stmt->bindParam(":novo_nome", $nome);
+		$stmt->bindParam(":nome_atual", $this->nome);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+		if(!empty($resultado)){
+			return false;
+		}
+		else{
+			return true;
+		}
 	}
 
 }
