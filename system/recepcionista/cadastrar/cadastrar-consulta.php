@@ -7,8 +7,10 @@ if(isset($_POST['botao'])){
     include_once "../../../php/classPaciente.php";
     include_once "../../../php/classDentista.php";
     include_once "../../../php/classDentistaConsultaPaciente.php";
+    include_once "../../../php/classPlanoDentario.php";
 
     $p = new Paciente();
+    $pd = new PlanoDentario();
     $d = new Dentista();
     $dcp = new Dentista_consulta_Paciente();
 
@@ -43,8 +45,16 @@ if(isset($_POST['botao'])){
 
     if($flag == 0){
 
+        $p->setId($id_paciente);
+        $paciente = $p->viewPaciente();
+        
+        $plano_dentario_id = $paciente->plano_dentario_id; 
+        $pd->setId($plano_dentario_id);
+        $planoDentario = $pd->viewPlanoDentario();
+        $valor_final = $valor - $valor*($planoDentario->desconto/100);
+
         $dcp->setPacienteId($id_paciente);
-        $dcp->setValor($valor);
+        $dcp->setValor($valor_final);
         $dcp->setSituacao($situacao);
         $dcp->setOperacao($operacao);
         $dcp->insert();

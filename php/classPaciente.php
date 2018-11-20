@@ -265,7 +265,8 @@ class Paciente{
 			if(empty($this->cpf)){
 				return false;
 			}else{
-				$stmt = $this->conn->prepare("SELECT * FROM paciente WHERE cpf = :cpf");
+				$stmt = $this->conn->prepare("SELECT * FROM paciente WHERE cpf = :cpf AND id != :id");
+				$stmt->bindParam(":id", $this->id);	
 				$stmt->bindParam(":cpf", $this->cpf);	
 				$stmt->execute();
 				$result = $stmt->fetch(PDO::FETCH_OBJ);
