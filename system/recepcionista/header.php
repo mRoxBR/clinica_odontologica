@@ -49,6 +49,18 @@ verificarRecepcionistaLogado();
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="planos-dentarios.php">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Planos Dentários</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="consultas.php">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Consultas</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="consultas.php">
             <i class="fas fa-fw fa-table"></i>
             <span>Consultas</span>
