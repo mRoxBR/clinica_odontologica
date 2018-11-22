@@ -1,4 +1,20 @@
 <?php include_once'header.php' ?>
+<?php
+include_once '/../../php/classAuxiliarAuxiliaDentista.php';
+
+$aad = new Auxiliar_auxilia_Dentista();
+
+if(isset($_POST['botao-remover'])){
+
+  $dentista_id = $_POST['dentista_id'];
+  $auxiliar_id= $_POST['auxiliar_id'];
+
+  $aad->setDentistaId($dentista_id);
+  $aad->setAuxiliarId($auxiliar_id);
+  $aad->delete();
+}
+
+?>
       <div id="content-wrapper">
 
         <div class="container-fluid">
@@ -35,9 +51,6 @@
                   </tfoot>
                   <tbody>
                       <?php 
-                      include_once '/../../php/classAuxiliarAuxiliaDentista.php';
-
-                      $aad = new Auxiliar_auxilia_Dentista();
 
                       $stmt = $aad->viewAll();
 
@@ -46,7 +59,7 @@
                         <td> <?= $row->dentista_id; ?> </td>
                         <td> <?= $row->auxiliar_id; ?> </td>
                         <td><a href="#" class="btn btn-primary">Alterar</a></td>
-                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">Remover</a></td>
+                        <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->dentista_id?>-<?=$row->auxiliar_id?>">Remover</a></td>
                       </tr>
                       <?php } ?>
                   </tbody>
@@ -58,11 +71,16 @@
         <!-- /.container-fluid -->
       </div>
       <!-- /.content-wrapper -->
-      <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<?php 
+
+      $stmt = $aad->viewAll();
+
+      while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
+      <div class="modal fade" id="removeModal<?=$row->dentista_id?>-<?=$row->auxiliar_id?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Você tem certeza que deseja remover?</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Você tem certeza que deseja remover esse auxílio?</h5>
               <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
               </button>
@@ -70,9 +88,13 @@
             <div class="modal-body">Essa ação não poderá ser desfeita</div>
             <div class="modal-footer">
               <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-              <a class="btn btn-primary" href="#">Remover</a>
+              <form action="auxilios.php" method="post">
+              <input type="hidden" name="dentista_id" value="<?=$row->dentista_id?>">
+              <input type="hidden" name="auxiliar_id" value="<?=$row->auxiliar_id?>">
+              <button type="submit" class="btn btn-primary" name="botao-remover">Remover</button>
+              </form>
             </div>
           </div>
         </div>
       </div>
-<?php include_once'footer.php' ?>
+<?php } include_once'footer.php' ?>

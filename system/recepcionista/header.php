@@ -61,12 +61,6 @@ verificarRecepcionistaLogado();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="consultas.php">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Consultas</span>
-          </a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="especialidades-dentistas.php">
             <i class="fas fa-fw fa-table"></i>
             <span>Especialidades</span>
