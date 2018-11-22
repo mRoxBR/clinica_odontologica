@@ -1,5 +1,5 @@
 <?php include_once'header.php';
-include_once '../../../php/classDentista.php';
+include_once '../../../php/classPaciente.php';
 ?>
   <body class="bg-dark">
     <div id="wrapper">
@@ -11,11 +11,7 @@ include_once '../../../php/classDentista.php';
 
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Dentistas
-            <div class="float-right">
-              <a href="especialidade-consulta.php" target="_blank" class="btn">Buscar especialidades</a>
-            </div>
-            </div>
+              Pacientes</div>
 
             <div class="card-body">
               <div class="table-responsive">
@@ -23,26 +19,25 @@ include_once '../../../php/classDentista.php';
                   <thead>
                     <tr align="center">
                       <th>Nome</th>
-                      <th>CRO</th>
+                      <th>CPF</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr align="center">
                       <th>Nome</th>
-                      <th>CRO</th>
+                      <th>CPF</th>
                     </tr>
                   </tfoot>
                   <tbody>
                       <?php 
 
-                      $d = new Dentista();
-
-                      $stmt = $d->viewAll();
+                      $p = new Paciente();
+                      $stmt = $p->viewAll();
 
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->cro; ?></td>
+                        <td> <?= empty($row->cpf)? "" : $row->cpf; ?> </td>
                       </tr>
                       <?php } ?>
                   </tbody>

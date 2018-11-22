@@ -19,23 +19,22 @@ if(isset($_POST['botao'])){
     $nome_dentista = $_POST['nome_dentista'];
     $cro_dentista = $_POST['cro_dentista'];
     $nova_especialidade = $_POST['nova_especialidade'];
+    
+    $dentista_id_novo = $d->existeNomeCro($nome_dentista, $cro_dentista);
 
-    if(!$dhe->existeDentista()) $flag = 1;
-    if(!$dhe->existeEspecialidade()) $flag +=2;
+    if(!$dhe->existeDentista($dentista_id_novo)) $flag = 1;
 
     if($flag == 0){
 
-    $d->setNome($nome_dentista);
-    $d->setCro($cro_dentista);
-    $dentista_id_novo = $d->existeNomeCro();
-
-    $dhe->setDentistaId($dentista_id);
+    $dhe->setDentistaId($dentista_id_atual);
     $dhe->setEspecialidadeNome($especialidade_atual);
     var_dump($dhe->edit($dentista_id_novo, $nova_especialidade));
+    header("Location: ../especialidades-dentistas.php");
 
-    //header("Location: ../especialidades-dentistas.php");
+    }else{
+        $dentista_id = $dentista_id_novo;
+        $especialidade_nome = $nova_especialidade;
     }
-
 }else{
     $dentista_id = $_GET['dentista_id'];
     $especialidade_nome = $_GET['especialidade_nome'];
@@ -53,6 +52,7 @@ if(isset($_POST['botao'])){
     $funcionario = $f->viewFuncionario();
     $nome_dentista = $funcionario->nome;
 }
+
 ?>
   <body class="bg-dark">
 
@@ -60,19 +60,14 @@ if(isset($_POST['botao'])){
       <div class="card card-register mx-auto mt-5">
         <div class="card-header">
           Atualização de Especialidade para Dentista
+             <div class="float-right">
+                <a href="../complementos/d-e.php" target="_blank" class="btn">Buscar dentistas</a>
+            </div>
         </div>
         <div class="card-body">
         <?php if($flag == 1){ ?>
           <div class="alert alert-danger form-group" role="alert">
             <b>Não há esse dentista cadastrado</b>
-          </div>
-        <?php } elseif($flag == 2){ ?>
-          <div class="alert alert-danger form-group" role="alert">
-            <b>Não há essa especialidade cadastrada</b>
-          </div>
-        <?php } elseif($flag == 3){ ?>
-          <div class="alert alert-danger form-group" role="alert">
-            <b>Não há essa especialidade, nem esse dentista cadastrados</b>
           </div>
         <?php } ?>
           <form action="editar-especialidade-dentista.php" method="post">
@@ -82,7 +77,7 @@ if(isset($_POST['botao'])){
             </div>
             <div class="form-group">
                 <label>CRO do Dentista</label>
-                <input type="text" class="form-control" maxlength="5" name="cro_dentista" value="<?= $cro_dentista ?>">
+                <input type="text" class="form-control" maxlength="5" name="cro_dentista" value="<?=$cro_dentista?>">
             </div>
             <div class="form-group">
                 <label>Especialidade</label><br>

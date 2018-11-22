@@ -78,6 +78,9 @@ if(isset($_POST['botao'])){
       <div class="card card-register mx-auto mt-5">
         <div class="card-header">
           Atualização de Recebimento
+            <div class="float-right">
+                <a href="../complementos/paciente-recebimento.php" target="_blank" class="btn">Buscar pacientes</a>
+            </div>
         </div>
         <div class="card-body">
         <?php if($flag == 1){ ?>

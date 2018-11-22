@@ -58,14 +58,13 @@ if(isset($_POST['botao'])){
   $funcionario = new Funcionario();
 
   $funcionario->setId($id);
+  $funcionario->setCpf($cpf);
   $funcionario->setNome($nome);
   $funcionario->setSobrenome($sobrenome);
   $funcionario->setNascimento($nascimento);
   $funcionario->setSalario($salario);
   $funcionario->setCargo($cargo);
   $v = $funcionario->edit();
-
-  var_dump($v);
 
   if($cargo == "Auxiliar"){
     

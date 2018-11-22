@@ -56,9 +56,15 @@ if(isset($_POST['botao-remover'])){
 
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
                       <tr align="center">
-                        <td> <?= $row->dentista_id; ?> </td>
-                        <td> <?= $row->auxiliar_id; ?> </td>
-                        <td><a href="#" class="btn btn-primary">Alterar</a></td>
+                        <?php
+                          $dentista_nome = $aad->nomeDentista($row->dentista_id, $row->auxiliar_id);
+                        ?>
+                        <td> <?= $dentista_nome; ?> </td>
+                        <?php
+                          $auxiliar_nome = $aad->nomeAuxiliar($row->dentista_id, $row->auxiliar_id);
+                        ?>
+                        <td> <?= $auxiliar_nome; ?> </td>
+                        <td><a href="editar/editar-auxilio.php?dentista_id=<?=$row->dentista_id?>&auxiliar_id=<?=$row->auxiliar_id?>" class="btn btn-primary">Alterar</a></td>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->dentista_id?>-<?=$row->auxiliar_id?>">Remover</a></td>
                       </tr>
                       <?php } ?>

@@ -35,6 +35,7 @@ elseif(isset($_POST['botao-detalhe'])){
   $funcionario = new Funcionario();
 
   $funcionario->setNome($nome);
+  $funcionario->setCpf($cpf);
   $funcionario->setSobrenome($sobrenome);
   $funcionario->setNascimento($nascimento);
   $funcionario->setSalario($salario);

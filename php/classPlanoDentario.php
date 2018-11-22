@@ -87,11 +87,36 @@ class PlanoDentario{
 	}
 
 	public function viewPlanoDentario(){
-		$stmt = $this->conn->prepare("SELECT * FROM plano_dentario WHERE id = :id");
-		$stmt->bindParam(":id", $this->id);
-		$stmt->execute();
-		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
-		return $resultado;
+		try{
+			$stmt = $this->conn->prepare("SELECT * FROM plano_dentario WHERE id = :id");
+			$stmt->bindParam(":id", $this->id);
+			$stmt->execute();
+			$resultado = $stmt->fetch(PDO::FETCH_OBJ);
+			if(!empty($resultado)){
+				return $resultado;
+			}else{
+				return null;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return null;
+		}
+	}
+
+	public function existe($nome, $id){
+		try{
+			$stmt = $this->conn->prepare("SELECT * FROM plano_dentario WHERE nome = :nome AND id != :id");
+			$stmt->bindParam(":nome",$nome);
+			$stmt->bindParam(":id",$id);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(!empty($result)){
+				return $result->id;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return null;
+		}
 	}
 
 }

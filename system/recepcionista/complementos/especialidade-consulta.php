@@ -1,5 +1,5 @@
 <?php include_once'header.php';
-include_once '/../../../php/classDentistaHasEspecialidade.php';
+include_once '../../../php/classDentistaHasEspecialidade.php';
 ?>
   <body class="bg-dark">
     <div id="wrapper">
