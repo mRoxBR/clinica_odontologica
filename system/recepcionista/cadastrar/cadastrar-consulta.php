@@ -11,7 +11,9 @@ $pd = new PlanoDentario();
 $d = new Dentista();
 $dcp = new Dentista_consulta_Paciente();
 
-if(isset($_POST['botao-confirmar'])){
+$flag = 0;
+
+/*if(isset($_POST['botao-confirmar'])){
 
     $id_dentista = $_POST['id_dentista'];
     $id_paciente = $_POST['id_paciente'];
@@ -30,13 +32,11 @@ if(isset($_POST['botao-confirmar'])){
     $dcp->setOperacao($operacao);
     var_dump($dcp->insert());
 
-    //header("Location: ../consultas.php");    
-}
-
-$flag = 0;
+    header("Location: ../consultas.php");    
+}*/
 
 if(isset($_POST['botao'])){ 
-
+    
     $nome_dentista = $_POST['nome_dentista'];
     $cro_dentista = $_POST['cro_dentista'];
     $nome_paciente = $_POST['nome_paciente'];
@@ -75,7 +75,21 @@ if(isset($_POST['botao'])){
         $planoDentario = $pd->viewPlanoDentario();
         $valor_final = $valor - $valor*($planoDentario->desconto/100);
 
-        $flag = 5;
+        $dcp->setDentistaId($id_dentista);
+        $dcp->setPacienteId($id_paciente);
+        $dcp->setValor($valor_final);
+        $dcp->setData($data);
+        $dcp->setHorario($horario);
+        $dcp->setSituacao($situacao);
+        $dcp->setOperacao($operacao);
+        $id = $dcp->insert();
+
+        if($situacao == "Pago"){
+            header("Location: cadastrar-recebimentos-consultas.php?id=$id");  
+        }else{
+            header("Location: ../consultas.php");
+        }
+        //$flag = 5;
     }
 }else{
 $nome_dentista = "";
@@ -92,7 +106,7 @@ $operacao = "";
 ?>
   <body class="bg-dark">
 
-    <?php
+    <?php /*
     if($flag == 5){
     ?>
       <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -104,7 +118,7 @@ $operacao = "";
                 <span aria-hidden="true">×</span>
               </button>
             </div>
-            <div class="modal-body">O valor final é <?=$valor_final?> reais</div>
+            <div class="modal-body">O valor final é de <?=$valor_final?> reais</div>
             <div class="modal-footer">
               <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
               <form action="cadastrar-consulta.php" method="post">
@@ -121,7 +135,7 @@ $operacao = "";
           </div>
         </div>
       </div>
-    <?php } ?>
+    <?php } */ ?>
 
     <div class="container">
       <div class="card card-register mx-auto mt-5">

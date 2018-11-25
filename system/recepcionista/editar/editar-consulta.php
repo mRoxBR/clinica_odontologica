@@ -25,6 +25,7 @@ if(isset($_POST['botao'])){
     $data = $_POST['data'];
     $horario = $_POST['horario'];
     $situacao = $_POST['situacao'];
+    $situacao_antiga = $_POST['situacao_antiga'];
     $operacao = $_POST['operacao'];
 
     if(!$p->validaCPF($cpf_paciente)) $flag = 1;
@@ -54,8 +55,16 @@ if(isset($_POST['botao'])){
         $dcp->setValor($valor);
         $dcp->setSituacao($situacao);
         $dcp->setOperacao($operacao);
-        $dcp->edit();
-        header("Location: ../consultas.php");
+        $id = $dcp->edit();
+        if($situacao_antiga == "Pago"){
+            header("Location: editar-recebimentos-consultas.php?id=$id"); 
+        }else{
+            if($situacao == "Pago"){
+                header("Location: ../cadastrar/cadastrar-recebimentos-consultas.php?id=$id"); 
+            }else{
+                header("Location: ../consultas.php");
+            }
+        }
     }
 }else{
     $id = $_GET['id'];
@@ -157,6 +166,7 @@ if(isset($_POST['botao'])){
                     <option value="Não Pago" <?=$nao_pago?>>Não Pago</option>
                 </select>
             </div>
+            <input type="hidden" name="situacao_antiga" value="<?=$situacao?>">
             <input type="hidden" name="dentista_id" value="<?=$dentista_id?>">
             <input type="hidden" name="paciente_id" value="<?=$paciente_id?>">
             <input type="hidden" name="id" value="<?=$id?>">

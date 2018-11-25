@@ -102,7 +102,7 @@ class Dentista_consulta_Paciente{
 			$stmt->bindParam(":situacao", $this->situacao);
 			$stmt->bindParam(":operacao", $this->operacao);
 			$stmt->execute();
-			return 1;
+			return $this->conn->lastInsertId();
 		}catch(PDOException $e){
 			echo $e->getMessage();
 			return 0;
@@ -119,7 +119,7 @@ class Dentista_consulta_Paciente{
 			$stmt->bindParam(":operacao", $this->operacao);
 			$stmt->bindParam(":id", $this->id);
 			$stmt->execute();
-			return 1;
+			return $this->id;
 		}catch(PDOException $e){
 			echo $e->getMessage();
 			return 0;
