@@ -1,24 +1,33 @@
 <?php include_once "header.php" ?>
 <?php 
+
+$flag = 0;
+
 if(isset($_POST['botao'])){ 
-include_once "../../../php/classDespesa.php";
+    include_once "../../../php/classDespesa.php";
+    include_once "../../../php/classBalanco.php";
 
-$nome = $_POST['nome'];
-$data = $_POST['data'];
-$valor = $_POST['valor'];
-$tipo = $_POST['tipo'];
-$situacao = $_POST['situacao'];
+    $b = new Balanco();
+    $d = new Despesa();
 
-$d = new Despesa();
+    $nome = $_POST['nome'];
+    $data = $_POST['data'];
+    $valor = $_POST['valor'];
+    $tipo = $_POST['tipo'];
+    $situacao = $_POST['situacao'];
 
-$d->setNome($nome);
-$d->setData($data);
-$d->setValor($valor);
-$d->setTipo($tipo);
-$d->setSituacao($situacao);
-$d->insert();
+    if($situacao == "Pago" && $b->mostraSaldo()-$valor < 0){
+        $flag = 1;
+    }else{
+    $d->setNome($nome);
+    $d->setData($data);
+    $d->setValor($valor);
+    $d->setTipo($tipo);
+    $d->setSituacao($situacao);
+    $d->insert();
 
-header("Location: ../despesas.php");
+    header("Location: ../despesas.php");
+    }
 }
 ?>
   <body class="bg-dark">
@@ -29,6 +38,11 @@ header("Location: ../despesas.php");
           Cadastro de Despesa
         </div>
         <div class="card-body">
+        <?php if($flag == 1){ ?>
+          <div class="alert alert-danger form-group" role="alert">
+            <b>Não há saldo suficiente</b>
+          </div>
+        <?php } ?>
           <form action="cadastrar-despesa.php" method="post">
             <div class="form-group">
                 <label>Nome</label>
