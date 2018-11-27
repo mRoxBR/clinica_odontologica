@@ -33,7 +33,7 @@ if(isset($_POST['botao'])){
         $recebimento->setRecepcionistaId($id_recepcionista);
         $recebimento->setModoPagamento($modo_pagamento);
         var_dump($recebimento->insert());
-        //header("Location: ../recebimentos.php");
+        header("Location: ../recebimentos.php");
 
     }elseif(($id_paciente = $paciente->existeNomeCpf())){
         $recebimento->setPacienteId($id_paciente);
@@ -42,7 +42,7 @@ if(isset($_POST['botao'])){
         $recebimento->setRecepcionistaId($id_recepcionista);
         $recebimento->setModoPagamento($modo_pagamento);
         var_dump($recebimento->insert());
-        //header("Location: ../recebimentos.php");
+        header("Location: ../recebimentos.php");
     }
     else{
         $flag = 1;
