@@ -138,7 +138,7 @@ if(isset($_POST['botao'])){
                 <input type="date" class="form-control" required="required" name="nascimento" value="<?= $resultado->nascimento ?>">
             </div>
             <div class="form-group">
-                <label>CPF</label>
+                <label>CPF (somente números)</label>
                 <input type="text" class="form-control" maxlength="11" name="cpf" value="<?= $resultado->cpf ?>">
             </div>
             <div class="form-group">
@@ -168,7 +168,7 @@ if(isset($_POST['botao'])){
                 <input type="date" class="form-control" required="required" name="nascimento" value="<?=$nascimento?>">
             </div>
             <div class="form-group">
-                <label>CPF</label>
+                <label>CPF (somente números)</label>
                 <input type="text" class="form-control" maxlength="11" name="cpf">
             </div>
             <div class="form-group">

@@ -13,28 +13,6 @@ $dcp = new Dentista_consulta_Paciente();
 
 $flag = 0;
 
-/*if(isset($_POST['botao-confirmar'])){
-
-    $id_dentista = $_POST['id_dentista'];
-    $id_paciente = $_POST['id_paciente'];
-    $valor_final = $_POST['valor_final'];
-    $data = $_POST['data'];
-    $horario = $_POST['horario'];
-    $situacao = $_POST['situacao'];
-    $operacao = $_POST['operacao'];
-
-    $dcp->setDentistaId($id_dentista);
-    $dcp->setPacienteId($id_paciente);
-    $dcp->setValor($valor_final);
-    $dcp->setData($data);
-    $dcp->setHorario($horario);
-    $dcp->setSituacao($situacao);
-    $dcp->setOperacao($operacao);
-    var_dump($dcp->insert());
-
-    header("Location: ../consultas.php");    
-}*/
-
 if(isset($_POST['botao'])){ 
     
     $nome_dentista = $_POST['nome_dentista'];
@@ -89,7 +67,6 @@ if(isset($_POST['botao'])){
         }else{
             header("Location: ../consultas.php");
         }
-        //$flag = 5;
     }
 }else{
 $nome_dentista = "";
@@ -105,38 +82,6 @@ $operacao = "";
 }
 ?>
   <body class="bg-dark">
-
-    <?php /*
-    if($flag == 5){
-    ?>
-      <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Você tem certeza que deseja cadastrar essa consulta?</h5>
-              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">O valor final é de <?=$valor_final?> reais</div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-              <form action="cadastrar-consulta.php" method="post">
-                <input type="hidden" name="id_dentista" value="<?=$id_dentista?>">
-                <input type="hidden" name="data" value="<?=$data?>">
-                <input type="hidden" name="horario" value="<?=$horario?>">
-                <input type="hidden" name="valor_final" value="<?=$valor_final?>">
-                <input type="hidden" name="id_paciente" value="<?=$id_paciente?>">
-                <input type="hidden" name="situacao" value="<?=$situacao?>">
-                <input type="hidden" name="operacao" value="<?=$operacao?>">
-                <button class="btn btn-primary" type="submit" name="botao-confirmar">Confirmar</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    <?php } */ ?>
-
     <div class="container">
       <div class="card card-register mx-auto mt-5">
         <div class="card-header">
@@ -175,7 +120,7 @@ $operacao = "";
                 <input type="text" class="form-control" name="nome_paciente" value="<?= $nome_paciente ?>">
             </div>
             <div class="form-group">
-                <label>CPF do Paciente</label>
+                <label>CPF do Paciente (somente números)</label>
                 <input type="text" class="form-control" maxlength="11" name="cpf_paciente" value="<?= $cpf_paciente ?>">
             </div>
             <div class="form-group">
@@ -217,6 +162,5 @@ $operacao = "";
 
     <!-- Core plugin JavaScript-->
     <script src="../../../vendor/jquery-easing/jquery.easing.min.js"></script>
-
   </body>
 </html>

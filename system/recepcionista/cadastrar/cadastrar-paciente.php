@@ -40,7 +40,7 @@ if(isset($_POST['botao'])){
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado não é válido</b>
           </div>
-          <form action="cadastrar-paciente.php" method="post">
+          <form action="cadastrar-paciente.php" name="cadastrarPaciente" method="post">
             <div class="form-group">
                 <label>Primeiro nome</label>
                 <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?=$nome?>">
@@ -54,7 +54,7 @@ if(isset($_POST['botao'])){
                 <input type="date" class="form-control" required="required" name="nascimento" value="<?=$nascimento?>">
             </div>
             <div class="form-group">
-                <label>CPF</label>
+                <label>CPF (somente números)</label>
                 <input type="text" class="form-control" maxlength="11" name="cpf" value="<?=$cpf?>">
             </div>
             <div class="form-group">
@@ -76,7 +76,7 @@ if(isset($_POST['botao'])){
           <div class="alert alert-danger form-group" role="alert">
             <b>O CPF informado já foi cadastrado</b>
           </div>
-          <form action="cadastrar-paciente.php" method="post">
+          <form action="cadastrar-paciente.php" name="cadastrarPaciente" method="post">
             <div class="form-group">
                 <label>Primeiro nome</label>
                 <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome" value="<?=$nome?>">
@@ -90,7 +90,7 @@ if(isset($_POST['botao'])){
                 <input type="date" class="form-control" required="required" name="nascimento" value="<?=$nascimento?>">
             </div>
             <div class="form-group">
-                <label>CPF</label>
+                <label>CPF (somente números)</label>
                 <input type="text" class="form-control" maxlength="11" name="cpf" value="<?=$cpf?>">
             </div>
             <div class="form-group">
@@ -109,7 +109,7 @@ if(isset($_POST['botao'])){
             <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
           </form>
         <?php }else{ ?>
-          <form action="cadastrar-paciente.php" method="post">
+          <form action="cadastrar-paciente.php" name="cadastrarPaciente" method="post">
             <div class="form-group">
                 <label>Primeiro nome</label>
                 <input type="text" class="form-control" required="required" autofocus="autofocus" name="nome">
@@ -123,8 +123,8 @@ if(isset($_POST['botao'])){
                 <input type="date" class="form-control" required="required" name="nascimento">
             </div>
             <div class="form-group">
-                <label>CPF</label>
-                <input type="text" class="form-control" maxlength="11" name="cpf">
+                <label>CPF (somente números)</label>
+                <input type="text" class="form-control" maxlength="11" name="cpf"">
             </div>
             <div class="form-group">
               <label>Plano Dentário</label><br>
@@ -153,7 +153,6 @@ if(isset($_POST['botao'])){
 
     <!-- Core plugin JavaScript-->
     <script src="../../../vendor/jquery-easing/jquery.easing.min.js"></script>
-
   </body>
 </html>
 

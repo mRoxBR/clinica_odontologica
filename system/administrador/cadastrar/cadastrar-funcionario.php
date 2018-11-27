@@ -106,7 +106,7 @@ header("Location: ../index.php");
                 <input type="date" class="form-control" required="required" name="nascimento">
             </div>
             <div class="form-group">
-                <label>CPF</label>
+                <label>CPF (somente números)</label>
                 <input type="text" class="form-control" maxlength="11" name="cpf">
             </div>
             <div class="form-group">
@@ -142,7 +142,7 @@ header("Location: ../index.php");
                 <input type="date" class="form-control" required="required" name="nascimento" value="<?=$nascimento?>">
             </div>
             <div class="form-group">
-                <label>CPF</label>
+                <label>CPF (somente números)</label>
                 <input type="text" class="form-control" maxlength="11" name="cpf" value="<?=$cpf?>">
             </div>
             <div class="form-group">
@@ -199,7 +199,6 @@ header("Location: ../index.php");
 
     <!-- Core plugin JavaScript-->
     <script src="../../../vendor/jquery-easing/jquery.easing.min.js"></script>
-
   </body>
 </html>
 

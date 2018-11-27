@@ -77,7 +77,7 @@ if(isset($_POST['botao'])){
                 <input type="text" class="form-control" required="required" name="nome_auxiliar" value="<?= $nome_auxiliar?>">
             </div>
             <div class="form-group">
-                <label>CPF do Auxiliar</label>
+                <label>CPF do Auxiliar (somente números)</label>
                 <input type="text" class="form-control" maxlength="11" name="cpf_auxiliar" value="<?= $cpf_auxiliar?>">
             </div>
             <button class="btn btn-primary btn-block" type="submit" name="botao">Cadastrar</button>
@@ -92,7 +92,6 @@ if(isset($_POST['botao'])){
 
     <!-- Core plugin JavaScript-->
     <script src="../../../vendor/jquery-easing/jquery.easing.min.js"></script>
-
   </body>
 </html>
 

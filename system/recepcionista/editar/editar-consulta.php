@@ -132,7 +132,7 @@ if(isset($_POST['botao'])){
                 <input type="text" class="form-control" name="nome_paciente" value="<?= $nome_paciente ?>">
             </div>
             <div class="form-group">
-                <label>CPF do Paciente</label>
+                <label>CPF do Paciente (somente números)</label>
                 <input type="text" class="form-control" maxlength="11" name="cpf_paciente" value="<?= $cpf_paciente ?>">
             </div>
             <div class="form-group">
@@ -182,7 +182,6 @@ if(isset($_POST['botao'])){
 
     <!-- Core plugin JavaScript-->
     <script src="../../../vendor/jquery-easing/jquery.easing.min.js"></script>
-
   </body>
 </html>
 
