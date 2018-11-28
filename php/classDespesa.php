@@ -8,6 +8,8 @@ class Despesa{
 	private $nome;
 	private $data;
 	private $valor;
+	private $situacao;
+	private $administrador_id;
 
 	public function __construct(){
 		$database = new Database();
@@ -37,6 +39,10 @@ class Despesa{
 
 	public function getSituacao(){
 		return $this->situacao;
+	}
+
+	public function getAdministradorId(){
+		return $this->administrador_id;
 	}
 
 	public function setId($id){
@@ -76,14 +82,19 @@ class Despesa{
 		$this->situacao = $situacao;
 	}
 
+	public function setAdministradorId($administrador_id){
+		$this->administrador_id = $administrador_id;
+	}
+
 	public function insert(){
 		try{	
-			$stmt = $this->conn->prepare("INSERT INTO despesa(nome,data,valor,tipo,situacao) VALUES(:nome, :data, :valor, :tipo, :situacao)");
+			$stmt = $this->conn->prepare("INSERT INTO despesa(nome,data,valor,tipo,situacao, administrador_id) VALUES(:nome, :data, :valor, :tipo, :situacao, :administrador_id)");
 			$stmt->bindParam(":nome", $this->nome);
 			$stmt->bindParam(":data", $this->data);
 			$stmt->bindParam(":valor", $this->valor);
 			$stmt->bindParam(":tipo", $this->tipo);
 			$stmt->bindParam(":situacao", $this->situacao);
+			$stmt->bindParam(":administrador_id", $this->administrador_id);
 			$stmt->execute();
 			return 1;
 		}catch(PDOException $e){
@@ -101,6 +112,7 @@ class Despesa{
 			$stmt->bindParam(":valor", $this->valor);
 			$stmt->bindParam(":tipo", $this->tipo);
 			$stmt->bindParam(":situacao", $this->situacao);
+			$stmt->bindParam(":administrador_id", $this->administrador_id);
 			$stmt->execute();
 			return 1;
 		}catch(PDOException $e){
@@ -133,6 +145,23 @@ class Despesa{
 		$stmt->execute();
 		$resultado = $stmt->fetch(PDO::FETCH_OBJ);
 		return $resultado;
+	}
+
+	public function nomeAdministrador(){
+		try{
+			$stmt = $this->conn->prepare("SELECT funcionario.nome FROM despesa, funcionario WHERE despesa.administrador_id = funcionario.id AND despesa.id = :id");
+			$stmt->bindParam(":id", $this->id);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(empty($result)){
+				return "";
+			}else{
+				return $result->nome;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return 0;
+		}
 	}
 
 }

@@ -37,6 +37,7 @@ $d->delete();
                       <th>Valor</th>
                       <th>Tipo</th>
                       <th>Situação</th>
+                      <th>Administrador</th>
                       <th></th>
                       <th></th>
                     </tr>
@@ -48,6 +49,7 @@ $d->delete();
                       <th>Valor</th>
                       <th>Tipo</th>
                       <th>Situação</th>
+                      <th>Administrador</th>
                       <th></th>
                       <th></th>
                     </tr>
@@ -64,6 +66,11 @@ $d->delete();
                         <td> <?= $row->valor; ?> </td>
                         <td> <?= $row->tipo; ?> </td>
                         <td> <?= $row->situacao; ?> </td>
+                        <?php
+                          $d->setId($row->id);
+                          $administrador = $d->nomeAdministrador();
+                        ?>
+                        <td> <?=  $administrador; ?> </td>
                         <td><a href="editar/editar-despesa.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
                       </tr>

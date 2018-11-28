@@ -119,6 +119,21 @@ class PlanoDentario{
 		}
 	}
 
+	public function existeNome($nome){
+		try{
+			$stmt = $this->conn->prepare("SELECT * FROM plano_dentario WHERE nome = :nome");
+			$stmt->bindParam(":nome",$nome);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if(!empty($result)){
+				return $result->id;
+			}
+		}catch(PDOExcecption $e){
+			echo $e->getMessage();
+			return null;
+		}
+	}
+
 }
 
 ?> 

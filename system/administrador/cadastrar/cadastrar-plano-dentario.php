@@ -11,7 +11,7 @@ if(isset($_POST['botao'])){
 
   $p = new PlanoDentario();
   
-  if($p->existe($nome)){
+  if($p->existeNome($nome)){
     $flag = 1;
   }
 

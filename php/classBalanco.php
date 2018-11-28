@@ -18,7 +18,8 @@ class Balanco{
 	}
 
 	public function valorDespesas(){
-			$stmt = $this->conn->prepare("SELECT SUM(valor) AS valores FROM despesa");
+			$stmt = $this->conn->prepare("SELECT SUM(valor) AS valores FROM despesa WHERE situacao = :situacao");
+			$stmt->bindValue(":situacao", 'Pago');
 			$stmt->execute();
 			$resultado = $stmt->fetch(PDO::FETCH_OBJ);
 			return $resultado->valores;

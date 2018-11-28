@@ -15,6 +15,7 @@ if(isset($_POST['botao'])){
     $valor = $_POST['valor'];
     $tipo = $_POST['tipo'];
     $situacao = $_POST['situacao'];
+    $administrador_id = $_SESSION['funcionario'];
 
     if($situacao == "Pago" && $b->mostraSaldo()-$valor < 0){
         $flag = 1;
@@ -24,6 +25,7 @@ if(isset($_POST['botao'])){
     $d->setValor($valor);
     $d->setTipo($tipo);
     $d->setSituacao($situacao);
+    $d->setAdministradorId($administrador_id);
     $d->insert();
 
     header("Location: ../despesas.php");

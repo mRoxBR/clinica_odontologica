@@ -17,6 +17,7 @@
     $valor_antigo = $_POST['valor_antigo'];
     $tipo = $_POST['tipo'];
     $situacao = $_POST['situacao'];
+    $administrador_id = $_POST['administrador_id'];
 
     if($situacao == "Pago" && ($b->mostraSaldo() + $valor_antigo - $novo_valor) < 0){
         $flag = 1;
@@ -27,6 +28,7 @@
         $d->setValor($novo_valor);
         $d->setTipo($tipo);
         $d->setSituacao($situacao);
+        $d->setAdministradorId($administrador_id);
         var_dump($d->edit());
         header("Location: ../despesas.php");
     }
