@@ -55,7 +55,7 @@ $p->delete();
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->desconto; ?> </td>
+                        <td> <?= $row->desconto."%"; ?> </td>
                         <td><a href="editar/editar-plano-dentario.php?id=<?=$row->id?>" class="btn btn-primary">Alterar</a></td>
                         <td><a href="#" class="btn btn-danger" data-toggle="modal" data-target="#removeModal<?=$row->id?>">Remover</a></td>
                       </tr>

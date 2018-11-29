@@ -36,7 +36,7 @@
                       while($row = $stmt->fetch(PDO::FETCH_OBJ)){ ?>
                       <tr align="center">
                         <td> <?= $row->nome; ?> </td>
-                        <td> <?= $row->desconto; ?> </td>
+                        <td> <?= $row->desconto."%"; ?> </td>
                       </tr>
                       <?php } ?>
                   </tbody>

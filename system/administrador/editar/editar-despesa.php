@@ -72,7 +72,7 @@
             </div>
             <div class="form-group">
                 <label>Valor</label>
-                <input type="number" class="form-control" required="required" name="novo_valor" value="<?=$valor?>">
+                <input type="number" class="form-control" step="0.01" required="required" name="novo_valor" value="<?=$valor?>">
             </div>
             <div class="form-group">
                 <label>Tipo</label><br>

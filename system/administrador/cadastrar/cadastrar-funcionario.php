@@ -111,7 +111,7 @@ header("Location: ../index.php");
             </div>
             <div class="form-group">
                 <label>Salário</label>
-                <input type="number" class="form-control" required="required" name="salario">
+                <input type="number" step="0.01" class="form-control" required="required" name="salario">
             </div>
             <div class="form-group">
               <select id="select-funcionario" name="cargo">
@@ -147,7 +147,7 @@ header("Location: ../index.php");
             </div>
             <div class="form-group">
                 <label>Salário</label>
-                <input type="number" class="form-control" required="required" name="salario" value="<?=$salario?>"> 
+                <input type="number" class="form-control" step="0.01" required="required" name="salario" value="<?=$salario?>"> 
             </div>
             <div class="form-group">
               <select id="select-funcionario" name="cargo">

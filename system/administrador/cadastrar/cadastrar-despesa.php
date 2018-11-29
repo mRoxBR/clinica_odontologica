@@ -56,7 +56,7 @@ if(isset($_POST['botao'])){
             </div>
             <div class="form-group">
                 <label>Valor</label>
-                <input type="number" class="form-control" required="required" name="valor">
+                <input type="number" step="0.01" class="form-control" required="required" name="valor">
             </div>
             <div class="form-group">
                 <label>Tipo</label><br>

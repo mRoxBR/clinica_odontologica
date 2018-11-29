@@ -36,15 +36,16 @@ $b = new Balanco();
                   <tbody>
                       <tr align="center">
                         <?php 
-                          $despesas = $b->valorDespesas();
-                          $recebimentos = $b->valorRecebimentos();
-                          $saldo = $b->mostraSaldo();
+                          $despesas = number_format($b->valorDespesas(),2);
+                          $recebimentos = number_format($b->valorRecebimentos(),2);
+                          $saldo = number_format($b->mostraSaldo(),2);
                          ?>
                         <td> <?= $despesas ?> </td>
                         <td> <?= $recebimentos ?> </td>
                         <td> <?= $saldo ?> </td>
                       </tr>
                   </tbody>
+                  
                 </table>
               </div>
             </div>

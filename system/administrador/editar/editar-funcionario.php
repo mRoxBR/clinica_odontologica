@@ -143,7 +143,7 @@ if(isset($_POST['botao'])){
             </div>
             <div class="form-group">
                 <label>Salário</label>
-                <input type="number" class="form-control" required="required" name="salario" value="<?= $resultado->salario ?>">
+                <input type="number" step="0.01" class="form-control" required="required" name="salario" value="<?= $resultado->salario ?>">
             </div>
             <input type="hidden" name="id" value=<?=$id?>>
             <input type="hidden" name="cargo" value=<?=$cargo?>>
@@ -173,7 +173,7 @@ if(isset($_POST['botao'])){
             </div>
             <div class="form-group">
                 <label>Salário</label>
-                <input type="number" class="form-control" required="required" name="salario" value="<?=$salario?>"> 
+                <input type="number" step="0.01" class="form-control" required="required" name="salario" value="<?=$salario?>"> 
             </div>
             <input type="hidden" name="id" value=<?=$id?>>
             <input type="hidden" name="cargo" value=<?=$cargo?>>

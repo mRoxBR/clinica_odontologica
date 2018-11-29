@@ -141,7 +141,7 @@ $operacao = "";
             </div>
             <div class="form-group">
                 <label>Valor</label>
-                <input type="number" class="form-control" required="required" autofocus="autofocus" name="valor" value="<?= $valor ?>">
+                <input type="number"  step="0.01" class="form-control" required="required" autofocus="autofocus" name="valor" value="<?= $valor ?>">
             </div>
             <div class="form-group">
                 <label>Situação</label><br>
