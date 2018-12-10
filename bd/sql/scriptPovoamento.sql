@@ -3,7 +3,7 @@ INSERT INTO clinica_odontologica.funcionario (id,nome,sobrenome,nascimento,cpf,s
 INSERT INTO clinica_odontologica.funcionario (id,nome,sobrenome,nascimento,cpf,salario,cargo) VALUES
 (2,'Larissa','Carvalho','1992-08-29','31622058681',4700.00,'Dentista');
 INSERT INTO clinica_odontologica.funcionario (id,nome,sobrenome,nascimento,cpf,salario,cargo) VALUES
-(3,'Anna Paula','Figueiredo','1987-10-12','43256286693',4800.00,'Dentista');
+(3,'Anna Paula','Figueiredo','1987-10-12','14031864647',4800.00,'Dentista');
 INSERT INTO clinica_odontologica.funcionario (id,nome,sobrenome,nascimento,cpf,salario,cargo) VALUES
 (4,'Renan','Fonseca','1982-11-01','29281171058',2400.00,'Auxiliar');
 INSERT INTO clinica_odontologica.funcionario (id,nome,sobrenome,nascimento,cpf,salario,cargo) VALUES
