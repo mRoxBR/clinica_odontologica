@@ -17,7 +17,7 @@
     $valor_antigo = $_POST['valor_antigo'];
     $tipo = $_POST['tipo'];
     $situacao = $_POST['situacao'];
-    $administrador_id = $_POST['administrador_id'];
+    $administrador_id = $_SESSION['funcionario'];
 
     if($situacao == "Pago" && ($b->mostraSaldo() + $valor_antigo - $novo_valor) < 0){
         $flag = 1;

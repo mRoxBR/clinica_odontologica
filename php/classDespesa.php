@@ -8,6 +8,7 @@ class Despesa{
 	private $nome;
 	private $data;
 	private $valor;
+	private $tipo;
 	private $situacao;
 	private $administrador_id;
 
@@ -105,7 +106,7 @@ class Despesa{
 
 	public function edit(){
 		try{
-			$stmt = $this->conn->prepare("UPDATE despesa SET nome = :nome, data = :data, valor = :valor, tipo = :tipo, situacao = :situacao WHERE id = :id");
+			$stmt = $this->conn->prepare("UPDATE despesa SET nome = :nome, data = :data, valor = :valor, tipo = :tipo, situacao = :situacao, administrador_id = :administrador_id WHERE id = :id");
 			$stmt->bindParam(":id", $this->id);
 			$stmt->bindParam(":nome", $this->nome);
 			$stmt->bindParam(":data", $this->data);

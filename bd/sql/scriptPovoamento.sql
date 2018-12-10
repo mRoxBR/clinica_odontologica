@@ -86,31 +86,31 @@ INSERT INTO clinica_odontologica.auxiliar_auxilia_dentista (dentista_id,auxiliar
 
 
 INSERT INTO clinica_odontologica.despesa (id,nome,data,valor,tipo,situacao,administrador_id) VALUES
-(1,'Água 09/18','2018-09-13',78.25,'conta de água','Pago',9);
+(1,'Água 09/18','2018-09-13',78.25,'Despesa Geral','Pago',9);
 INSERT INTO clinica_odontologica.despesa (id,nome,data,valor,tipo,situacao,administrador_id) VALUES
-(2,'Energia 09/18','2018-09-17',483.32,'conta de energia elétrica','Pago',9);
+(2,'Energia 09/18','2018-09-17',483.32,'Despesa Geral','Pago',9);
 INSERT INTO clinica_odontologica.despesa (id,nome,data,valor,tipo,situacao,administrador_id) VALUES
-(3,'Salários 09/18','2018-09-01',30800.00,'salários','Pago',9);
+(3,'Salários 09/18','2018-09-01',30800.00,'Despesa com Funcionário','Pago',9);
 INSERT INTO clinica_odontologica.despesa (id,nome,data,valor,tipo,situacao,administrador_id) VALUES
-(4,'Outros 09/18','2018-09-30',312.65,'outros','Pago',9);
+(4,'Outros 09/18','2018-09-30',312.65,'Despesa Geral','Pago',9);
 INSERT INTO clinica_odontologica.despesa (id,nome,data,valor,tipo,situacao,administrador_id) VALUES
-(5,'Água 10/18','2018-10-13',82.13,'conta de água','Pago',9);
+(5,'Água 10/18','2018-10-13',82.13,'Despesa Geral','Pago',9);
 INSERT INTO clinica_odontologica.despesa (id,nome,data,valor,tipo,situacao,administrador_id) VALUES
-(6,'Energia 10/18','2018-10-17',441.79,'conta de energia elétrica','Pago',9);
+(6,'Energia 10/18','2018-10-17',441.79,'Despesa Geral','Pago',9);
 INSERT INTO clinica_odontologica.despesa (id,nome,data,valor,tipo,situacao,administrador_id) VALUES
-(7,'Salários 10/18','2018-10-01',30800.00,'salários','Pago',9);
+(7,'Salários 10/18','2018-10-01',30800.00,'Despesa com Funcionário','Pago',9);
 INSERT INTO clinica_odontologica.despesa (id,nome,data,valor,tipo,situacao,administrador_id) VALUES
-(8,'Outros 10/18','2018-10-30',320.81,'outros','Pago',9);
+(8,'Outros 10/18','2018-10-30',320.81,'Despesa Geral','Pago',9);
 INSERT INTO clinica_odontologica.despesa (id,nome,data,valor,tipo,situacao,administrador_id) VALUES
- (9,'Água 11/18','2018-11-13',80.96,'conta de água','Pago',9);
+ (9,'Água 11/18','2018-11-13',80.96,'Despesa Geral','Pago',9);
 INSERT INTO clinica_odontologica.despesa (id,nome,data,valor,tipo,situacao,administrador_id) VALUES
-(10,'Energia 11/18','2018-11-17',560.25,'conta de energia elétrica','Pago',9);
+(10,'Energia 11/18','2018-11-17',560.25,'Despesa Geral','Pago',9);
 INSERT INTO clinica_odontologica.despesa (id,nome,data,valor,tipo,situacao,administrador_id) VALUES
-(11,'Salários 11/18','2018-11-01',30800.00,'salários','Pago',9);
+(11,'Salários 11/18','2018-11-01',30800.00,'Despesa com Funcionário','Pago',9);
 INSERT INTO clinica_odontologica.despesa (id,nome,data,valor,tipo,situacao,administrador_id) VALUES
-(12,'Outros 11/18','2018-11-30',331.85,'outros','Não Pago',9);
+(12,'Outros 11/18','2018-11-30',331.85,'Despesa Geral','Não Pago',9);
 INSERT INTO clinica_odontologica.despesa (id,nome,data,valor,tipo,situacao,administrador_id) VALUES
-(13,'Salários 12/18','2018-12-01',30800.00,'salários','Não Pago',9);
+(13,'Salários 12/18','2018-12-01',30800.00,'Despesa com Funcionário','Não Pago',9);
 
 
 INSERT INTO clinica_odontologica.dentista_consulta_paciente (id,paciente_id,dentista_id,data,horario,valor,situacao,operacao) VALUES
